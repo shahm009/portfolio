@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Portfolio of Shah Mehrab Hossain, a skilled computer science and engineering student specializing in web development, app development, and embedded systems.">
+  <title>Shah Mehrab Hossain</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="images/S.png" type="image/png">
+  <script src="https://kit.fontawesome.com/d36ce842ae.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <audio id="typing-sound" src="src/typesound.mp3" preload="auto"></audio>
+</head>
+
+<body>
+  <div class="custom-cursor" id="customCursor"></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cursor = document.getElementById('customCursor');
+
+
+      // Update cursor position based on mouse movements
+      document.addEventListener('mousemove', (event) => {
+        cursor.style.left = `${event.clientX}px`;
+        cursor.style.top = `${event.clientY}px`;
+      });
+
+
+      // Add a small scale effect when clicking
+      document.addEventListener('mousedown', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+      });
+
+
+      document.addEventListener('mouseup', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+      });
+    });
+  </script>
+
+
+
+
+
+  <!**************************preloader****************************>
+    <div id="preloader">
+      <div class="preloader-inner">
+        <div class="dots">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+        <div class="wave"></div>
+      </div>
+    </div>
+
+
+
+    <!**************************Header*******************************>
+      <div id="header">
+        <div class="container">
+          <nav>
+            <img src="images/logo.png" class="logo" alt="Logo">
+            <ul id="sidemenu">
+              <li><a href="#header" class="nav-link">Home</a></li>
+              <li><a href="#about" class="nav-link">About</a></li>
+              <li><a href="#services" class="nav-link">Services</a></li>
+              <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+              <li><a href="#contact" class="nav-link">Contact</a></li>
+              <i class="fa-solid fa-x" onclick="closemenu()"></i>
+            </ul>
+            <i class="fa-solid fa-bars" onclick="openmenu()"></i>
+          </nav>
+          <div class="header-text">
+            <h1>Hi there! I’m <span id="name">Shah Mehrab Hossain</span></h1>
+            <p id="typed-text" data-text='["Embedded Systems Engineer","IoT Specialist","Developer","Entrepreneur"]'>
+            </p>
+          </div>
+          <!-- Music Player -->
+          <div class="music-player">
+            <div class="music-info">
+              <marquee id="track-name" behavior="scroll" direction="left">Track Name Here</marquee>
+            </div>
+            <div class="music-controls">
+              <button id="prev-button" onclick="prevTrack()">
+                <i class="fa-solid fa-backward"></i>
+              </button>
+              <button id="play-pause-button" onclick="togglePlay()">
+                <i id="play-icon" class="fa-solid fa-play"></i>
+                <i id="pause-icon" class="fa-solid fa-pause" style="display: none;"></i>
+              </button>
+              <button id="next-button" onclick="nextTrack()">
+                <i class="fa-solid fa-forward"></i>
+              </button>
+            </div>
+            <audio id="background-music" loop></audio>
+          </div>
+        </div>
+      </div>
+      <div id="header">
+        <div class="container">
+          <nav>
+            <img src="images/logo.png" class="logo" alt="Logo">
+            <ul id="sidemenu">
+              <li><a href="#header" class="nav-link">Home</a></li>
+              <li><a href="#about" class="nav-link">About</a></li>
+              <li><a href="#services" class="nav-link">Services</a></li>
+              <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+              <li><a href="#contact" class="nav-link">Contact</a></li>
+              <i class="fa-solid fa-x" onclick="closemenu()"></i>
+            </ul>
+            <i class="fa-solid fa-bars" onclick="openmenu()"></i>
+          </nav>
+          <div class="header-text">
+            <h1>Hi there! I’m <span id="name">Shah Mehrab Hossain</span></h1>
+            <p id="typed-text" data-text='["Embedded Systems Engineer","IoT Specialist","Developer","Entrepreneur"]'>
+            </p>
+          </div>
+          <!-- Music Player -->
+          <div class="music-player">
+            <div class="music-info">
+              <marquee id="track-name" behavior="scroll" direction="left">Track Name Here</marquee>
+            </div>
+            <div class="music-controls">
+              <button id="prev-button" onclick="prevTrack()">
+                <i class="fa-solid fa-backward"></i>
+              </button>
+              <button id="play-pause-button" onclick="togglePlay()">
+                <i id="play-icon" class="fa-solid fa-play"></i>
+                <i id="pause-icon" class="fa-solid fa-pause" style="display: none;"></i>
+              </button>
+              <button id="next-button" onclick="nextTrack()">
+                <i class="fa-solid fa-forward"></i>
+              </button>
+            </div>
+            <audio id="background-music" loop></audio>
+          </div>
+        </div>
+      </div>
+
+      <!**************************About*******************************>
+        <div id="about">
+          <div class="container">
+            <div class="row">
+              <div class="about-col-1">
+                <img src="images/one.jpg">
+              </div>
+              <div class="about-col-2">
+                <h1 class="sub-title"><span id="name">About Me</span></h1>
+                <p>
+                  I am an enthusiastic student of computer science and engineering who is proficient in a number of
+                  programming languages, such as Python, Java, C, C++, and JavaScript. My skills also include web
+                  creation, where I create dynamic and user-friendly websites using HTML, CSS, and WordPress.
+                  Additionally, I have practical expertise with 3D design, 3D printing, and embedded systems, which
+                  enables me to smoothly integrate hardware and software. I also have excellent graphic design
+                  abilities, which allow me to create designs that are both aesthetically pleasing and
+                  functional.<br><br>
+                  I enjoy having fun in hackathons, contribute to open-source projects, and experiment with new
+                  programming languages and technologies in my free time. In addition, I'm passionate about digital art
+                  and photography, which inspires me and improves my design work. I firmly believe in lifelong learning
+                  and constantly look for chances to broaden my expertise in the ever changing tech sector.
+                </p>
+                <div class="tab-titles">
+                  <p class="tab-links active-link" onclick="opentab('skills')">Skills</p>
+                  <p class="tab-links" onclick="opentab('experience')">Experience</p>
+                  <p class="tab-links" onclick="opentab('education')">Education</p>
+                  <p class="tab-links" onclick="opentab('certifications')">Certifications</p>
+                </div>
+
+
+                <div class="tab-contents active-tab" id="skills">
+                  <ul class="skills-icons">
+                    <!-- Programming Languages -->
+                    <li title="C">
+                      <div class="skill-box">
+                        <img src="images/skills/c-logo.png" alt="C Logo">
+                      </div>
+                    </li>
+                    <li title="C++">
+                      <div class="skill-box">
+                        <img src="images/skills/cpp-logo.png" alt="C++ Logo">
+                      </div>
+                    </li>
+                    <li title="Python">
+                      <div class="skill-box">
+                        <img src="images/skills/python-logo.png" alt="Python Logo">
+                      </div>
+                    </li>
+                    <li title="Java">
+                      <div class="skill-box">
+                        <img src="images/skills/java-logo.png" alt="Java Logo">
+                      </div>
+                    </li>
+                    <li title="JavaScript">
+                      <div class="skill-box">
+                        <img src="images/skills/javascript-logo.png" alt="JavaScript Logo">
+                      </div>
+                    </li>
+                    <li title="Dart">
+                      <div class="skill-box">
+                        <img src="images/skills/dart-logo.png" alt="Dart Logo">
+                      </div>
+                    </li>
+
+
+                    <li title="MySQL">
+                      <div class="skill-box">
+                        <img src="images/skills/mysql-logo.png" alt="MySQL Logo">
+                      </div>
+                    </li>
+                    <li title="PHP">
+                      <div class="skill-box">
+                        <img src="images/skills/php-logo.png" alt="PHP Logo">
+                      </div>
+                    </li>
+                    <li title="VS Code">
+                      <div class="skill-box">
+                        <img src="images/skills/vscode-logo.png" alt="VS Code Logo">
+                      </div>
+                    </li>
+
+                    <!-- Frameworks and Tools -->
+                    <li title="ROS2">
+
+                    <!-- Frameworks and Tools -->
+                    <li title="ROS2">
+                      <div class="skill-box">
+                        <img src="images/skills/ros2-logo.png" alt="ROS2 Logo">
+                      </div>
+                    </li>
+                    <li title="Robotics">
+                      <div class="skill-box">
+                        <img src="images/skills/robotics-logo.png" alt="Robotics Logo">
+                      </div>
+                    </li>
+                    <li title="IoT">
+                      <div class="skill-box">
+                        <img src="images/skills/iot-logo.png" alt="IoT Logo">
+                      </div>
+                    </li>
+
+                    <!-- Development Tools -->
+
+                    <!-- Development Tools -->
+                    <li title="Embedded Systems">
+                      <div class="skill-box">
+                        <img src="images/skills/embedded-logo.png" alt="Embedded Systems Logo">
+                      </div>
+                    </li>
+
+
+                    <li title="Arduino">
+                      <div class="skill-box">
+                        <img src="images/skills/arduino-logo.png" alt="Arduino Logo">
+                      </div>
+                    </li>
+
+
+                    <!-- Other Skills -->
+                    <li title="GitHub">
+                      <div class="skill-box">
+                        <img src="images/skills/github-logo.png" alt="GitHub Logo">
+                      </div>
+                    </li>
+
+
+                    <!-- Additional Skills -->
+                    <li title="Blender">
+                      <div class="skill-box">
+                        <img src="images/skills/blender-logo.png" alt="Blender Logo">
+                      </div>
+                    </li>
+                    <li title="Fusion 360">
+                      <div class="skill-box">
+                        <img src="images/skills/fusion360-logo.png" alt="Fusion 360 Logo">
+                      </div>
+                    </li>
+                    <li title="SolidWorks">
+                      <div class="skill-box">
+                        <img src="images/skills/solidworks-logo.png" alt="SolidWorks Logo">
+                      </div>
+                    </li>
+                    <li title="UI/UX Design">
+                      <div class="skill-box">
+                        <img src="images/skills/uiux-logo.png" alt="UI/UX Design Logo">
+                      </div>
+                    </li>
+                    <li title="WordPress">
+                      <div class="skill-box">
+                        <img src="images/skills/wordpress-logo.png" alt="WordPress Logo">
+                      </div>
+                    </li>
+
+                    <!-- Design and Multimedia -->
+                    <li title="Photoshop">
+                      <div class="skill-box">
+                        <img src="images/skills/photoshop-logo.png" alt="Photoshop Logo">
+                      </div>
+                    </li>
+                    <li title="Illustrator">
+                      <div class="skill-box">
+                        <img src="images/skills/illustrator-logo.png" alt="Illustrator Logo">
+                      </div>
+                    </li>
+                    <li title="Premiere Pro">
+                      <div class="skill-box">
+                        <img src="images/skills/premiere-logo.png" alt="Premiere Pro Logo">
+                      </div>
+                    </li>
+
+                  </ul>
+                </div>
+
+
+
+                <div class="tab-contents" id="experience">
+                  <ul>
+                    <li><span>2023 - Current</span><br>Electrical and Software Team Lead at UIU Mars Rover Team, guiding
+                      team projects and mentoring members.</li>
+                    <li><span>2022 - 2023</span><br>Mechanical and Fabrication Team Member at UIU Mars Rover Team,
+                      assisting in design and assembly of rover components.</li>
+                    <li><span>2021 - Current</span><br>Designing web and app interfaces at XTZ, collaborating with
+                      development teams to implement designs.</li>
+                    <li><span>URC 2024</span><br>Preparing for the University Rover Challenge 2024, building on previous
+                      experiences to enhance performance.</li>
+                    <li><span>URC 2023</span><br>Competitor in the University Rover Challenge 2023, demonstrating
+                      innovation in robotic design.</li>
+                    <li><span>ARC 2023</span><br>Participant in the Anatolian Rover Challenge 2023, contributing to team
+                      efforts in robotics engineering.</li>
+                    <li><span>2019 - 2021</span><br>Focused on designing web and app interfaces, improving usability and
+                      aesthetic appeal.</li>
+                    <li><span>2017 - 2019</span><br>Developed Android and iOS applications, emphasizing user engagement
+                      and performance optimization.</li>
+                    <li><span>UI/UX Design</span><br>Created user-friendly interfaces focused on enhancing user
+                      experience and engagement.</li>
+                    <li><span>Web Development</span><br>Designed and maintained various websites, ensuring functionality
+                      and responsiveness.</li>
+                  </ul>
+                </div>
+
+                <div class="tab-contents" id="education">
+                  <ul>
+                    <li><span>2022 - Current</span><br>Bsc in CSE at United International University(UIU)</li>
+                    <li><span>2020</span><br>Completed HSC from Brindaban Govt. College</li>
+                    <li><span>2018</span><br>Completed SSC from Habiganj Govt. High School</li>
+                  </ul>
+                </div>
+
+
+                <div class="tab-contents" id="certifications">
+                  <ul>
+                    <li>
+                      <span>2023</span><br>
+                      <b>URC 2023</b><br>
+                      University Rover Challenge (URC)
+                      <br>
+                      <img src="images/Cerificates/urc23.jpg" alt="URC 2023 Certificate" class="responsive-certificate"
+                        onclick="showPopup(this)">
+                      <img src="images/Cerificates/urc23.jpg" alt="URC 2023 Certificate" class="responsive-certificate"
+                        onclick="showPopup(this)">
+                    </li>
+                    <li>
+                      <span>2023</span><br>
+                      <b>aRC 2023</b><br>
+                      Anatolian Rover Challenge (aRC)
+                      <br>
+                      <img src="images/Cerificates/arc23.jpg" alt="aRC 2023 Certificate" class="responsive-certificate"
+                        onclick="showPopup(this)">
+                      <img src="images/Cerificates/arc23.jpg" alt="aRC 2023 Certificate" class="responsive-certificate"
+                        onclick="showPopup(this)">
+                    </li>
+                    <li>
+                      <span>2024</span><br>
+                      <b>URC 2024</b><br>
+                      University Rover Challenge (URC)
+                      <br>
+                      <img src="images/Cerificates/urc24.jpg" alt="URC 2024 Certificate" class="responsive-certificate"
+                        onclick="showPopup(this)">
+                      <img src="images/Cerificates/urc24.jpg" alt="URC 2024 Certificate" class="responsive-certificate"
+                        onclick="showPopup(this)">
+                    </li>
+                  </ul>
+                  <!-- Popup Modal -->
+                  <div id="popup-modal" class="popup-modal">
+                    <span class="close-btn" onclick="hidePopup()">&times;</span>
+                    <img id="popup-image" src="" alt="Certificate">
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!*********************Services***************************>
+          <div id="services">
+            <div class="container">
+              <h1 class="sub-title">Expertise</h1>
+              <h1 class="sub-title">Expertise</h1>
+              <div class="services-list">
+                <div class="service-item">
+                  <i class="fa-solid fa-code"></i>
+                  <h2>Web Design</h2>
+                  <p>Creating responsive, user-friendly websites tailored to your business needs with a focus on modern
+                    aesthetics and functionality.</p>
+                  <a href="https://shahm009.github.io/portfolio/#contact">Learn more</a>
+                </div>
+                <div class="service-item">
+                  <i class="fa-brands fa-app-store"></i>
+                  <h2>App Design</h2>
+                  <p>Designing intuitive and engaging mobile apps, ensuring a seamless user experience across both
+                    Android and iOS platforms.</p>
+                  <a href="https://shahm009.github.io/portfolio/#contact">Learn more</a>
+                </div>
+                <div class="service-item">
+                  <i class="fa-solid fa-crop"></i>
+                  <h2>UI/UX Design</h2>
+                  <p>Delivering creative UI/UX solutions that enhance user interaction and satisfaction, with a focus on
+                    usability and simplicity.</p>
+                  <a href="https://shahm009.github.io/portfolio/#contact">Learn more</a>
+                </div>
+                <div class="service-item">
+                  <i class="fa-solid fa-microchip"></i>
+                  <h2>Embedded Systems</h2>
+                  <p>Developing efficient embedded systems for a variety of hardware platforms, ensuring reliability and
+                    performance.</p>
+                  <a href="https://shahm009.github.io/portfolio/#contact">Learn more</a>
+                </div>
+                <div class="service-item">
+                  <i class="fa-brands fa-unity"></i>
+                  <h2>3D Design</h2>
+                  <p>Providing high-quality 3D design solutions, from modeling to rendering, for products, environments,
+                    and visualizations.</p>
+                  <a href="https://shahm009.github.io/portfolio/#contact">Learn more</a>
+                </div>
+                <div class="service-item">
+                  <i class="fa-solid fa-draw-polygon"></i>
+                  <h2>Graphics Design</h2>
+                  <p>Creating visually appealing graphics that effectively communicate your brand’s message across
+                    digital and print media.</p>
+                  <a href="https://shahm009.github.io/portfolio/#contact">Learn more</a>
+                </div>
+                <div class="service-item">
+                  <i class="fa-solid fa-wifi"></i>
+                  <h2>IoT Solutions</h2>
+                  <p>Delivering innovative IoT solutions that connect devices and systems, enabling seamless
+                    communication and data exchange.</p>
+                  <a href="https://shahm009.github.io/portfolio/#contact">Learn More</a>
+                </div>
+                <div class="service-item">
+                  <i class="fa-solid fa-robot"></i>
+                  <h2>Robotics</h2>
+                  <p>Providing cutting-edge robotics services that leverage IoT technology to connect and automate
+                    systems, streamlining processes and enhancing operational efficiency across industries.</p>
+                  <a href="https://shahm009.github.io/portfolio//#contact">Learn More</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!**********************Portfolio**********************>
+            <div id="portfolio">
+              <div class="container">
+                <h1 class="sub-title">My Work</h1>
+                <div class="work-list" id="work-list">
+                  <!-- Initial Work Items -->
+                  <div class="work">
+                    <img src="images/work/AuTax.png" alt="AuTax Project">
+                    <div class="layer">
+                      <h3>AuTax: A self-driving taxi</h3>
+                      <p>This project integrates cutting-edge technologies</p>
+                      <a href="#" class="open-modal" data-modal="modal-auTax">
+                        <i class="fa-solid fa-up-right-from-square"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="work">
+                    <img src="images/work/work-1.png" alt="Social Media App">
+                    <div class="layer">
+                      <h3>Social Media App</h3>
+                      <p>Connect with people worldwide, fostering real-time communication.</p>
+                      <a href="#" class="open-modal" data-modal="modal-social">
+                        <i class="fa-solid fa-up-right-from-square"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="work">
+                    <img src="images/work/work-2.png" alt="Music App">
+                    <div class="layer">
+                      <h3>Music App</h3>
+                      <p>Stream your favorite tracks, create playlists, and discover new music daily.</p>
+                      <a href="#" class="open-modal" data-modal="modal-music">
+                        <i class="fa-solid fa-up-right-from-square"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <a href="#" class="btn" id="load-more">See more</a>
+              </div>
+            </div>
+
+
+            <!-- Modal 1 -->
+            <div id="modal-auTax" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>AuTax: A Self-Driving Taxi</h2>
+                <p>
+                  AuTax is an innovative project aimed at creating a fully autonomous taxi capable of navigating complex
+                  urban environments. This project integrates cutting-edge technologies to deliver a seamless
+                  self-driving experience.
+                </p>
+
+                <!-- Embedded YouTube Video -->
+                <div class="video-container">
+                  <iframe width="560" height="315" src="https://www.youtube.com/embed/TixH0lE5oqY?si=EymC74W6o0SB6848"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                  </iframe>
+                </div>
+            <div id="portfolio">
+              <div class="container">
+                <h1 class="sub-title">My Work</h1>
+                <div class="work-list" id="work-list">
+                  <!-- Initial Work Items -->
+                  <div class="work">
+                    <img src="images/work/AuTax.png" alt="AuTax Project">
+                    <div class="layer">
+                      <h3>AuTax: A self-driving taxi</h3>
+                      <p>This project integrates cutting-edge technologies</p>
+                      <a href="#" class="open-modal" data-modal="modal-auTax">
+                        <i class="fa-solid fa-up-right-from-square"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="work">
+                    <img src="images/work/work-1.png" alt="Social Media App">
+                    <div class="layer">
+                      <h3>Social Media App</h3>
+                      <p>Connect with people worldwide, fostering real-time communication.</p>
+                      <a href="#" class="open-modal" data-modal="modal-social">
+                        <i class="fa-solid fa-up-right-from-square"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="work">
+                    <img src="images/work/work-2.png" alt="Music App">
+                    <div class="layer">
+                      <h3>Music App</h3>
+                      <p>Stream your favorite tracks, create playlists, and discover new music daily.</p>
+                      <a href="#" class="open-modal" data-modal="modal-music">
+                        <i class="fa-solid fa-up-right-from-square"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <a href="#" class="btn" id="load-more">See more</a>
+              </div>
+            </div>
+
+
+            <!-- Modal 1 -->
+            <div id="modal-auTax" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>AuTax: A Self-Driving Taxi</h2>
+                <p>
+                  AuTax is an innovative project aimed at creating a fully autonomous taxi capable of navigating complex
+                  urban environments. This project integrates cutting-edge technologies to deliver a seamless
+                  self-driving experience.
+                </p>
+
+                <!-- Embedded YouTube Video -->
+                <div class="video-container">
+                  <iframe width="560" height="315" src="https://www.youtube.com/embed/TixH0lE5oqY?si=EymC74W6o0SB6848"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                  </iframe>
+                </div>
+
+
+                <!-- Features Section -->
+                <div class="modal-section">
+                  <h3>Features</h3>
+                  <ul>
+                    <li>Autonomous navigation through city streets.</li>
+                    <li>Advanced obstacle detection and avoidance.</li>
+                    <li>Integration with a user-friendly mobile app for booking.</li>
+                    <li>Real-time traffic updates and route optimization.</li>
+                  </ul>
+                </div>
+
+                <!-- Technologies Used Section -->
+                <div class="modal-section">
+                  <h3>Technologies Used</h3>
+                  <ul>
+                    <li>Computer Vision with OpenCV and YOLO for object detection.</li>
+                    <li>ROS2 for robotic control and communication.</li>
+                    <li>LiDAR and Ultrasonic sensors for mapping and navigation.</li>
+                    <li>Python and C++ for core programming.</li>
+                  </ul>
+                </div>
+
+                <!-- Challenges Faced Section -->
+                <div class="modal-section">
+                  <h3>Challenges Faced</h3>
+                  <p>
+                    The development process involved overcoming several challenges, such as tuning the navigation
+                    algorithms for complex city environments, ensuring safety during dynamic traffic conditions, and
+                    optimizing computational resources for real-time processing.
+                  </p>
+                </div>
+                <!-- What AuTax Provides Section -->
+                <div class="modal-section">
+                  <h3>What AuTax Provides</h3>
+                  <p>
+                    AuTax is designed to replace expensive platforms like TurtleBot, offering a practical and
+                    cost-effective solution for learning and practicing ROS (Robot Operating System). With AuTax, you
+                    can:
+                  </p>
+                  <ul>
+                    <li>Start ROS practice without investing in costly hardware.</li>
+                    <li>Access an affordable yet powerful alternative to TurtleBot.</li>
+                    <li>Utilize state-of-the-art self-driving capabilities to explore robotics concepts.</li>
+                    <li>Develop and test custom navigation algorithms on a flexible platform.</li>
+                    <li>Focus on learning and innovating instead of worrying about budget constraints.</li>
+                  </ul>
+                  <p>
+                    By leveraging AuTax, students, researchers, and hobbyists can dive into the world of robotics with
+                    minimal upfront costs, making it an ideal platform for anyone passionate about automation and AI.
+                  </p>
+                </div>
+
+                <!-- Features Section -->
+                <div class="modal-section">
+                  <h3>Features</h3>
+                  <ul>
+                    <li>Autonomous navigation through city streets.</li>
+                    <li>Advanced obstacle detection and avoidance.</li>
+                    <li>Integration with a user-friendly mobile app for booking.</li>
+                    <li>Real-time traffic updates and route optimization.</li>
+                  </ul>
+                </div>
+
+                <!-- Technologies Used Section -->
+                <div class="modal-section">
+                  <h3>Technologies Used</h3>
+                  <ul>
+                    <li>Computer Vision with OpenCV and YOLO for object detection.</li>
+                    <li>ROS2 for robotic control and communication.</li>
+                    <li>LiDAR and Ultrasonic sensors for mapping and navigation.</li>
+                    <li>Python and C++ for core programming.</li>
+                  </ul>
+                </div>
+
+                <!-- Challenges Faced Section -->
+                <div class="modal-section">
+                  <h3>Challenges Faced</h3>
+                  <p>
+                    The development process involved overcoming several challenges, such as tuning the navigation
+                    algorithms for complex city environments, ensuring safety during dynamic traffic conditions, and
+                    optimizing computational resources for real-time processing.
+                  </p>
+                </div>
+                <!-- What AuTax Provides Section -->
+                <div class="modal-section">
+                  <h3>What AuTax Provides</h3>
+                  <p>
+                    AuTax is designed to replace expensive platforms like TurtleBot, offering a practical and
+                    cost-effective solution for learning and practicing ROS (Robot Operating System). With AuTax, you
+                    can:
+                  </p>
+                  <ul>
+                    <li>Start ROS practice without investing in costly hardware.</li>
+                    <li>Access an affordable yet powerful alternative to TurtleBot.</li>
+                    <li>Utilize state-of-the-art self-driving capabilities to explore robotics concepts.</li>
+                    <li>Develop and test custom navigation algorithms on a flexible platform.</li>
+                    <li>Focus on learning and innovating instead of worrying about budget constraints.</li>
+                  </ul>
+                  <p>
+                    By leveraging AuTax, students, researchers, and hobbyists can dive into the world of robotics with
+                    minimal upfront costs, making it an ideal platform for anyone passionate about automation and AI.
+                  </p>
+                </div>
+
+                <img src="images/work/AuTax.png" alt="AuTax Full View">
+
+              </div>
+            </div>
+
+            <!-- Modal 2 -->
+            <div id="modal-social" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Social Media App</h2>
+                <p>This app connects users globally, fostering real-time communication and collaboration.</p>
+                <img src="images/work/work-2.png" alt="Social Media App Full View">
+                <p>This app connects users globally, fostering real-time communication and collaboration.</p>
+              </div>
+            </div>
+
+            <!-- Modal 3 -->
+            <div id="modal-music" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Music App</h2>
+                <p>Enjoy seamless music streaming, curated playlists, and daily recommendations.</p>
+                <img src="images/work/work-3.png" alt="Music App Full View">
+              </div>
+            </div>
+
+
+                <img src="images/work/AuTax.png" alt="AuTax Full View">
+
+              </div>
+            </div>
+
+            <!-- Modal 2 -->
+            <div id="modal-social" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Social Media App</h2>
+                <p>This app connects users globally, fostering real-time communication and collaboration.</p>
+                <img src="images/work/work-2.png" alt="Social Media App Full View">
+                <p>This app connects users globally, fostering real-time communication and collaboration.</p>
+              </div>
+            </div>
+
+            <!-- Modal 3 -->
+            <div id="modal-music" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Music App</h2>
+                <p>Enjoy seamless music streaming, curated playlists, and daily recommendations.</p>
+                <img src="images/work/work-3.png" alt="Music App Full View">
+              </div>
+            </div>
+
+
+
+            <script>
+              // load more
+              document.getElementById('load-more').addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Additional work items to load
+                const newWorks = `
+            <script>
+              // load more
+              document.getElementById('load-more').addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Additional work items to load
+                const newWorks = `
+                <div class="work">
+                  <img src="images/work/work-3.png" alt="Online Gaming App">
+                  <div class="layer">
+                    <h3>Online Gaming App</h3>
+                    <p>Engage in thrilling multiplayer battles, level up, and compete with friends.</p>
+                    <a href="#" class="open-modal" data-modal="modal-gaming">
+                      <i class="fa-solid fa-up-right-from-square"></i>
+                    </a>
+                  </div>
+                </div>
+                <div class="work">
+                  <img src="images/work/work-4.png" alt="E-Learning App">
+                  <div class="layer">
+                    <h3>Multiplayer game</h3>
+                    <p>Learn new skills with interactive courses and live mentorship.</p>
+                    <a href="#" class="open-modal" data-modal="modal-elearning">
+                      <i class="fa-solid fa-up-right-from-square"></i>
+                    </a>
+                  </div>
+                </div>
+                <div class="work">
+                  <img src="images/work/work-5.png" alt="Fitness App">
+                  <div class="layer">
+                    <h3>Snake game</h3>
+                    <p>Track workouts, set goals, and monitor your progress effortlessly.</p>
+                    <a href="#" class="open-modal" data-modal="modal-fitness">
+                      <i class="fa-solid fa-up-right-from-square"></i>
+                    </a>
+                  </div>
+                </div>
+              `;
+
+                // Append new work items to the work list
+                document.getElementById('work-list').insertAdjacentHTML('beforeend', newWorks);
+
+                // Optionally disable the "See more" button after adding more items
+                this.style.display = 'none';
+              });            
+            </script>
+
+            <script>
+              // Open modal
+              document.querySelectorAll('.open-modal').forEach(item => {
+                item.addEventListener('click', event => {
+                  event.preventDefault();
+                  const modalId = event.target.closest('a').dataset.modal;
+                  const modal = document.getElementById(modalId);
+                  modal.style.display = 'block';
+                  document.body.classList.add('modal-open'); // Prevent background scrolling
+                });
+              });
+
+              // Close modal
+              document.querySelectorAll('.close').forEach(item => {
+                item.addEventListener('click', () => {
+                  const modal = item.closest('.modal');
+                  modal.style.display = 'none';
+                  document.body.classList.remove('modal-open'); // Enable background scrolling
+                });
+              });
+
+              // Close modal on clicking outside
+              window.addEventListener('click', event => {
+                if (event.target.classList.contains('modal')) {
+                  event.target.style.display = 'none';
+                  document.body.classList.remove('modal-open'); // Enable background scrolling
+                }
+              });
+            </script>
+
+                // Append new work items to the work list
+                document.getElementById('work-list').insertAdjacentHTML('beforeend', newWorks);
+
+                // Optionally disable the "See more" button after adding more items
+                this.style.display = 'none';
+              });            
+            </script>
+
+            <script>
+              // Open modal
+              document.querySelectorAll('.open-modal').forEach(item => {
+                item.addEventListener('click', event => {
+                  event.preventDefault();
+                  const modalId = event.target.closest('a').dataset.modal;
+                  const modal = document.getElementById(modalId);
+                  modal.style.display = 'block';
+                  document.body.classList.add('modal-open'); // Prevent background scrolling
+                });
+              });
+
+              // Close modal
+              document.querySelectorAll('.close').forEach(item => {
+                item.addEventListener('click', () => {
+                  const modal = item.closest('.modal');
+                  modal.style.display = 'none';
+                  document.body.classList.remove('modal-open'); // Enable background scrolling
+                });
+              });
+
+              // Close modal on clicking outside
+              window.addEventListener('click', event => {
+                if (event.target.classList.contains('modal')) {
+                  event.target.style.display = 'none';
+                  document.body.classList.remove('modal-open'); // Enable background scrolling
+                }
+              });
+            </script>
+
+
+
+
+            <!****************Contact Section*********************>
+              <div id="contact">
+                <div class="container">
+                  <div class="row">
+                    <div class="contact-left">
+                      <h1 class="sub-title">Contact Me</h1>
+                      <p><a href="mailto:admin@shahmehrab.xyz"><i
+                            class="fa-solid fa-paper-plane"></i>admin@shahmehrab.xyz</a></p>
+                      <p><a href="tel:+8801777961826"><i class="fa-solid fa-phone"></i>+8801777961826</p>
+                      <div class="social-icons">
+                        <a href="https://www.facebook.com/shah.mehrab.hossain/" target="_blank"><i
+                            class="fab fa-facebook"></i></a>
+                        <a href="https://twitter.com/" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="https://www.instagram.com/smh.009/" target="_blank"><i
+                            class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/shah-mehrab-hossain-a6a1691ba/" target="_blank"><i
+                            class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/shahm009" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://stackoverflow.com/users/20249958/shah009" target="_blank"><i
+                            class="fab fa-stack-overflow"></i></a>
+                      </div>
+                      <!-- CV download link -->
+                      <a href="file/shahmehrab.pdf" class="btn btn2" download><i class="fa-solid fa-download"></i>
+                        Download
+                        CV</a>
+                    </div>
+
+                    <div class="contact-right">
+                      <form name="submit-to-google-sheet">
+                        <input type="text" name="Name" placeholder="Your Name" required>
+                        <input type="email" name="Email" placeholder="Your Email" required>
+                        <textarea name="Message" rows="6" placeholder="Your Message" required></textarea>
+                        <button type="submit" class="btn btn2" id="submitButton">Submit</button>
+                      </form>
+                      <span id="msg"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Back to Top Button -->
+              <button id="back-to-top" onclick="scrollToTop()" style="display: none;">
+                <i class="fa-solid fa-arrow-up"></i>
+              </button>
+
+              <div class="copyright">
+                <p
+                  style="text-align:center; font-family:Arial, sans-serif; color:#555; font-size:14px; margin-top:20px;">
+                  Copyright &copy; 2024 <span style="color:#e34c26;">Shah Mehrab Hossain</span>, . All rights reserved.
+                </p>
+              </div>
+              </div>
+
+
+
+
+
+
+
+
+
+
+              <!*************************Scriptings***********************************>
+                <script>
+                  var tablinks = document.getElementsByClassName("tab-links");
+                  var tabcontents = document.getElementsByClassName("tab-contents");
+
+                  function opentab(tabname) {
+                    for (tablink of tablinks) {
+                      tablink.classList.remove("active-link");
+                    }
+                    for (tabcontent of tabcontents) {
+                      tabcontent.classList.remove("active-tab");
+                    }
+                    event.currentTarget.classList.add("active-link");
+                    document.getElementById(tabname).classList.add("active-tab");
+                  }
+                </script>
+                <!***********************Back to top*****************************>
+                  <script>
+                    // Function to scroll to the top of the page
+                    function scrollToTop() {
+                      window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth' // Smooth scroll to the top
+                      });
+                    }
+
+                    // Show or hide the button based on scroll position
+                    window.onscroll = function () {
+                      const button = document.getElementById('back-to-top');
+                      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                        button.style.display = "block"; // Show button when scrolled down
+                      } else {
+                        button.style.display = "none"; // Hide button when at the top
+                      }
+                    };
+
+                  </script>
+
+                  <!**************************hover-sound**************************>
+                    <!********************nav-hover***********************>
+                      <script>
+                        // Ensure navHoverSound is only defined once to avoid redeclaration errors
+                        if (typeof navHoverSound === 'undefined') {
+                          var navHoverSound = new Audio('src/watersplash.mp3');
+                          navHoverSound.volume = 0.08; // Set volume to 8%
+                        }
+
+                        // Select all navigation links with the class 'nav-link'
+                        const navLinks = document.querySelectorAll('.nav-link');
+
+                        // Add hover event listener to each nav link to play sound
+                        navLinks.forEach(link => {
+                          link.addEventListener('mouseover', () => {
+                            navHoverSound.currentTime = 0; // Reset sound to the beginning
+                            navHoverSound.play();
+                          });
+                        });
+                      </script>
+
+                      <!********************ServiceBlock-hover***********************>
+                        <script>
+                          // Ensure serviceHoverSound is only defined once to avoid redeclaration errors
+                          if (typeof serviceHoverSound === 'undefined') {
+                            var serviceHoverSound = new Audio('src/Click.mp3');
+                            serviceHoverSound.volume = 0.4; // Set volume to 8%
+                          }
+
+                          // Select all service items
+                          const serviceItems = document.querySelectorAll('.service-item');
+
+                          // Add hover event listener to each service item to play sound
+                          serviceItems.forEach(item => {
+                            item.addEventListener('mouseover', () => {
+                              serviceHoverSound.currentTime = 0; // Reset sound to the beginning
+                              serviceHoverSound.play();
+                            });
+                          });
+                        </script>
+
+                        <!***********************play music***********************>
+
+                          <script>
+                            // Array of track URLs and names
+                            const tracks = [
+                              { name: "Track 1", url: "src/music/Track1.mp3" },
+                              { name: "Track 2", url: "src/music/Track2.mp3" },
+                              { name: "Track 3", url: "src/music/Track3.mp3" }
+                            ];
+
+                            let currentTrackIndex = 0; // Index for the current track
+                            const audioElement = document.getElementById('background-music');
+                            const trackNameElement = document.getElementById('track-name');
+                            const playIcon = document.getElementById('play-icon');
+                            const pauseIcon = document.getElementById('pause-icon');
+
+                            // Load the first track
+                            loadTrack(currentTrackIndex);
+
+                            // Function to load a track
+                            function loadTrack(index) {
+                              audioElement.src = tracks[index].url; // Set audio source to the track
+                              trackNameElement.textContent = tracks[index].name; // Update track name
+                              audioElement.load(); // Load the new track
+                            }
+
+                            // Function to play or pause the track
+                            function togglePlay() {
+                              if (audioElement.paused) {
+                                audioElement.play();
+                                playIcon.style.display = 'none';
+                                pauseIcon.style.display = 'inline';
+                              } else {
+                                audioElement.pause();
+                                playIcon.style.display = 'inline';
+                                pauseIcon.style.display = 'none';
+                              }
+                            }
+
+                            // Function to play the previous track
+                            function prevTrack() {
+                              currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length; // Loop back to last track
+                              loadTrack(currentTrackIndex); // Load the new track
+                              audioElement.play(); // Start playing the new track
+                              playIcon.style.display = 'none';
+                              pauseIcon.style.display = 'inline';
+                            }
+
+                            // Function to play the next track
+                            function nextTrack() {
+                              currentTrackIndex = (currentTrackIndex + 1) % tracks.length; // Loop back to first track
+                              loadTrack(currentTrackIndex); // Load the new track
+                              audioElement.play(); // Start playing the new track
+                              playIcon.style.display = 'none';
+                              pauseIcon.style.display = 'inline';
+                            }
+
+                          </script>
+                          <!****************Text Animation***********************>
+                            <script>
+                              // Function to simulate typing effect
+                              function typeEffect(element, text, delay) {
+                                let index = 0;
+                                const typingSound = document.getElementById("typing-sound");
+
+                                function type() {
+                                  if (index < text.length) {
+                                    element.textContent += text.charAt(index); // Add one character at a time
+                                    typingSound.currentTime = 0; // Reset sound to start
+                                    typingSound.play(); // Play typing sound
+                                    index++;
+                                    setTimeout(type, delay); // Call the function again after a delay
+                                  } else {
+                                    // Stop the sound when typing is done
+                                    typingSound.pause(); // Pause the sound
+                                    typingSound.currentTime = 0; // Reset to start for next time
+                                  }
+                                }
+                                type(); // Start the typing effect
+                              }
+
+                              // Typing effect for the paragraph text
+                              document.addEventListener("DOMContentLoaded", () => {
+                                const typedTextElement = document.getElementById("typed-text");
+                                const textToType = typedTextElement.getAttribute('data-text'); // Get the text stored in data-text
+                                typedTextElement.textContent = ""; // Clear the text for typing effect
+                                typeEffect(typedTextElement, textToType, 100); // Call the typing effect function
+
+                                // Wrap each word in the name with a <span> for styling and animation
+                                const nameElement = document.getElementById("name");
+                                const words = nameElement.textContent.split(" ");
+                                nameElement.innerHTML = words.map(word => `<span class="typed-word">${word}</span>`).join(" ");
+
+                                // Add animation to each word
+                                const wordElements = document.querySelectorAll(".typed-word");
+                                wordElements.forEach((word, index) => {
+                                  word.style.animation = `fadeIn 1s ease forwards ${index * 0.5}s`; // Delay each word
+                                });
+                              });
+                            </script>
+                            <script>
+                              // Function to simulate typing effect
+                              function typeEffect(element, text, delay) {
+                                let index = 0;
+                                const typingSound = document.getElementById("typing-sound");
+
+                                function type() {
+                                  if (index < text.length) {
+                                    element.textContent += text.charAt(index); // Add one character at a time
+                                    typingSound.currentTime = 0; // Reset sound to start
+                                    typingSound.play(); // Play typing sound
+                                    index++;
+                                    setTimeout(type, delay); // Call the function again after a delay
+                                  } else {
+                                    // Stop the sound when typing is done
+                                    typingSound.pause(); // Pause the sound
+                                    typingSound.currentTime = 0; // Reset to start for next time
+                                  }
+                                }
+                                type(); // Start the typing effect
+                              }
+
+                              // Typing effect for the paragraph text
+                              document.addEventListener("DOMContentLoaded", () => {
+                                const typedTextElement = document.getElementById("typed-text");
+                                const textToType = typedTextElement.getAttribute('data-text'); // Get the text stored in data-text
+                                typedTextElement.textContent = ""; // Clear the text for typing effect
+                                typeEffect(typedTextElement, textToType, 100); // Call the typing effect function
+
+                                // Wrap each word in the name with a <span> for styling and animation
+                                const nameElement = document.getElementById("name");
+                                const words = nameElement.textContent.split(" ");
+                                nameElement.innerHTML = words.map(word => `<span class="typed-word">${word}</span>`).join(" ");
+
+                                // Add animation to each word
+                                const wordElements = document.querySelectorAll(".typed-word");
+                                wordElements.forEach((word, index) => {
+                                  word.style.animation = `fadeIn 1s ease forwards ${index * 0.5}s`; // Delay each word
+                                });
+                              });
+                            </script>
+                            <!****************SideMenu Animation***********************>
+                              <script>
+                                var sidemenu = document.getElementById("sidemenu");
+                                function openmenu() {
+                                  sidemenu.style.right = "0";
+                                }
+                                function closemenu() {
+                                  sidemenu.style.right = "-200px";
+                                }
+                              </script>
+                              <!****************Preload Animation***********************>
+                                <script>
+                                  document.body.classList.add('loading');
+
+                                  window.addEventListener('load', function () {
+                                    // Add a 3-second delay before removing the preloader
+                                    setTimeout(function () {
+                                      document.body.classList.remove('loading');
+                                      document.body.classList.add('loaded');
+                                    }, 2000);  // 1 seconds = 1000 milliseconds 
+                                  });
+                                </script>
+
+
+                                <!***********************certification script*****************>
+                                  <script>
+                                    function showPopup(image) {
+                                      const modal = document.getElementById("popup-modal");
+                                      const popupImage = document.getElementById("popup-image");
+
+                                      // Set the image in the modal
+                                      popupImage.src = image.src;
+
+                                      // Show the modal
+                                      modal.style.display = "flex";
+
+                                      // Disable background scrolling
+                                      document.body.classList.add("no-scroll");
+                                    }
+
+                                    function hidePopup() {
+                                      const modal = document.getElementById("popup-modal");
+
+                                      // Hide the modal
+                                      modal.style.display = "none";
+
+                                      // Enable background scrolling
+                                      document.body.classList.remove("no-scroll");
+                                    }
+
+                                  </script>
+                                  <!******************Contact form message**********************>
+                                    <script>
+                                      const scriptURL = 'https://script.google.com/macros/s/AKfycbwjMYFVTmh0NAP6JTMf_kPawXRtiZHOcBLp0OOZKQmJgBES_S7jx5rhoA5bzvUu3kRP/exec';
+                                      const form = document.forms['submit-to-google-sheet'];
+                                      const msg = document.getElementById("msg");
+                                      const submitButton = document.getElementById("submitButton");
+                                  <script>
+                                    function showPopup(image) {
+                                      const modal = document.getElementById("popup-modal");
+                                      const popupImage = document.getElementById("popup-image");
+
+                                      // Set the image in the modal
+                                      popupImage.src = image.src;
+
+                                      // Show the modal
+                                      modal.style.display = "flex";
+
+                                      // Disable background scrolling
+                                      document.body.classList.add("no-scroll");
+                                    }
+
+                                    function hidePopup() {
+                                      const modal = document.getElementById("popup-modal");
+
+                                      // Hide the modal
+                                      modal.style.display = "none";
+
+                                      // Enable background scrolling
+                                      document.body.classList.remove("no-scroll");
+                                    }
+
+                                  </script>
+                                  <!******************Contact form message**********************>
+                                    <script>
+                                      const scriptURL = 'https://script.google.com/macros/s/AKfycbwjMYFVTmh0NAP6JTMf_kPawXRtiZHOcBLp0OOZKQmJgBES_S7jx5rhoA5bzvUu3kRP/exec';
+                                      const form = document.forms['submit-to-google-sheet'];
+                                      const msg = document.getElementById("msg");
+                                      const submitButton = document.getElementById("submitButton");
+
+                                      // Function to sanitize user inputs
+                                      function sanitize(input) {
+                                        const element = document.createElement('div');
+                                        element.innerText = input;
+                                        return element.innerHTML;
+                                      }
+                                      // Function to sanitize user inputs
+                                      function sanitize(input) {
+                                        const element = document.createElement('div');
+                                        element.innerText = input;
+                                        return element.innerHTML;
+                                      }
+
+                                      form.addEventListener('submit', e => {
+                                        e.preventDefault();
+                                      form.addEventListener('submit', e => {
+                                        e.preventDefault();
+
+                                        // Sanitize inputs
+                                        form.Name.value = sanitize(form.Name.value);
+                                        form.Email.value = sanitize(form.Email.value);
+                                        form.Message.value = sanitize(form.Message.value);
+                                        // Sanitize inputs
+                                        form.Name.value = sanitize(form.Name.value);
+                                        form.Email.value = sanitize(form.Email.value);
+                                        form.Message.value = sanitize(form.Message.value);
+
+                                        // Provide feedback and disable button during submission
+                                        msg.innerHTML = "Sending message...";
+                                        submitButton.disabled = true;
+                                        // Provide feedback and disable button during submission
+                                        msg.innerHTML = "Sending message...";
+                                        submitButton.disabled = true;
+
+                                        fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                                          .then(response => {
+                                            if (response.ok) {
+                                              msg.innerHTML = "Message sent successfully!";
+                                              setTimeout(() => { msg.innerHTML = ""; }, 5000);
+                                              form.reset();
+                                            } else {
+                                              throw new Error('Form submission failed.');
+                                            }
+                                          })
+                                          .catch(error => {
+                                            console.error('Error!', error.message);
+                                            msg.innerHTML = "Error sending message. Please try again later.";
+                                          })
+                                          .finally(() => {
+                                            // Re-enable the submit button after response
+                                            submitButton.disabled = false;
+                                          });
+                                      });
+                                    </script>
+                                        fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                                          .then(response => {
+                                            if (response.ok) {
+                                              msg.innerHTML = "Message sent successfully!";
+                                              setTimeout(() => { msg.innerHTML = ""; }, 5000);
+                                              form.reset();
+                                            } else {
+                                              throw new Error('Form submission failed.');
+                                            }
+                                          })
+                                          .catch(error => {
+                                            console.error('Error!', error.message);
+                                            msg.innerHTML = "Error sending message. Please try again later.";
+                                          })
+                                          .finally(() => {
+                                            // Re-enable the submit button after response
+                                            submitButton.disabled = false;
+                                          });
+                                      });
+                                    </script>
+
+
+</body>
+
+</html>
