@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta name="description"
+    content="Portfolio of Shah Mehrab Hossain, a skilled computer science and engineering student specializing in web development, app development, and embedded systems." />
+
+  <title>Shah Mehrab Hossain</title>
+
+  <link rel="icon" href="images/S.png" type="image/png" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://kit.fontawesome.com/d36ce842ae.js" crossorigin="anonymous"></script>
+
+  <audio id="typing-sound" src="src/typesound.mp3" preload="auto"></audio>
+</head>
+
+<body class="loading">
+  <!-- Custom Cursor (desktop only) -->
+  <div class="custom-cursor" id="customCursor" aria-hidden="true"></div>
+
+  <!-- ===================== PRELOADER ===================== -->
+  <div id="preloader" aria-hidden="true">
+    <div class="preloader-inner">
+      <div class="dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div class="wave"></div>
+      <p class="preloader-text">Loading…</p>
+    </div>
+  </div>
+
+  <!-- ===================== HEADER / HERO ===================== -->
+  <header id="header">
+    <div class="container">
+
+      <nav>
+        <img src="images/logo.png" class="logo" alt="Logo">
+
+        <ul id="sidemenu" aria-label="Primary navigation">
+          <li><a href="#header" class="nav-link">Home</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#services" class="nav-link">Services</a></li>
+          <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+
+          <li class="nav-actions">
+            <button id="themeToggle" class="icon-btn" type="button" aria-label="Toggle theme">
+              <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
+          </li>
+
+          <i class="fa-solid fa-x nav-close" onclick="closemenu()" aria-hidden="true"></i>
+        </ul>
+
+        <div class="nav-right">
+          <button id="themeToggleMobile" class="icon-btn icon-btn-mobile" type="button" aria-label="Toggle theme">
+            <i class="fa-solid fa-moon" id="themeIconMobile"></i>
+          </button>
+          <i class="fa-solid fa-bars nav-open" onclick="openmenu()" aria-hidden="true"></i>
+        </div>
+      </nav>
+
+      <div class="hero-grid">
+        <div class="header-text">
+          <p class="hero-kicker">Portfolio • Robotics • Embedded • UI/UX</p>
+          <h1>
+            Hi, I am
+            <span class="name-highlight" id="nameHero">Shah Mehrab Hossain</span>
+            from Bangladesh.
+          </h1>
+
+          <p id="typed-text" data-text="Embedded System Expert • IoT Specialist • Developer"></p>
+
+          <div class="hero-cta">
+            <a class="btn-primary" href="#portfolio">
+              View Projects <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <a class="btn-secondary" href="#contact">
+              Contact <i class="fa-solid fa-paper-plane"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Music Player -->
+        <div class="music-player" role="region" aria-label="Music player">
+          <div class="music-info">
+            <div class="track-scroll" aria-label="Track name">
+              <span id="track-name">Track Name Here</span>
+            </div>
+          </div>
+
+          <div class="music-controls">
+            <button id="prev-button" type="button" aria-label="Previous track">
+              <i class="fa-solid fa-backward"></i>
+            </button>
+
+            <button id="play-pause-button" type="button" aria-label="Play or pause">
+              <i id="play-icon" class="fa-solid fa-play"></i>
+              <i id="pause-icon" class="fa-solid fa-pause" style="display:none;"></i>
+            </button>
+
+            <button id="next-button" type="button" aria-label="Next track">
+              <i class="fa-solid fa-forward"></i>
+            </button>
+          </div>
+
+          <audio id="background-music" loop></audio>
+          <p class="mini-hint">Tip: Use the theme button in the navbar 🌙/☀️</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section id="about">
+    <div class="container">
+      <div class="row">
+        <div class="about-col-1">
+          <img src="images/one.jpg" alt="Portrait of Shah Mehrab Hossain">
+        </div>
+
+        <div class="about-col-2">
+          <h2 class="sub-title">About Me</h2>
+          <p>
+            I am an enthusiastic student of computer science and engineering who is proficient in a number of
+            programming languages, such as Python, Java, C, C++, and JavaScript. My skills also include web creation,
+            where I create dynamic and user-friendly websites using HTML, CSS, and WordPress. Additionally, I have
+            practical expertise with 3D design, 3D printing, and embedded systems, which enables me to smoothly integrate
+            hardware and software. I also have excellent graphic design abilities, which allow me to create designs that
+            are both aesthetically pleasing and functional.
+            <br><br>
+            I enjoy hackathons, contribute to open-source projects, and experiment with new programming languages and
+            technologies in my free time. I'm passionate about digital art and photography, which inspires me and improves
+            my design work. I firmly believe in lifelong learning and constantly look for chances to broaden my expertise.
+          </p>
+
+          <div class="tab-titles" role="tablist" aria-label="About tabs">
+            <button class="tab-links active-link" type="button" data-tab="skills" role="tab" aria-selected="true">Skills</button>
+            <button class="tab-links" type="button" data-tab="experience" role="tab" aria-selected="false">Experience</button>
+            <button class="tab-links" type="button" data-tab="education" role="tab" aria-selected="false">Education</button>
+            <button class="tab-links" type="button" data-tab="certifications" role="tab" aria-selected="false">Certifications</button>
+          </div>
+
+          <div class="tab-contents active-tab" id="skills" role="tabpanel">
+            <ul class="skills-icons">
+              <li title="C"><div class="skill-box"><img src="images/skills/c-logo.png" alt="C Logo"></div></li>
+              <li title="C++"><div class="skill-box"><img src="images/skills/cpp-logo.png" alt="C++ Logo"></div></li>
+              <li title="Python"><div class="skill-box"><img src="images/skills/python-logo.png" alt="Python Logo"></div></li>
+              <li title="Java"><div class="skill-box"><img src="images/skills/java-logo.png" alt="Java Logo"></div></li>
+              <li title="JavaScript"><div class="skill-box"><img src="images/skills/javascript-logo.png" alt="JavaScript Logo"></div></li>
+              <li title="Dart"><div class="skill-box"><img src="images/skills/dart-logo.png" alt="Dart Logo"></div></li>
+              <li title="MySQL"><div class="skill-box"><img src="images/skills/mysql-logo.png" alt="MySQL Logo"></div></li>
+              <li title="PHP"><div class="skill-box"><img src="images/skills/php-logo.png" alt="PHP Logo"></div></li>
+              <li title="VS Code"><div class="skill-box"><img src="images/skills/vscode-logo.png" alt="VS Code Logo"></div></li>
+              <li title="ROS2"><div class="skill-box"><img src="images/skills/ros2-logo.png" alt="ROS2 Logo"></div></li>
+              <li title="Robotics"><div class="skill-box"><img src="images/skills/robotics-logo.png" alt="Robotics Logo"></div></li>
+              <li title="IoT"><div class="skill-box"><img src="images/skills/iot-logo.png" alt="IoT Logo"></div></li>
+              <li title="Embedded Systems"><div class="skill-box"><img src="images/skills/embedded-logo.png" alt="Embedded Systems Logo"></div></li>
+              <li title="Arduino"><div class="skill-box"><img src="images/skills/arduino-logo.png" alt="Arduino Logo"></div></li>
+              <li title="GitHub"><div class="skill-box"><img src="images/skills/github-logo.png" alt="GitHub Logo"></div></li>
+              <li title="Blender"><div class="skill-box"><img src="images/skills/blender-logo.png" alt="Blender Logo"></div></li>
+              <li title="Fusion 360"><div class="skill-box"><img src="images/skills/fusion360-logo.png" alt="Fusion 360 Logo"></div></li>
+              <li title="SolidWorks"><div class="skill-box"><img src="images/skills/solidworks-logo.png" alt="SolidWorks Logo"></div></li>
+              <li title="UI/UX Design"><div class="skill-box"><img src="images/skills/uiux-logo.png" alt="UI/UX Design Logo"></div></li>
+              <li title="WordPress"><div class="skill-box"><img src="images/skills/wordpress-logo.png" alt="WordPress Logo"></div></li>
+              <li title="Photoshop"><div class="skill-box"><img src="images/skills/photoshop-logo.png" alt="Photoshop Logo"></div></li>
+              <li title="Illustrator"><div class="skill-box"><img src="images/skills/illustrator-logo.png" alt="Illustrator Logo"></div></li>
+              <li title="Premiere Pro"><div class="skill-box"><img src="images/skills/premiere-logo.png" alt="Premiere Pro Logo"></div></li>
+            </ul>
+          </div>
+
+          <div class="tab-contents" id="experience" role="tabpanel">
+            <ul>
+              <li><span>2023 - Current</span><br>Electrical and Software Team Lead at UIU Mars Rover Team.</li>
+              <li><span>2022 - 2023</span><br>Mechanical and Fabrication Team Member at UIU Mars Rover Team.</li>
+              <li><span>2021 - Current</span><br>Designing web and app interfaces at XTZ.</li>
+              <li><span>URC 2024</span><br>Preparing for the University Rover Challenge 2024.</li>
+            </ul>
+          </div>
+
+          <div class="tab-contents" id="education" role="tabpanel">
+            <ul>
+              <li><span>2022 - Current</span><br>BSc in CSE at United International University (UIU)</li>
+              <li><span>2020</span><br>Completed HSC from Brindaban Govt. College</li>
+              <li><span>2018</span><br>Completed SSC from Habiganj Govt. High School</li>
+            </ul>
+          </div>
+
+          <div class="tab-contents" id="certifications" role="tabpanel">
+            <ul class="cert-list">
+              <li>
+                <span>2023</span><br>
+                <b>URC 2023</b><br>
+                <img src="images/Cerificates/urc23.jpg" alt="URC 2023 Certificate"
+                  class="responsive-certificate cert-open">
+              </li>
+              <li>
+                <span>2023</span><br>
+                <b>aRC 2023</b><br>
+                <img src="images/Cerificates/arc23.jpg" alt="aRC 2023 Certificate"
+                  class="responsive-certificate cert-open">
+              </li>
+              <li>
+                <span>2024</span><br>
+                <b>URC 2024</b><br>
+                <img src="images/Cerificates/urc24.jpg" alt="URC 2024 Certificate"
+                  class="responsive-certificate cert-open">
+              </li>
+            </ul>
+
+            <!-- Certificate Popup -->
+            <div id="popup-modal" class="popup-modal" role="dialog" aria-modal="true" aria-label="Certificate image">
+              <button class="close-btn" id="certClose" type="button" aria-label="Close certificate">&times;</button>
+              <img id="popup-image" src="" alt="Certificate enlarged">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SERVICES ===================== -->
+  <section id="services">
+    <div class="container">
+      <h2 class="sub-title center">My Services</h2>
+
+      <div class="services-list">
+        <div class="service-item">
+          <i class="fa-solid fa-code"></i>
+          <h3>Web Design</h3>
+          <p>Responsive, user-friendly websites with modern aesthetics and performance.</p>
+          <a href="#contact">Learn more</a>
+        </div>
+
+        <div class="service-item">
+          <i class="fa-brands fa-app-store"></i>
+          <h3>App Design</h3>
+          <p>Intuitive, engaging mobile UI for Android and iOS.</p>
+          <a href="#contact">Learn more</a>
+        </div>
+
+        <div class="service-item">
+          <i class="fa-solid fa-microchip"></i>
+          <h3>Embedded Systems</h3>
+          <p>Efficient embedded solutions with reliable integration and control.</p>
+          <a href="#contact">Learn more</a>
+        </div>
+
+        <div class="service-item">
+          <i class="fa-solid fa-wifi"></i>
+          <h3>IoT Solutions</h3>
+          <p>Connected devices, telemetry dashboards, and automation workflows.</p>
+          <a href="#contact">Learn more</a>
+        </div>
+
+        <div class="service-item">
+          <i class="fa-solid fa-robot"></i>
+          <h3>Robotics</h3>
+          <p>Robotics + IoT for automation and real-world deployment.</p>
+          <a href="#contact">Learn more</a>
+        </div>
+
+        <div class="service-item">
+          <i class="fa-solid fa-draw-polygon"></i>
+          <h3>Graphics Design</h3>
+          <p>Strong visuals for branding, product marketing, and UI kits.</p>
+          <a href="#contact">Learn more</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PORTFOLIO ===================== -->
+  <section id="portfolio">
+    <div class="container">
+      <h2 class="sub-title center">My Work</h2>
+
+      <div class="work-list" id="work-list">
+        <div class="work">
+          <img src="images/work/AuTax.png" alt="AuTax Project">
+          <div class="layer">
+            <h3>AuTax: A self-driving taxi</h3>
+            <p>Autonomous navigation, perception, and ROS stack.</p>
+            <a href="#" class="open-modal" data-modal="modal-auTax" aria-label="Open AuTax modal">
+              <i class="fa-solid fa-up-right-from-square"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="work">
+          <img src="images/work/work-1.png" alt="Social Media App">
+          <div class="layer">
+            <h3>Social Media App</h3>
+            <p>Real-time communication & community features.</p>
+            <a href="#" class="open-modal" data-modal="modal-social" aria-label="Open Social App modal">
+              <i class="fa-solid fa-up-right-from-square"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="work">
+          <img src="images/work/work-2.png" alt="Music App">
+          <div class="layer">
+            <h3>Music App</h3>
+            <p>Playlists, recommendations & smooth streaming.</p>
+            <a href="#" class="open-modal" data-modal="modal-music" aria-label="Open Music App modal">
+              <i class="fa-solid fa-up-right-from-square"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <a href="#" class="btn" id="load-more">See more</a>
+    </div>
+  </section>
+
+  <!-- ===================== MODALS ===================== -->
+  <div id="modal-auTax" class="modal" role="dialog" aria-modal="true" aria-label="AuTax modal">
+    <div class="modal-content" tabindex="-1">
+      <button class="close" type="button" aria-label="Close modal">&times;</button>
+      <h2>AuTax: A Self-Driving Taxi</h2>
+      <p>Autonomous taxi capable of navigating complex urban environments with ROS + CV.</p>
+
+      <div class="video-container">
+        <iframe
+          src="https://www.youtube.com/embed/TixH0lE5oqY?si=EymC74W6o0SB6848"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+
+      <div class="modal-section">
+        <h3>Features</h3>
+        <ul>
+          <li>Autonomous navigation in city roads.</li>
+          <li>Obstacle detection and avoidance.</li>
+          <li>Booking-ready design concept.</li>
+          <li>Route optimization and updates.</li>
+        </ul>
+      </div>
+
+      <div class="modal-section">
+        <h3>Technologies Used</h3>
+        <ul>
+          <li>OpenCV + YOLO (detection).</li>
+          <li>ROS2 (robot comms + nodes).</li>
+          <li>LiDAR + Ultrasonic sensors.</li>
+          <li>Python + C++.</li>
+        </ul>
+      </div>
+
+      <img src="images/work/AuTax.png" alt="AuTax Full View">
+    </div>
+  </div>
+
+  <div id="modal-social" class="modal" role="dialog" aria-modal="true" aria-label="Social App modal">
+    <div class="modal-content" tabindex="-1">
+      <button class="close" type="button" aria-label="Close modal">&times;</button>
+      <h2>Social Media App</h2>
+      <p>Connect globally and communicate in real-time.</p>
+      <img src="images/work/work-1.png" alt="Social Media App Full View">
+    </div>
+  </div>
+
+  <div id="modal-music" class="modal" role="dialog" aria-modal="true" aria-label="Music App modal">
+    <div class="modal-content" tabindex="-1">
+      <button class="close" type="button" aria-label="Close modal">&times;</button>
+      <h2>Music App</h2>
+      <p>Seamless streaming, curated playlists, and daily recommendations.</p>
+      <img src="images/work/work-2.png" alt="Music App Full View">
+    </div>
+  </div>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section id="contact">
+    <div class="container">
+      <div class="row contact-wrap">
+        <div class="contact-left">
+          <h2 class="sub-title">Contact Me</h2>
+
+          <p><a href="mailto:admin@shahmehrab.xyz"><i class="fa-solid fa-paper-plane"></i>admin@shahmehrab.xyz</a></p>
+          <p><a href="tel:+8801777961826"><i class="fa-solid fa-phone"></i>+8801777961826</a></p>
+
+          <div class="social-icons">
+            <a href="https://www.facebook.com/shah.mehrab.hossain/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="https://twitter.com/" target="_blank" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://www.instagram.com/smh.009/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/shah-mehrab-hossain-a6a1691ba/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/shahm009" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://stackoverflow.com/users/20249958/shah009" target="_blank" aria-label="StackOverflow"><i class="fab fa-stack-overflow"></i></a>
+          </div>
+
+          <a href="file/shahmehrab.pdf" class="btn btn2" download>
+            <i class="fa-solid fa-download"></i> Download CV
+          </a>
+        </div>
+
+        <div class="contact-right">
+          <form name="submit-to-google-sheet">
+            <input type="text" name="Name" placeholder="Your Name" required />
+            <input type="email" name="Email" placeholder="Your Email" required />
+            <textarea name="Message" rows="6" placeholder="Your Message" required></textarea>
+            <button type="submit" class="btn btn2" id="submitButton">Submit</button>
+          </form>
+          <span id="msg"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Back to Top -->
+  <button id="back-to-top" type="button" aria-label="Back to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <footer class="copyright">
+    <p>Copyright &copy; 2024 <span>Shah Mehrab Hossain</span>. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

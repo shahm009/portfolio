@@ -1,0 +1,1437 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #080808;
+    color: #fff;
+}
+
+#header {
+    width: 100%;
+    height: 100vh;
+    background-image: url(images/background.jpg);
+    background-size: cover;
+    background-position: center;
+}
+
+.container {
+    max-width: 1200px;
+    /* Set a maximum width for the container */
+    padding: 8px 2%;
+    /* Keep the padding for spacing */
+    margin: 0 auto;
+    /* Center the container */
+}
+
+/* General Navigation Styles */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(135deg,  rgba(207, 210, 238, 0.85), rgba(9, 61, 106, 0.7)); /* Gradient background */
+    border-radius: 60px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Slightly larger shadow for depth */
+    transition: background-color 0.3s, box-shadow 0.3s;   
+}
+
+/* Add hover effect for the nav bar */
+nav:hover {
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.7); /* Deeper shadow on hover */
+}
+
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column; /* Stack items vertically */
+        border-radius: 10px; /* Slightly less rounding on mobile */
+        padding: 15px; /* Reduced padding for smaller screens */
+    }
+}
+
+
+/* Logo Styles */
+.logo {
+    width: 150px; /* Set a specific width */
+    height: auto; /* Maintain aspect ratio */
+    transition: transform 0.3s, filter 0.3s; /* Smooth transitions for hover effects */
+}
+
+/* Logo Hover Effect */
+.logo:hover {
+    transform: scale(1.1); /* Slightly enlarge logo on hover */
+    filter: brightness(1.2); /* Brighten the logo */
+}
+
+/* Navigation List Styles */
+nav ul {
+    display: flex; /* Use flex for horizontal layout */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+}
+
+nav ul li {
+    list-style: none;
+    margin: 0 15px; /* Adjust margin for spacing */
+}
+
+/* Link Styles */
+nav ul li a {
+    color: #ffffff; /* Base color */
+    text-decoration: none;
+    font-size: 15px;
+    padding: 10px 10px; /* Add padding for clickability */
+    border-radius: 25px; /* Rounded edges for buttons */
+    position: relative;
+    transition: color 0.3s, background 0.3s; /* Smooth transitions */
+}
+
+/* Underline Effect */
+nav ul li a::after {
+    content: '';
+    width: 0;
+    height: 3px;
+    background: #11427a; /* Underline color */
+    position: absolute;
+    left: 50%;
+    bottom: -6px;
+    transition: width 0.5s ease, left 0.5s ease; /* Add easing for movement */
+}
+
+/* Hover Effects */
+nav ul li a:hover {
+    color: #ecd718; /* Change text color on hover */
+    background: rgba(11, 0, 105, 0.2); /* Light background on hover */
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+    left: 0; /* Center the underline */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column; /* Stack items vertically */
+        align-items: center; /* Center items */
+    }
+
+    nav ul li {
+        margin: 10px 0; /* Space out items vertically */
+    }
+}
+
+
+.header-text {
+    margin-top: 180px;
+    /* Maintain spacing from the top */
+    font-size: 20px;
+    /* Base font size */
+    color: #000001;
+    /* Text color */
+    text-decoration: wavy;
+    /* Wavy underline */
+    text-shadow:
+        -1px -1px 0 rgba(0, 0, 0, 0.5);
+    /* Soft shadow effect for better contrast */
+    -webkit-text-stroke: 1px rgba(105, 101, 111, 0.8);
+    /* Stroke for WebKit browsers */
+}
+
+.header-text h1 {
+    font-size: 30px;
+    /* Larger font size for headings */
+    margin-top: 20px;
+    /* Spacing for headings */
+    color: #341c58;
+    /* Heading color */
+    text-shadow:
+        1px 1px 0 rgba(255, 220, 220, 0.8);
+    /* Subtle shadow for depth */
+    -webkit-text-stroke: .5px rgba(27, 148, 130, 0.375);
+    /* Stroke for WebKit browsers */
+}
+
+.header-text span {
+    font-size: 35px;
+    color: #051364;
+}
+
+
+  /* CSS Animation for each word */
+  .typed-word {
+    opacity: 0; /* Initially hide the word */
+    animation: fadeIn 1s ease forwards;
+  }
+
+  /* Fade In Animation */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Optional styling for the typed-text */
+  #typed-text {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+/********************cursor**********************/
+/* Hide the default cursor */
+body {
+    cursor: none;
+  }
+  
+  /* Custom cursor element */
+  .custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #6b137c;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease-out;
+    z-index: 10000;
+  }
+  
+  /* Glowing effect for cursor */
+  .custom-cursor::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(120, 22, 137, 0.3);
+    transform: translate(-50%, -50%);
+    animation: pulse 1s infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1.5);
+      opacity: 0;
+    }
+  }
+  
+
+/******************music*************************/
+.music-player {
+    display: flex;
+    flex-direction: column;
+    /* Stack track name and controls vertically */
+    align-items: center;
+    /* Center items horizontally */
+    position: fixed;
+    /* Change to fixed positioning */
+    bottom: 20px;
+    /* Position from bottom */
+    left: 20px;
+    /* Position from left */
+    background: rgba(30, 30, 30, 0.8);
+    /* Semi-transparent dark background */
+    border-radius: 10px;
+    /* Rounded corners */
+    padding: 10px;
+    /* Padding inside the music player */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    /* Shadow for depth */
+    z-index: 1000;
+    /* Ensure it's above other elements */
+}
+
+
+.music-info {
+    overflow: hidden;
+    /* Hide overflow */
+}
+
+#track-name {
+    color: #f0f0f0;
+    /* Marquee text color */
+    font-size: 16px;
+    /* Font size */
+    white-space: nowrap;
+    /* Prevent line breaks */
+    padding: 5px 10px;
+    /* Padding around marquee */
+}
+
+.music-controls {
+    display: flex;
+    /* Flex for button alignment */
+    justify-content: center;
+    /* Center controls */
+    margin-top: 5px;
+    /* Space between track name and buttons */
+}
+
+button {
+    background: none;
+    /* Remove background */
+    border: none;
+    /* Remove border */
+    cursor: pointer;
+    /* Pointer cursor */
+    font-size: 24px;
+    /* Icon size */
+    color: #ffffff;
+    /* Icon color */
+    margin: 0 5px;
+    /* Space between buttons */
+    transition: transform 0.3s ease, color 0.3s ease;
+    /* Transition effect */
+}
+
+button:hover {
+    transform: scale(1.2);
+    /* Scale up on hover */
+    color: #0e0864;
+    /* Change color on hover */
+}
+
+
+/********************about**********************/
+#about {
+    padding: 80px 20px;
+    color: #c1c1c1;
+    position: relative;
+    overflow: hidden;
+    background: #101010;
+    /* Dark base for better contrast */
+}
+
+#about::before,
+#about::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 3px, transparent 2px);
+    background-size: 80px 80px;
+    opacity: 0.4;
+    animation: moveWaves 12s linear infinite;
+    pointer-events: none;
+}
+
+#about::after {
+    background: radial-gradient(circle, rgba(0, 173, 255, 0.2) 5px, transparent 3px);
+    background-size: 100px 100px;
+    opacity: 0.3;
+    animation-direction: reverse;
+}
+
+@keyframes moveWaves {
+    from {
+        transform: translate(0, 0);
+    }
+
+    to {
+        transform: translate(-80px, -80px);
+    }
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+    /* Keeps content above the background effect */
+}
+
+.about-col-1 {
+    flex-basis: 35%;
+    margin-bottom: 20px;
+    margin-top: -30px;
+    /* Moves the image up */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    animation: floatImage 6s ease-in-out infinite;
+}
+
+.about-col-1 img {
+    width: 85%;
+    border-radius: 15px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5), 0 8px 25px rgba(0, 173, 255, 0.4);
+    transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+    transform: rotate(3deg);
+    /* Adds a slight initial rotation */
+    position: relative;
+}
+
+.about-col-1 img::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    background: linear-gradient(145deg, rgba(0, 0, 0, 0.3), rgba(255, 255, 255, 0.1));
+    z-index: 1;
+    pointer-events: none;
+    transition: opacity 0.4s ease-in-out;
+    opacity: 0;
+    /* Hidden by default */
+}
+
+.about-col-1 img:hover::before {
+    opacity: 1;
+    /* Shows the gradient overlay on hover */
+}
+
+.about-col-1 img:hover {
+    transform: scale(1.1) rotate(0deg);
+    /* Enlarges and straightens the image on hover */
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.7), 0 10px 30px rgba(0, 173, 255, 0.6);
+}
+
+@keyframes floatImage {
+
+    0%,
+    100% {
+        transform: translateY(-5px) rotate(3deg);
+    }
+
+    50% {
+        transform: translateY(5px) rotate(3deg);
+    }
+}
+
+.about-col-2 {
+    flex-basis: 60%;
+    padding: 20px;
+}
+
+.sub-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 10px;
+}
+
+.tab-titles {
+    display: flex;
+    margin: 20px 0 40px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.tab-links {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ababab;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.tab-links:hover,
+.tab-links.active-link {
+    color: #00adff;
+    /* Color change on hover */
+    transform: translateX(5px);
+    /* Slight slide to the right on hover */
+}
+
+.tab-links::after {
+    content: '';
+    width: 0;
+    height: 3px;
+    background: #00adff;
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    transition: width 0.3s ease-in-out;
+}
+
+.tab-links:hover::after,
+.tab-links.active-link::after {
+    width: 100%;
+    /* Underline expands on hover */
+}
+
+.tab-contents ul li {
+    list-style: none;
+    margin: 10px 0;
+    line-height: 1.6;
+    color: #ababab;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.tab-contents ul li:hover {
+    color: #ffffff;
+    transform: translateX(5px);
+    /* Slight shift right on hover */
+}
+
+.tab-contents ul li span {
+    color: #3d0d90;
+    font-size: 0.875rem;
+    transition: color 0.3s ease-in-out;
+}
+
+.tab-contents ul li span:hover {
+    color: #00adff;
+    /* Color change for emphasized text on hover */
+}
+
+.tab-contents {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.tab-contents.active-tab {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+
+    .about-col-1,
+    .about-col-2 {
+        flex-basis: 100%;
+    }
+
+}
+
+
+/* Style for the skill icons container */
+.skills-icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Style for each skill box */
+  .skill-box {
+    width: 100px; /* Box size */
+    height: 100px;
+    background-color: #00000000; /* #edf1f8 White background for the box */
+    border: 2px solid #cad9f6; /* Subtle border */
+    border-radius: 10px; /* Rounded corners */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(224, 214, 214, 0.1); /* Shadow for depth */
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+  
+  /* Hover effect for skill box */
+  .skill-box:hover {
+    transform: scale(1.1); /* Zoom on hover */
+    border-color: #0024b2; /* Highlight border */
+  }
+  
+  /* Skill icons */
+  .skill-box img {
+    max-width: 70%; /* Fit logo inside the box */
+    max-height: 70%;
+    object-fit: contain;
+  }
+  
+  /* Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    .skill-box {
+      width: 80px; /* Smaller box size */
+      height: 80px;
+    }
+  }
+/**************certifications(about)**************/
+/* General Styles */
+#certifications {
+    max-width: 50%;
+    margin: left;
+    padding: 20px;
+  }
+  
+  #certifications ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  #certifications li {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .responsive-certificate {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #7974c6;
+    border-radius: 5px;
+    box-shadow: 8px 8px 8px rgba(113, 106, 184, 0.171);
+    margin-top: 15px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .responsive-certificate:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Popup Modal Styles */
+  .popup-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  
+  .popup-modal img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  /* Disable scrolling when modal is open */
+  body.no-scroll {
+    overflow: hidden;
+  }
+  
+
+  
+
+/*****************Services*************************/
+#services {
+    padding: 30px 0;
+    background-color: #121212;
+
+    /* Dark background for contrast */
+    .sub-title {
+        text-align: center;
+        /* Center the text */
+        color: #fff;
+        /* Optional: Change color to white for better contrast */
+        margin-bottom: 30px;
+        /* Add some space below the title */
+    }
+}
+
+.services-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 40px;
+    margin-top: 50px;
+}
+
+.services-list div {
+    background: #101115;
+    /* Initial dark background */
+    padding: 40px;
+    font-size: 13px;
+    font-weight: 300;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    /* Subtle shadow for depth */
+    position: relative;
+    /* For hover effect */
+    transition: transform 0.3s, box-shadow 0.3s;
+    /* Transition for hover effects */
+
+}
+
+/* Icon styles */
+.services-list i {
+    font-size: 50px;
+    margin-bottom: 30px;
+    transition: transform 0.3s;
+    /* Transition for icons */
+}
+
+/* Heading styles */
+.services-list div h2 {
+    font-size: 30px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    /* Text shadow for better visibility */
+}
+
+/* Paragraph styles */
+.services-list div p {
+    margin-bottom: 20px;
+    /* Space below the paragraph */
+}
+
+/* Link styles */
+.services-list div a {
+    text-decoration: none;
+    color: #ffcc00;
+    /* Bright color for links */
+    font-size: 12px;
+    margin-top: 20px;
+    display: inline-block;
+    position: relative;
+    /* For the underline effect */
+    transition: color 0.3s;
+    /* Transition for link color */
+}
+
+/* Link hover effect */
+.services-list div a:hover {
+    color: #fff;
+    /* Change color on hover */
+}
+
+/* Underline effect for links */
+.services-list div a:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background: #ffcc00;
+    /* Bright underline */
+    transform: scaleX(0);
+    /* Start hidden */
+    transition: transform 0.3s;
+    /* Transition for underline */
+}
+
+/* Show underline on link hover */
+.services-list div a:hover:before {
+    transform: scaleX(1);
+    /* Show underline on hover */
+}
+
+/* Hover effects and animations */
+.services-list div:hover {
+    background: linear-gradient(45deg, #ff7e5f, #feb47b, #a27bff, #4facfe, #00a2ff, #9d50bb);
+    /* Set background gradient on hover */
+    transform: translateY(-10px) scale(1.05);
+    /* Lift and scale effect */
+    box-shadow: 0 10px 25px rgba(0, 8, 255, 0.5);
+    /* Increase shadow on hover */
+    cursor: pointer;
+    /* Change cursor on hover */
+    position: relative;
+    background-size: 300% 300%;
+    animation: gradientAnimation 4s ease infinite;
+}
+
+.services-list div:hover i {
+    transform: scale(1.1);
+    /* Scale icon on hover */
+}
+
+/* Multi-color gradient animation keyframes */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+
+/****************Portfolio*************************/
+#portfolio {
+    padding: 50px 0;
+    background-color: #121212;
+
+    .sub-title {
+        text-align: center;
+        /* Center the text */
+        color: #fff;
+        /* Optional: Change color to white for better contrast */
+        margin-bottom: 30px;
+        /* Add some space below the title */
+    }
+}
+
+.work-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 40px;
+    margin-top: 50px;
+}
+
+.work {
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.work img {
+    width: 100%;
+    ;
+    border-radius: 10px;
+    display: block;
+    transition: transform 0.5s;
+}
+
+.layer {
+    width: 100%;
+    height: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), #3a17ba);
+    border-radius: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    text-align: center;
+    font-size: 14px;
+    transition: height 0.5s;
+}
+
+.layer h3 {
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.layer a {
+    margin-top: 20px;
+    color: #4b578f;
+    text-decoration: none;
+    font-size: 20px;
+    line-height: 60px;
+    background: #fff;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.work:hover img {
+    transform: scale(1.1);
+}
+
+.work:hover .layer {
+    height: 100%;
+}
+
+.btn {
+    display: block;
+    margin: 50px auto;
+    width: fit-content;
+    width: fit-content;
+    border: 1px solid #021375;
+    padding: 10px 50px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    transition: background 0.5s;
+}
+
+.btn:hover {
+    background: #320d84;
+}
+
+
+
+
+  /* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 1000;
+}
+
+.modal-content {
+  position: relative;
+  background-color: #ccd7ee;
+  margin: 50px auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 900px;
+  height: 90%; /* Fix modal height */
+  overflow-y: auto; /* Allow content to scroll */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: #333; /* Ensure text is visible */
+  text-align: center;
+}
+  .modal-content h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .modal-content p {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 10px 0 20px;
+  }
+  
+  .modal-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-top: 20px; /* Add spacing between text and image */
+  }
+
+  .modal-content h3 {
+    font-size: 1.5rem;
+    margin-top: 20px;
+    color: #444; /* Secondary text color */
+  }
+  
+  .modal-content ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 10px 0;
+    text-align: left; /* Align bullets to the left */
+  }
+  
+  .modal-content ul li {
+    font-size: 1rem;
+    margin-bottom: 5px;
+    color: #333; /* Primary text color */
+  }
+  
+  .modal-section p {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-top: 10px;
+    color: #333;
+  }
+  
+  .modal-section {
+    margin-top: 20px;
+  }
+  
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+  }
+  .close:hover {
+    color: #000;
+  }
+
+  /* Prevent background scrolling */
+  body.modal-open {
+    overflow: hidden !important;
+  }
+/************************Contact**************************/
+#contact {
+    display: flex;
+    /* Use flexbox for centering */
+    justify-content: center;
+    /* Center items horizontally */
+    align-items: center;
+    /* Center items vertically */
+    flex-direction: column;
+    /* Stack items vertically */
+    padding: 40px 20px;
+    /* Add padding for spacing */
+    background-color: #12121c;
+    /* Dark background for contrast */
+    border-radius: 10px;
+    /* Rounded corners for a softer look */
+    box-shadow: 0 4px 15px rgba(242, 226, 226, 0.5);
+    /* Subtle shadow for depth */
+    margin: 30px;
+    /* Margin for spacing from surrounding elements */
+    transition: transform 0.3s;
+    /* Transition for scaling effect on hover */
+}
+
+/* Hover effect */
+#contact:hover {
+    transform: scale(1.02);
+    /* Slight scale up on hover */
+    box-shadow: 0 4px 15px rgba(23, 87, 235, 0.5);
+}
+
+.contact-left,
+.contact-right {
+    flex: 1;
+    min-width: 300px;
+    margin: 10px;
+}
+
+.contact-left p {
+    margin-top: 30px;
+}
+
+.contact-left p i {
+    color: #3a17ba;
+    margin-right: 15px;
+    font-size: 25px;
+}
+
+.social-icons {
+    margin-top: 30px;
+}
+
+.social-icons a {
+    text-decoration: none;
+    font-size: 20px;
+    margin-right: 10px;
+    color: #ababab;
+    display: inline-block;
+    transition: transform 0.5s;
+}
+
+.social-icons a:hover {
+    color: #3a17ba;
+    transform: translateY(-5px);
+}
+
+.btn.btn2 {
+    display: inline-block;
+    background: #021375;
+}
+
+
+.btn:hover,
+.btn2:hover {
+    background: linear-gradient(45deg, #ff7e5f, #feb47b, #a27bff, #4facfe, #00a2ff, #9d50bb);
+    background-size: 300% 300%;
+    animation: gradientAnimation 4s ease infinite;
+    cursor: pointer;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+.contact-right form {
+    width: 100%;
+}
+
+form input,
+form textarea {
+    width: 100%;
+    border: 0;
+    outline: none;
+    background: #29336f;
+    padding: 10px;
+    margin: 15px 0;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 6px;
+}
+
+form button {
+    width: 100%;
+}
+
+form .btn2 {
+    padding: 14px 60px;
+    font-size: 18px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .contact-left,
+    .contact-right {
+        margin: auto;
+    }
+
+    form button {
+        width: auto;
+    }
+}
+
+/************back to top*************/
+#back-to-top {
+    position: fixed;
+    bottom: 30px; /* Distance from the bottom */
+    right: 30px; /* Distance from the right */
+    background: linear-gradient(135deg, #4e8cff, #0e6bc2); /* Gradient background */
+    border: none; /* Remove default border */
+    border-radius: 50%; /* Make it circular */
+    width: 50px; /* Fixed width */
+    height: 50px; /* Fixed height */
+    cursor: pointer; /* Cursor changes to pointer on hover */
+    z-index: 1000; /* Ensure it's above other elements */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+    transition: transform 0.3s, background 0.3s; /* Smooth transitions for hover effect */
+}
+
+#back-to-top i {
+    font-size: 20px; /* Adjust icon size */
+    color: white; /* Icon color */
+    display: inline-block; /* Keep the icon inline */
+}
+
+/* Create an arrow effect */
+#back-to-top::before {
+    content: '';
+    position: absolute;
+    bottom: 55px; /* Position above the button */
+    right: 12px; /* Center the arrow */
+    border-left: 10px solid transparent; /* Left triangle */
+    border-right: 10px solid transparent; /* Right triangle */
+    border-bottom: 15px solid rgba(255, 255, 255, 0.8); /* Arrow color */
+    transform: translateX(-50%); /* Center the arrow */
+}
+
+/* Hover effect */
+#back-to-top:hover {
+    transform: scale(1.1); /* Slightly enlarge the button */
+    background: linear-gradient(135deg, #66aaff, #0079a5); /* Change gradient on hover */
+}
+
+/* Active state */
+#back-to-top:active {
+    transform: scale(0.95); /* Shrink slightly when clicked */
+}
+
+/************************Copyright************************/
+
+.copyright {
+    width: 100%;
+    text-align: center;
+    padding: 15px;
+    /* Increased padding for better spacing */
+    background: #1a1a1a;
+    /* Slightly lighter background for contrast */
+    color: #f0f0f0;
+    /* Light color for text for better readability */
+    font-weight: 600;
+    margin-top: 30px;
+    border-top: 2px solid #7709a3;
+    /* Add a border on top for visual separation */
+    box-shadow: 0 -2px 10px rgba(232, 232, 232, 0.5);
+    /* Subtle shadow for depth */
+    transition: background 0.3s;
+    /* Smooth transition for hover effect */
+}
+
+/* Hover effect */
+.copyright:hover {
+    background: #0c0c0c;
+    /* Change background color on hover */
+    color: #41195c;
+    /* Change text color on hover */
+}
+
+
+/* css for small screen//////////////////*/
+
+nav .fa-solid {
+    display: none;
+}
+
+@media only screen and (max-width: 600px) {
+    #header {
+        background-image: url(images/background1.jpg);
+    }
+
+    .header-text {
+        margin-top: 100%;
+        font-size: 16px;
+    }
+
+    .header-text h1 {
+        font-size: 30px;
+    }
+
+    nav .fa-solid {
+        display: block;
+        font-size: 25px;
+    }
+
+    nav ul {
+        background: #021375;
+        position: fixed;
+        top: 0;
+        right: -200px;
+        width: 200px;
+        height: 100vh;
+        padding-top: 50px;
+        z-index: 2;
+        transition: right 0.5s;
+    }
+
+    nav ul li {
+        display: block;
+        margin: 25px;
+    }
+
+    nav ul .fa-solid {
+        position: absolute;
+        top: 25px;
+        left: 25px;
+        cursor: pointer;
+    }
+
+    .sub-title {
+        font-size: 40px;
+    }
+
+    .about-col-1,
+    .about-col-2 {
+        flex-basis: 100%;
+    }
+
+    .about-col-1 {
+        margin-bottom: 30px;
+    }
+
+    .about-col-2 {
+        font-size: 14px;
+    }
+
+    .tab-links {
+        font-size: 16px;
+        margin-right: 20px;
+    }
+
+    .contact-left,
+    .contact-right {
+        flex-basis: 100%;
+    }
+
+    .copyright {
+        font-size: 12px;
+    }
+}
+
+
+
+/******************animation*************************/
+/* Basic styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+.preloader-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.dots {
+    display: flex;
+    justify-content: space-around;
+    width: 80px;
+    margin-bottom: 20px;
+}
+
+.dot {
+    width: 15px;
+    height: 15px;
+    background-color: #fff;
+    border-radius: 50%;
+    animation: bounce 1.5s infinite;
+}
+
+.dot:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-30px);
+    }
+
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+.wave {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(45deg, #1502a6, transparent);
+    position: relative;
+    border-radius: 50%;
+    animation: wave 2s infinite;
+}
+
+.wave::before,
+.wave::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border-radius: 50%;
+    animation: wave-reverse 2s infinite;
+}
+
+.wave::before {
+    animation-delay: -1s;
+}
+
+@keyframes wave {
+    0% {
+        transform: scale(0.8);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(0.8);
+        opacity: 1;
+    }
+}
+
+@keyframes wave-reverse {
+    0% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(0.8);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* Hide the preloader after the delay */
+body.loading #preloader {
+    opacity: 1;
+    visibility: visible;
+}
+
+body.loaded #preloader {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Ensure the main content is visible after loading */
+body.loaded {
+    overflow: auto;
+}
