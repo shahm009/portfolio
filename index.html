@@ -1,429 +1,566 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <meta name="description"
-    content="Portfolio of Shah Mehrab Hossain, a skilled computer science and engineering student specializing in web development, app development, and embedded systems." />
-
+  <meta name="description" content="Portfolio of Shah Mehrab Hossain — Embedded Systems, Robotics, IoT, Web." />
   <title>Shah Mehrab Hossain</title>
+  <link rel="icon" href="images/S.png" type="image/png">
 
-  <link rel="icon" href="images/S.png" type="image/png" />
-  <link rel="stylesheet" href="style.css" />
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ["Inter", "ui-sans-serif", "system-ui"] },
+          boxShadow: {
+            soft: "0 20px 60px rgba(0,0,0,0.18)",
+          },
+          keyframes: {
+            floaty: { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-10px)" } },
+            shimmer: { "0%": { backgroundPosition: "0% 50%" }, "50%": { backgroundPosition: "100% 50%" }, "100%": { backgroundPosition: "0% 50%" } }
+          },
+          animation: {
+            floaty: "floaty 6s ease-in-out infinite",
+            shimmer: "shimmer 6s ease infinite"
+          }
+        }
+      },
+      darkMode: "class",
+    };
+  </script>
+
+  <!-- Icons -->
   <script src="https://kit.fontawesome.com/d36ce842ae.js" crossorigin="anonymous"></script>
 
-  <audio id="typing-sound" src="src/typesound.mp3" preload="auto"></audio>
+  <style>
+    /* Smooth focus ring for keyboard users */
+    :focus-visible { outline: 3px solid rgba(99,102,241,.7); outline-offset: 3px; }
+
+    /* Prevent layout shift when modal opens */
+    .no-scroll { overflow: hidden; }
+
+    /* Subtle animated gradient background */
+    .hero-gradient {
+      background: linear-gradient(120deg, rgba(99,102,241,.20), rgba(59,130,246,.18), rgba(168,85,247,.16));
+      background-size: 200% 200%;
+    }
+
+    /* Optional: reduce motion support */
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    }
+  </style>
 </head>
 
-<body class="loading">
-  <!-- Custom Cursor (desktop only) -->
-  <div class="custom-cursor" id="customCursor" aria-hidden="true"></div>
-
-  <!-- ===================== PRELOADER ===================== -->
-  <div id="preloader" aria-hidden="true">
-    <div class="preloader-inner">
-      <div class="dots">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-      </div>
-      <div class="wave"></div>
-      <p class="preloader-text">Loading…</p>
-    </div>
+<body class="bg-slate-950 text-slate-100 dark:bg-slate-950 dark:text-slate-100">
+  <!-- Background decoration -->
+  <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute -top-32 -left-24 h-96 w-96 rounded-full bg-indigo-500/15 blur-3xl animate-floaty"></div>
+    <div class="absolute top-24 -right-24 h-[28rem] w-[28rem] rounded-full bg-cyan-500/10 blur-3xl animate-floaty" style="animation-delay: 1.2s;"></div>
+    <div class="absolute -bottom-40 left-1/3 h-[30rem] w-[30rem] rounded-full bg-fuchsia-500/10 blur-3xl animate-floaty" style="animation-delay: 2.2s;"></div>
   </div>
 
-  <!-- ===================== HEADER / HERO ===================== -->
-  <header id="header">
-    <div class="container">
+  <!-- NAV -->
+  <header class="sticky top-0 z-50">
+    <nav class="mx-auto max-w-6xl px-4 py-3">
+      <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-xl shadow-soft">
+        <a href="#home" class="flex items-center gap-3">
+          <img src="images/logo.png" alt="Logo" class="h-10 w-auto rounded-lg">
+          <div class="leading-tight">
+            <p class="text-sm font-semibold tracking-wide">Shah Mehrab</p>
+            <p class="text-xs text-slate-300">Embedded • Robotics • IoT</p>
+          </div>
+        </a>
 
-      <nav>
-        <img src="images/logo.png" class="logo" alt="Logo">
-
-        <ul id="sidemenu" aria-label="Primary navigation">
-          <li><a href="#header" class="nav-link">Home</a></li>
-          <li><a href="#about" class="nav-link">About</a></li>
-          <li><a href="#services" class="nav-link">Services</a></li>
-          <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
-          <li><a href="#contact" class="nav-link">Contact</a></li>
-
-          <li class="nav-actions">
-            <button id="themeToggle" class="icon-btn" type="button" aria-label="Toggle theme">
-              <i class="fa-solid fa-moon" id="themeIcon"></i>
-            </button>
-          </li>
-
-          <i class="fa-solid fa-x nav-close" onclick="closemenu()" aria-hidden="true"></i>
+        <!-- Desktop links -->
+        <ul class="hidden md:flex items-center gap-2" id="navLinks">
+          <li><a class="navItem px-3 py-2 rounded-xl text-sm text-slate-200 hover:bg-white/10" href="#home">Home</a></li>
+          <li><a class="navItem px-3 py-2 rounded-xl text-sm text-slate-200 hover:bg-white/10" href="#about">About</a></li>
+          <li><a class="navItem px-3 py-2 rounded-xl text-sm text-slate-200 hover:bg-white/10" href="#services">Services</a></li>
+          <li><a class="navItem px-3 py-2 rounded-xl text-sm text-slate-200 hover:bg-white/10" href="#projects">Portfolio</a></li>
+          <li><a class="navItem px-3 py-2 rounded-xl text-sm text-slate-200 hover:bg-white/10" href="#contact">Contact</a></li>
         </ul>
 
-        <div class="nav-right">
-          <button id="themeToggleMobile" class="icon-btn icon-btn-mobile" type="button" aria-label="Toggle theme">
-            <i class="fa-solid fa-moon" id="themeIconMobile"></i>
+        <div class="flex items-center gap-2">
+          <!-- Theme toggle -->
+          <button id="themeToggle" class="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm hover:bg-white/10">
+            <span id="themeIcon" class="mr-2">🌙</span><span class="hidden sm:inline">Theme</span>
           </button>
-          <i class="fa-solid fa-bars nav-open" onclick="openmenu()" aria-hidden="true"></i>
-        </div>
-      </nav>
 
-      <div class="hero-grid">
-        <div class="header-text">
-          <p class="hero-kicker">Portfolio • Robotics • Embedded • UI/UX</p>
-          <h1>
-            Hi, I am
-            <span class="name-highlight" id="nameHero">Shah Mehrab Hossain</span>
-            from Bangladesh.
-          </h1>
-
-          <p id="typed-text" data-text="Embedded System Expert • IoT Specialist • Developer"></p>
-
-          <div class="hero-cta">
-            <a class="btn-primary" href="#portfolio">
-              View Projects <i class="fa-solid fa-arrow-right"></i>
-            </a>
-            <a class="btn-secondary" href="#contact">
-              Contact <i class="fa-solid fa-paper-plane"></i>
-            </a>
-          </div>
-        </div>
-
-        <!-- Music Player -->
-        <div class="music-player" role="region" aria-label="Music player">
-          <div class="music-info">
-            <div class="track-scroll" aria-label="Track name">
-              <span id="track-name">Track Name Here</span>
-            </div>
-          </div>
-
-          <div class="music-controls">
-            <button id="prev-button" type="button" aria-label="Previous track">
-              <i class="fa-solid fa-backward"></i>
-            </button>
-
-            <button id="play-pause-button" type="button" aria-label="Play or pause">
-              <i id="play-icon" class="fa-solid fa-play"></i>
-              <i id="pause-icon" class="fa-solid fa-pause" style="display:none;"></i>
-            </button>
-
-            <button id="next-button" type="button" aria-label="Next track">
-              <i class="fa-solid fa-forward"></i>
-            </button>
-          </div>
-
-          <audio id="background-music" loop></audio>
-          <p class="mini-hint">Tip: Use the theme button in the navbar 🌙/☀️</p>
+          <!-- Mobile menu button -->
+          <button id="menuBtn" class="md:hidden rounded-xl border border-white/10 bg-white/5 px-3 py-2 hover:bg-white/10" aria-label="Open menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
         </div>
       </div>
-    </div>
+
+      <!-- Mobile menu -->
+      <div id="mobileMenu" class="mt-3 hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-soft">
+        <div class="flex flex-col p-3">
+          <a class="px-4 py-3 rounded-xl hover:bg-white/10" href="#home">Home</a>
+          <a class="px-4 py-3 rounded-xl hover:bg-white/10" href="#about">About</a>
+          <a class="px-4 py-3 rounded-xl hover:bg-white/10" href="#services">Services</a>
+          <a class="px-4 py-3 rounded-xl hover:bg-white/10" href="#projects">Portfolio</a>
+          <a class="px-4 py-3 rounded-xl hover:bg-white/10" href="#contact">Contact</a>
+        </div>
+      </div>
+    </nav>
   </header>
 
-  <!-- ===================== ABOUT ===================== -->
-  <section id="about">
-    <div class="container">
-      <div class="row">
-        <div class="about-col-1">
-          <img src="images/one.jpg" alt="Portrait of Shah Mehrab Hossain">
-        </div>
-
-        <div class="about-col-2">
-          <h2 class="sub-title">About Me</h2>
-          <p>
-            I am an enthusiastic student of computer science and engineering who is proficient in a number of
-            programming languages, such as Python, Java, C, C++, and JavaScript. My skills also include web creation,
-            where I create dynamic and user-friendly websites using HTML, CSS, and WordPress. Additionally, I have
-            practical expertise with 3D design, 3D printing, and embedded systems, which enables me to smoothly integrate
-            hardware and software. I also have excellent graphic design abilities, which allow me to create designs that
-            are both aesthetically pleasing and functional.
-            <br><br>
-            I enjoy hackathons, contribute to open-source projects, and experiment with new programming languages and
-            technologies in my free time. I'm passionate about digital art and photography, which inspires me and improves
-            my design work. I firmly believe in lifelong learning and constantly look for chances to broaden my expertise.
+  <!-- HERO -->
+  <section id="home" class="mx-auto max-w-6xl px-4 pt-10 pb-16">
+    <div class="hero-gradient animate-shimmer rounded-3xl border border-white/10 bg-white/5 p-8 md:p-12 backdrop-blur-xl shadow-soft">
+      <div class="grid gap-10 md:grid-cols-2 md:items-center">
+        <div>
+          <p class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-slate-200">
+            <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+            Available for projects & collaborations
           </p>
 
-          <div class="tab-titles" role="tablist" aria-label="About tabs">
-            <button class="tab-links active-link" type="button" data-tab="skills" role="tab" aria-selected="true">Skills</button>
-            <button class="tab-links" type="button" data-tab="experience" role="tab" aria-selected="false">Experience</button>
-            <button class="tab-links" type="button" data-tab="education" role="tab" aria-selected="false">Education</button>
-            <button class="tab-links" type="button" data-tab="certifications" role="tab" aria-selected="false">Certifications</button>
+          <h1 class="mt-6 text-3xl md:text-5xl font-extrabold leading-tight">
+            Hi, I’m <span class="bg-gradient-to-r from-cyan-300 to-indigo-300 bg-clip-text text-transparent">Shah Mehrab Hossain</span>
+            <span class="block text-slate-300 font-semibold mt-2 text-lg md:text-xl">from Bangladesh</span>
+          </h1>
+
+          <p class="mt-5 text-slate-200/90 text-base md:text-lg leading-relaxed">
+            I build <span class="text-white font-semibold">embedded systems</span>, <span class="text-white font-semibold">robotics prototypes</span>,
+            and <span class="text-white font-semibold">IoT solutions</span> — plus clean web experiences.
+          </p>
+
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="#projects" class="rounded-2xl bg-white text-slate-950 px-5 py-3 font-semibold hover:opacity-90">
+              View Portfolio <i class="fa-solid fa-arrow-right ml-2"></i>
+            </a>
+            <a href="#contact" class="rounded-2xl border border-white/15 bg-white/5 px-5 py-3 font-semibold hover:bg-white/10">
+              Contact Me
+            </a>
+            <a href="file/shahmehrab.pdf" download class="rounded-2xl border border-white/15 bg-white/5 px-5 py-3 font-semibold hover:bg-white/10">
+              Download CV <i class="fa-solid fa-download ml-2"></i>
+            </a>
           </div>
 
-          <div class="tab-contents active-tab" id="skills" role="tabpanel">
-            <ul class="skills-icons">
-              <li title="C"><div class="skill-box"><img src="images/skills/c-logo.png" alt="C Logo"></div></li>
-              <li title="C++"><div class="skill-box"><img src="images/skills/cpp-logo.png" alt="C++ Logo"></div></li>
-              <li title="Python"><div class="skill-box"><img src="images/skills/python-logo.png" alt="Python Logo"></div></li>
-              <li title="Java"><div class="skill-box"><img src="images/skills/java-logo.png" alt="Java Logo"></div></li>
-              <li title="JavaScript"><div class="skill-box"><img src="images/skills/javascript-logo.png" alt="JavaScript Logo"></div></li>
-              <li title="Dart"><div class="skill-box"><img src="images/skills/dart-logo.png" alt="Dart Logo"></div></li>
-              <li title="MySQL"><div class="skill-box"><img src="images/skills/mysql-logo.png" alt="MySQL Logo"></div></li>
-              <li title="PHP"><div class="skill-box"><img src="images/skills/php-logo.png" alt="PHP Logo"></div></li>
-              <li title="VS Code"><div class="skill-box"><img src="images/skills/vscode-logo.png" alt="VS Code Logo"></div></li>
-              <li title="ROS2"><div class="skill-box"><img src="images/skills/ros2-logo.png" alt="ROS2 Logo"></div></li>
-              <li title="Robotics"><div class="skill-box"><img src="images/skills/robotics-logo.png" alt="Robotics Logo"></div></li>
-              <li title="IoT"><div class="skill-box"><img src="images/skills/iot-logo.png" alt="IoT Logo"></div></li>
-              <li title="Embedded Systems"><div class="skill-box"><img src="images/skills/embedded-logo.png" alt="Embedded Systems Logo"></div></li>
-              <li title="Arduino"><div class="skill-box"><img src="images/skills/arduino-logo.png" alt="Arduino Logo"></div></li>
-              <li title="GitHub"><div class="skill-box"><img src="images/skills/github-logo.png" alt="GitHub Logo"></div></li>
-              <li title="Blender"><div class="skill-box"><img src="images/skills/blender-logo.png" alt="Blender Logo"></div></li>
-              <li title="Fusion 360"><div class="skill-box"><img src="images/skills/fusion360-logo.png" alt="Fusion 360 Logo"></div></li>
-              <li title="SolidWorks"><div class="skill-box"><img src="images/skills/solidworks-logo.png" alt="SolidWorks Logo"></div></li>
-              <li title="UI/UX Design"><div class="skill-box"><img src="images/skills/uiux-logo.png" alt="UI/UX Design Logo"></div></li>
-              <li title="WordPress"><div class="skill-box"><img src="images/skills/wordpress-logo.png" alt="WordPress Logo"></div></li>
-              <li title="Photoshop"><div class="skill-box"><img src="images/skills/photoshop-logo.png" alt="Photoshop Logo"></div></li>
-              <li title="Illustrator"><div class="skill-box"><img src="images/skills/illustrator-logo.png" alt="Illustrator Logo"></div></li>
-              <li title="Premiere Pro"><div class="skill-box"><img src="images/skills/premiere-logo.png" alt="Premiere Pro Logo"></div></li>
-            </ul>
+          <!-- Role tags -->
+          <div class="mt-7 flex flex-wrap gap-2">
+            <span class="rounded-full bg-white/5 px-3 py-2 text-xs text-slate-200 border border-white/10">Embedded Systems</span>
+            <span class="rounded-full bg-white/5 px-3 py-2 text-xs text-slate-200 border border-white/10">Robotics</span>
+            <span class="rounded-full bg-white/5 px-3 py-2 text-xs text-slate-200 border border-white/10">ROS2</span>
+            <span class="rounded-full bg-white/5 px-3 py-2 text-xs text-slate-200 border border-white/10">Computer Vision</span>
           </div>
+        </div>
 
-          <div class="tab-contents" id="experience" role="tabpanel">
-            <ul>
-              <li><span>2023 - Current</span><br>Electrical and Software Team Lead at UIU Mars Rover Team.</li>
-              <li><span>2022 - 2023</span><br>Mechanical and Fabrication Team Member at UIU Mars Rover Team.</li>
-              <li><span>2021 - Current</span><br>Designing web and app interfaces at XTZ.</li>
-              <li><span>URC 2024</span><br>Preparing for the University Rover Challenge 2024.</li>
-            </ul>
-          </div>
-
-          <div class="tab-contents" id="education" role="tabpanel">
-            <ul>
-              <li><span>2022 - Current</span><br>BSc in CSE at United International University (UIU)</li>
-              <li><span>2020</span><br>Completed HSC from Brindaban Govt. College</li>
-              <li><span>2018</span><br>Completed SSC from Habiganj Govt. High School</li>
-            </ul>
-          </div>
-
-          <div class="tab-contents" id="certifications" role="tabpanel">
-            <ul class="cert-list">
-              <li>
-                <span>2023</span><br>
-                <b>URC 2023</b><br>
-                <img src="images/Cerificates/urc23.jpg" alt="URC 2023 Certificate"
-                  class="responsive-certificate cert-open">
-              </li>
-              <li>
-                <span>2023</span><br>
-                <b>aRC 2023</b><br>
-                <img src="images/Cerificates/arc23.jpg" alt="aRC 2023 Certificate"
-                  class="responsive-certificate cert-open">
-              </li>
-              <li>
-                <span>2024</span><br>
-                <b>URC 2024</b><br>
-                <img src="images/Cerificates/urc24.jpg" alt="URC 2024 Certificate"
-                  class="responsive-certificate cert-open">
-              </li>
-            </ul>
-
-            <!-- Certificate Popup -->
-            <div id="popup-modal" class="popup-modal" role="dialog" aria-modal="true" aria-label="Certificate image">
-              <button class="close-btn" id="certClose" type="button" aria-label="Close certificate">&times;</button>
-              <img id="popup-image" src="" alt="Certificate enlarged">
+        <div class="relative">
+          <div class="absolute -inset-4 rounded-3xl bg-gradient-to-r from-indigo-500/20 to-cyan-500/20 blur-2xl"></div>
+          <div class="relative rounded-3xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
+            <img src="images/one.jpg" alt="Profile photo" class="w-full rounded-2xl object-cover">
+            <div class="mt-4 grid grid-cols-3 gap-3 text-center">
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-3">
+                <p class="text-xl font-extrabold">3+</p>
+                <p class="text-xs text-slate-300">Rover events</p>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-3">
+                <p class="text-xl font-extrabold">10+</p>
+                <p class="text-xs text-slate-300">Projects</p>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-3">
+                <p class="text-xl font-extrabold">CSE</p>
+                <p class="text-xs text-slate-300">UIU Student</p>
+              </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== SERVICES ===================== -->
-  <section id="services">
-    <div class="container">
-      <h2 class="sub-title center">My Services</h2>
+  <!-- ABOUT -->
+  <section id="about" class="mx-auto max-w-6xl px-4 py-14">
+    <div class="grid gap-10 md:grid-cols-2 md:items-start">
+      <div class="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur-xl shadow-soft">
+        <h2 class="text-2xl md:text-3xl font-extrabold">About Me</h2>
+        <p class="mt-4 text-slate-200/90 leading-relaxed">
+          I’m a Computer Science & Engineering student focused on <b>embedded systems</b>, <b>robotics</b>, and <b>IoT</b>.
+          I enjoy integrating hardware + software, building prototypes, and presenting clean, professional interfaces.
+        </p>
 
-      <div class="services-list">
-        <div class="service-item">
-          <i class="fa-solid fa-code"></i>
-          <h3>Web Design</h3>
-          <p>Responsive, user-friendly websites with modern aesthetics and performance.</p>
-          <a href="#contact">Learn more</a>
+        <div class="mt-6 grid grid-cols-2 gap-3">
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <p class="text-sm text-slate-300">Primary</p>
+            <p class="font-semibold mt-1">Embedded + Robotics</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <p class="text-sm text-slate-300">Also</p>
+            <p class="font-semibold mt-1">UI/UX + Web</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <p class="text-sm text-slate-300">Tools</p>
+            <p class="font-semibold mt-1">ROS2, OpenCV, Arduino</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <p class="text-sm text-slate-300">Location</p>
+            <p class="font-semibold mt-1">Bangladesh</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur-xl shadow-soft">
+        <div class="flex items-center justify-between gap-3">
+          <h3 class="text-xl font-extrabold">Skills</h3>
+          <div class="flex gap-2">
+            <button class="skillFilter px-3 py-2 text-xs rounded-xl border border-white/10 bg-white/5 hover:bg-white/10" data-filter="all">All</button>
+            <button class="skillFilter px-3 py-2 text-xs rounded-xl border border-white/10 bg-white/5 hover:bg-white/10" data-filter="dev">Dev</button>
+            <button class="skillFilter px-3 py-2 text-xs rounded-xl border border-white/10 bg-white/5 hover:bg-white/10" data-filter="robotics">Robotics</button>
+            <button class="skillFilter px-3 py-2 text-xs rounded-xl border border-white/10 bg-white/5 hover:bg-white/10" data-filter="design">Design</button>
+          </div>
         </div>
 
-        <div class="service-item">
-          <i class="fa-brands fa-app-store"></i>
-          <h3>App Design</h3>
-          <p>Intuitive, engaging mobile UI for Android and iOS.</p>
-          <a href="#contact">Learn more</a>
-        </div>
-
-        <div class="service-item">
-          <i class="fa-solid fa-microchip"></i>
-          <h3>Embedded Systems</h3>
-          <p>Efficient embedded solutions with reliable integration and control.</p>
-          <a href="#contact">Learn more</a>
-        </div>
-
-        <div class="service-item">
-          <i class="fa-solid fa-wifi"></i>
-          <h3>IoT Solutions</h3>
-          <p>Connected devices, telemetry dashboards, and automation workflows.</p>
-          <a href="#contact">Learn more</a>
-        </div>
-
-        <div class="service-item">
-          <i class="fa-solid fa-robot"></i>
-          <h3>Robotics</h3>
-          <p>Robotics + IoT for automation and real-world deployment.</p>
-          <a href="#contact">Learn more</a>
-        </div>
-
-        <div class="service-item">
-          <i class="fa-solid fa-draw-polygon"></i>
-          <h3>Graphics Design</h3>
-          <p>Strong visuals for branding, product marketing, and UI kits.</p>
-          <a href="#contact">Learn more</a>
+        <div class="mt-5 grid grid-cols-3 sm:grid-cols-4 gap-3" id="skillsGrid">
+          <!-- Dev -->
+          <div class="skillCard" data-type="dev"><img class="h-10 mx-auto" src="images/skills/python-logo.png" alt="Python"></div>
+          <div class="skillCard" data-type="dev"><img class="h-10 mx-auto" src="images/skills/java-logo.png" alt="Java"></div>
+          <div class="skillCard" data-type="dev"><img class="h-10 mx-auto" src="images/skills/c-logo.png" alt="C"></div>
+          <div class="skillCard" data-type="dev"><img class="h-10 mx-auto" src="images/skills/cpp-logo.png" alt="C++"></div>
+          <div class="skillCard" data-type="dev"><img class="h-10 mx-auto" src="images/skills/javascript-logo.png" alt="JavaScript"></div>
+          <div class="skillCard" data-type="dev"><img class="h-10 mx-auto" src="images/skills/mysql-logo.png" alt="MySQL"></div>
+          <!-- Robotics -->
+          <div class="skillCard" data-type="robotics"><img class="h-10 mx-auto" src="images/skills/ros2-logo.png" alt="ROS2"></div>
+          <div class="skillCard" data-type="robotics"><img class="h-10 mx-auto" src="images/skills/robotics-logo.png" alt="Robotics"></div>
+          <div class="skillCard" data-type="robotics"><img class="h-10 mx-auto" src="images/skills/iot-logo.png" alt="IoT"></div>
+          <div class="skillCard" data-type="robotics"><img class="h-10 mx-auto" src="images/skills/embedded-logo.png" alt="Embedded"></div>
+          <div class="skillCard" data-type="robotics"><img class="h-10 mx-auto" src="images/skills/arduino-logo.png" alt="Arduino"></div>
+          <!-- Design -->
+          <div class="skillCard" data-type="design"><img class="h-10 mx-auto" src="images/skills/photoshop-logo.png" alt="Photoshop"></div>
+          <div class="skillCard" data-type="design"><img class="h-10 mx-auto" src="images/skills/illustrator-logo.png" alt="Illustrator"></div>
+          <div class="skillCard" data-type="design"><img class="h-10 mx-auto" src="images/skills/uiux-logo.png" alt="UIUX"></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== PORTFOLIO ===================== -->
-  <section id="portfolio">
-    <div class="container">
-      <h2 class="sub-title center">My Work</h2>
+  <!-- SERVICES -->
+  <section id="services" class="mx-auto max-w-6xl px-4 py-14">
+    <div class="flex items-end justify-between gap-6 flex-wrap">
+      <div>
+        <h2 class="text-2xl md:text-3xl font-extrabold">Services</h2>
+        <p class="mt-2 text-slate-300">Clean, modern work — engineered for performance.</p>
+      </div>
+    </div>
 
-      <div class="work-list" id="work-list">
-        <div class="work">
-          <img src="images/work/AuTax.png" alt="AuTax Project">
-          <div class="layer">
-            <h3>AuTax: A self-driving taxi</h3>
-            <p>Autonomous navigation, perception, and ROS stack.</p>
-            <a href="#" class="open-modal" data-modal="modal-auTax" aria-label="Open AuTax modal">
-              <i class="fa-solid fa-up-right-from-square"></i>
-            </a>
-          </div>
+    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <!-- Card -->
+      <div class="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl hover:bg-white/10 transition">
+        <div class="flex items-center gap-3">
+          <div class="h-11 w-11 rounded-2xl bg-indigo-500/20 grid place-items-center"><i class="fa-solid fa-code"></i></div>
+          <h3 class="font-bold text-lg">Web Design</h3>
         </div>
-
-        <div class="work">
-          <img src="images/work/work-1.png" alt="Social Media App">
-          <div class="layer">
-            <h3>Social Media App</h3>
-            <p>Real-time communication & community features.</p>
-            <a href="#" class="open-modal" data-modal="modal-social" aria-label="Open Social App modal">
-              <i class="fa-solid fa-up-right-from-square"></i>
-            </a>
-          </div>
-        </div>
-
-        <div class="work">
-          <img src="images/work/work-2.png" alt="Music App">
-          <div class="layer">
-            <h3>Music App</h3>
-            <p>Playlists, recommendations & smooth streaming.</p>
-            <a href="#" class="open-modal" data-modal="modal-music" aria-label="Open Music App modal">
-              <i class="fa-solid fa-up-right-from-square"></i>
-            </a>
-          </div>
-        </div>
+        <p class="mt-3 text-slate-300">Responsive, fast, modern UI with clear UX.</p>
       </div>
 
-      <a href="#" class="btn" id="load-more">See more</a>
+      <div class="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl hover:bg-white/10 transition">
+        <div class="flex items-center gap-3">
+          <div class="h-11 w-11 rounded-2xl bg-cyan-500/20 grid place-items-center"><i class="fa-solid fa-microchip"></i></div>
+          <h3 class="font-bold text-lg">Embedded Systems</h3>
+        </div>
+        <p class="mt-3 text-slate-300">Reliable microcontroller + sensor integration projects.</p>
+      </div>
+
+      <div class="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl hover:bg-white/10 transition">
+        <div class="flex items-center gap-3">
+          <div class="h-11 w-11 rounded-2xl bg-fuchsia-500/20 grid place-items-center"><i class="fa-solid fa-robot"></i></div>
+          <h3 class="font-bold text-lg">Robotics</h3>
+        </div>
+        <p class="mt-3 text-slate-300">ROS2, control systems, sensor-driven autonomy.</p>
+      </div>
     </div>
   </section>
 
-  <!-- ===================== MODALS ===================== -->
-  <div id="modal-auTax" class="modal" role="dialog" aria-modal="true" aria-label="AuTax modal">
-    <div class="modal-content" tabindex="-1">
-      <button class="close" type="button" aria-label="Close modal">&times;</button>
-      <h2>AuTax: A Self-Driving Taxi</h2>
-      <p>Autonomous taxi capable of navigating complex urban environments with ROS + CV.</p>
-
-      <div class="video-container">
-        <iframe
-          src="https://www.youtube.com/embed/TixH0lE5oqY?si=EymC74W6o0SB6848"
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen></iframe>
+  <!-- PROJECTS -->
+  <section id="projects" class="mx-auto max-w-6xl px-4 py-14">
+    <div class="flex items-end justify-between gap-6 flex-wrap">
+      <div>
+        <h2 class="text-2xl md:text-3xl font-extrabold">Portfolio</h2>
+        <p class="mt-2 text-slate-300">Tap a project to see details.</p>
       </div>
-
-      <div class="modal-section">
-        <h3>Features</h3>
-        <ul>
-          <li>Autonomous navigation in city roads.</li>
-          <li>Obstacle detection and avoidance.</li>
-          <li>Booking-ready design concept.</li>
-          <li>Route optimization and updates.</li>
-        </ul>
-      </div>
-
-      <div class="modal-section">
-        <h3>Technologies Used</h3>
-        <ul>
-          <li>OpenCV + YOLO (detection).</li>
-          <li>ROS2 (robot comms + nodes).</li>
-          <li>LiDAR + Ultrasonic sensors.</li>
-          <li>Python + C++.</li>
-        </ul>
-      </div>
-
-      <img src="images/work/AuTax.png" alt="AuTax Full View">
     </div>
-  </div>
 
-  <div id="modal-social" class="modal" role="dialog" aria-modal="true" aria-label="Social App modal">
-    <div class="modal-content" tabindex="-1">
-      <button class="close" type="button" aria-label="Close modal">&times;</button>
-      <h2>Social Media App</h2>
-      <p>Connect globally and communicate in real-time.</p>
-      <img src="images/work/work-1.png" alt="Social Media App Full View">
-    </div>
-  </div>
-
-  <div id="modal-music" class="modal" role="dialog" aria-modal="true" aria-label="Music App modal">
-    <div class="modal-content" tabindex="-1">
-      <button class="close" type="button" aria-label="Close modal">&times;</button>
-      <h2>Music App</h2>
-      <p>Seamless streaming, curated playlists, and daily recommendations.</p>
-      <img src="images/work/work-2.png" alt="Music App Full View">
-    </div>
-  </div>
-
-  <!-- ===================== CONTACT ===================== -->
-  <section id="contact">
-    <div class="container">
-      <div class="row contact-wrap">
-        <div class="contact-left">
-          <h2 class="sub-title">Contact Me</h2>
-
-          <p><a href="mailto:admin@shahmehrab.xyz"><i class="fa-solid fa-paper-plane"></i>admin@shahmehrab.xyz</a></p>
-          <p><a href="tel:+8801777961826"><i class="fa-solid fa-phone"></i>+8801777961826</a></p>
-
-          <div class="social-icons">
-            <a href="https://www.facebook.com/shah.mehrab.hossain/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-            <a href="https://twitter.com/" target="_blank" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="https://www.instagram.com/smh.009/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/shah-mehrab-hossain-a6a1691ba/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-            <a href="https://github.com/shahm009" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
-            <a href="https://stackoverflow.com/users/20249958/shah009" target="_blank" aria-label="StackOverflow"><i class="fab fa-stack-overflow"></i></a>
+    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <!-- Project Card -->
+      <button class="projectCard group text-left rounded-3xl overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 transition"
+        data-title="AuTax: A Self-Driving Taxi"
+        data-desc="Autonomous navigation prototype using Computer Vision + ROS2. Built as a cost-effective learning platform."
+        data-img="images/work/AuTax.png"
+        data-tags="ROS2,OpenCV,YOLO,Robotics">
+        <div class="aspect-[16/10] overflow-hidden">
+          <img src="images/work/AuTax.png" alt="AuTax" class="h-full w-full object-cover group-hover:scale-105 transition duration-500">
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-lg">AuTax: A Self-Driving Taxi</h3>
+          <p class="mt-2 text-slate-300 text-sm line-clamp-2">Autonomous navigation + obstacle detection with ROS2.</p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200">ROS2</span>
+            <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200">OpenCV</span>
           </div>
+        </div>
+      </button>
 
-          <a href="file/shahmehrab.pdf" class="btn btn2" download>
-            <i class="fa-solid fa-download"></i> Download CV
+      <button class="projectCard group text-left rounded-3xl overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 transition"
+        data-title="Social Media App UI"
+        data-desc="Modern social UI concept with responsive layout and clean UX patterns."
+        data-img="images/work/work-1.png"
+        data-tags="UI/UX,Web,Design">
+        <div class="aspect-[16/10] overflow-hidden">
+          <img src="images/work/work-1.png" alt="Social App" class="h-full w-full object-cover group-hover:scale-105 transition duration-500">
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-lg">Social Media App</h3>
+          <p class="mt-2 text-slate-300 text-sm line-clamp-2">Clean UI focused on engagement and clarity.</p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200">UI/UX</span>
+          </div>
+        </div>
+      </button>
+
+      <button class="projectCard group text-left rounded-3xl overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 transition"
+        data-title="Music App"
+        data-desc="Streaming app concept with playlist UX and modern visual hierarchy."
+        data-img="images/work/work-2.png"
+        data-tags="UI/UX,Mobile,Design">
+        <div class="aspect-[16/10] overflow-hidden">
+          <img src="images/work/work-2.png" alt="Music App" class="h-full w-full object-cover group-hover:scale-105 transition duration-500">
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-lg">Music App</h3>
+          <p class="mt-2 text-slate-300 text-sm line-clamp-2">Simple, fast, beautiful music experience.</p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200">Design</span>
+          </div>
+        </div>
+      </button>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="mx-auto max-w-6xl px-4 py-14">
+    <div class="grid gap-6 md:grid-cols-2">
+      <div class="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur-xl shadow-soft">
+        <h2 class="text-2xl font-extrabold">Contact</h2>
+        <p class="mt-2 text-slate-300">Want to build something? Send a message.</p>
+
+        <div class="mt-6 space-y-3 text-slate-200">
+          <a class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 hover:bg-white/10"
+             href="mailto:admin@shahmehrab.xyz">
+            <i class="fa-solid fa-paper-plane"></i> admin@shahmehrab.xyz
           </a>
-        </div>
 
-        <div class="contact-right">
-          <form name="submit-to-google-sheet">
-            <input type="text" name="Name" placeholder="Your Name" required />
-            <input type="email" name="Email" placeholder="Your Email" required />
-            <textarea name="Message" rows="6" placeholder="Your Message" required></textarea>
-            <button type="submit" class="btn btn2" id="submitButton">Submit</button>
-          </form>
-          <span id="msg"></span>
+          <a class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 hover:bg-white/10"
+             href="tel:+8801777961826">
+            <i class="fa-solid fa-phone"></i> +8801777961826
+          </a>
+
+          <div class="flex flex-wrap gap-2 pt-2">
+            <a class="px-4 py-2 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10" target="_blank" href="https://www.facebook.com/shah.mehrab.hossain/"><i class="fab fa-facebook"></i></a>
+            <a class="px-4 py-2 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10" target="_blank" href="https://www.instagram.com/smh.009/"><i class="fab fa-instagram"></i></a>
+            <a class="px-4 py-2 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10" target="_blank" href="https://www.linkedin.com/in/shah-mehrab-hossain-a6a1691ba/"><i class="fab fa-linkedin"></i></a>
+            <a class="px-4 py-2 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10" target="_blank" href="https://github.com/shahm009"><i class="fab fa-github"></i></a>
+          </div>
         </div>
       </div>
+
+      <div class="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur-xl shadow-soft">
+        <h3 class="text-xl font-extrabold">Send a message</h3>
+
+        <form id="contactForm" class="mt-5 space-y-4">
+          <input required name="Name" placeholder="Your Name"
+            class="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-400 focus:bg-white/10">
+          <input required type="email" name="Email" placeholder="Your Email"
+            class="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-400 focus:bg-white/10">
+          <textarea required name="Message" rows="5" placeholder="Your Message"
+            class="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-400 focus:bg-white/10"></textarea>
+
+          <button type="submit"
+            class="w-full rounded-2xl bg-white px-5 py-3 font-bold text-slate-950 hover:opacity-90">
+            Submit <i class="fa-solid fa-paper-plane ml-2"></i>
+          </button>
+
+          <p id="formMsg" class="text-sm text-slate-300"></p>
+        </form>
+      </div>
     </div>
+
+    <footer class="mt-10 text-center text-sm text-slate-400">
+      © 2026 <span class="text-slate-200 font-semibold">Shah Mehrab Hossain</span>. All rights reserved.
+    </footer>
   </section>
 
-  <!-- Back to Top -->
-  <button id="back-to-top" type="button" aria-label="Back to top">
+  <!-- Back to top -->
+  <button id="backTop" class="fixed bottom-5 right-5 hidden rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-xl hover:bg-white/10">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
-  <footer class="copyright">
-    <p>Copyright &copy; 2024 <span>Shah Mehrab Hossain</span>. All rights reserved.</p>
-  </footer>
+  <!-- MODAL -->
+  <div id="modal" class="fixed inset-0 hidden z-[999]">
+    <div class="absolute inset-0 bg-black/60"></div>
 
-  <script src="script.js"></script>
+    <div class="relative mx-auto mt-10 max-w-3xl px-4">
+      <div class="rounded-3xl border border-white/10 bg-slate-950/90 backdrop-blur-xl shadow-soft overflow-hidden">
+        <div class="flex items-center justify-between p-5 border-b border-white/10">
+          <h3 id="modalTitle" class="text-lg font-extrabold">Project</h3>
+          <button id="modalClose" class="rounded-xl border border-white/10 bg-white/5 px-3 py-2 hover:bg-white/10" aria-label="Close modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <img id="modalImg" src="" alt="" class="w-full max-h-[340px] object-cover">
+
+        <div class="p-6">
+          <p id="modalDesc" class="text-slate-200/90 leading-relaxed"></p>
+          <div id="modalTags" class="mt-4 flex flex-wrap gap-2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script>
+    // THEME TOGGLE (saved)
+    const html = document.documentElement;
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+
+    function setTheme(mode) {
+      if (mode === "light") {
+        html.classList.remove("dark");
+        document.body.classList.remove("bg-slate-950");
+        document.body.classList.add("bg-slate-50", "text-slate-950");
+        localStorage.setItem("theme", "light");
+        themeIcon.textContent = "☀️";
+      } else {
+        html.classList.add("dark");
+        document.body.classList.remove("bg-slate-50", "text-slate-950");
+        document.body.classList.add("bg-slate-950", "text-slate-100");
+        localStorage.setItem("theme", "dark");
+        themeIcon.textContent = "🌙";
+      }
+    }
+
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    setTheme(savedTheme);
+
+    themeToggle.addEventListener("click", () => {
+      const current = localStorage.getItem("theme") || "dark";
+      setTheme(current === "dark" ? "light" : "dark");
+    });
+
+    // MOBILE MENU
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+    menuBtn.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
+    mobileMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => mobileMenu.classList.add("hidden")));
+
+    // ACTIVE NAV (IntersectionObserver)
+    const sections = ["home","about","services","projects","contact"].map(id => document.getElementById(id));
+    const navItems = document.querySelectorAll(".navItem");
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navItems.forEach(a => a.classList.remove("bg-white/10"));
+          const active = document.querySelector(`.navItem[href="#${entry.target.id}"]`);
+          if (active) active.classList.add("bg-white/10");
+        }
+      });
+    }, { threshold: 0.55 });
+
+    sections.forEach(s => s && obs.observe(s));
+
+    // SKILL FILTER
+    const skillBtns = document.querySelectorAll(".skillFilter");
+    const skillCards = document.querySelectorAll(".skillCard");
+    skillCards.forEach(c => c.classList.add("rounded-2xl","border","border-white/10","bg-white/5","p-4","hover:bg-white/10","transition"));
+
+    skillBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const f = btn.dataset.filter;
+        skillBtns.forEach(b => b.classList.remove("bg-white/10"));
+        btn.classList.add("bg-white/10");
+
+        skillCards.forEach(card => {
+          const type = card.dataset.type;
+          card.style.display = (f === "all" || type === f) ? "block" : "none";
+        });
+      });
+    });
+
+    // PROJECT MODAL
+    const modal = document.getElementById("modal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDesc = document.getElementById("modalDesc");
+    const modalImg = document.getElementById("modalImg");
+    const modalTags = document.getElementById("modalTags");
+    const modalClose = document.getElementById("modalClose");
+
+    function openModal(data) {
+      modalTitle.textContent = data.title;
+      modalDesc.textContent = data.desc;
+      modalImg.src = data.img;
+      modalImg.alt = data.title;
+
+      modalTags.innerHTML = "";
+      (data.tags || "").split(",").filter(Boolean).forEach(t => {
+        const tag = document.createElement("span");
+        tag.className = "rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200";
+        tag.textContent = t.trim();
+        modalTags.appendChild(tag);
+      });
+
+      modal.classList.remove("hidden");
+      document.body.classList.add("no-scroll");
+    }
+
+    function closeModal() {
+      modal.classList.add("hidden");
+      document.body.classList.remove("no-scroll");
+    }
+
+    document.querySelectorAll(".projectCard").forEach(btn => {
+      btn.addEventListener("click", () => {
+        openModal({
+          title: btn.dataset.title,
+          desc: btn.dataset.desc,
+          img: btn.dataset.img,
+          tags: btn.dataset.tags
+        });
+      });
+    });
+
+    modalClose.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => { if (e.target === modal.firstElementChild) closeModal(); });
+    window.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+
+    // BACK TO TOP
+    const backTop = document.getElementById("backTop");
+    window.addEventListener("scroll", () => {
+      backTop.classList.toggle("hidden", window.scrollY < 400);
+    });
+    backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+    // CONTACT FORM (replace with your Google Script if you want)
+    const contactForm = document.getElementById("contactForm");
+    const formMsg = document.getElementById("formMsg");
+    contactForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      formMsg.textContent = "Message ready ✅ (connect your Google Script endpoint to submit).";
+      contactForm.reset();
+    });
+  </script>
 </body>
 </html>
