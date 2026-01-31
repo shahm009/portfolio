@@ -4,563 +4,1487 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Portfolio of Shah Mehrab Hossain — Embedded Systems, Robotics, IoT, Web." />
+  <meta name="description"
+    content="Portfolio of Shah Mehrab Hossain, a skilled computer science and engineering student specializing in web development, app development, and embedded systems." />
   <title>Shah Mehrab Hossain</title>
-  <link rel="icon" href="images/S.png" type="image/png">
 
-  <!-- Font -->
+  <link rel="icon" href="images/S.png" type="image/png" />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Tailwind config -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ["Inter", "ui-sans-serif", "system-ui"] },
-          boxShadow: {
-            soft: "0 20px 60px rgba(0,0,0,0.18)",
-          },
-          keyframes: {
-            floaty: { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-10px)" } },
-            shimmer: { "0%": { backgroundPosition: "0% 50%" }, "50%": { backgroundPosition: "100% 50%" }, "100%": { backgroundPosition: "0% 50%" } }
-          },
-          animation: {
-            floaty: "floaty 6s ease-in-out infinite",
-            shimmer: "shimmer 6s ease infinite"
-          }
-        }
-      },
-      darkMode: "class",
-    };
-  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
 
   <!-- Icons -->
   <script src="https://kit.fontawesome.com/d36ce842ae.js" crossorigin="anonymous"></script>
 
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: { sans: ["Inter", "ui-sans-serif", "system-ui"] },
+          boxShadow: {
+            soft: "0 28px 90px rgba(2,6,23,.35)",
+            glow: "0 0 0 6px rgba(99,102,241,.20)",
+          },
+          keyframes: {
+            floaty: { "0%,100%": { transform: "translateY(0px)" }, "50%": { transform: "translateY(-10px)" } },
+            fadeUp: { "0%": { opacity: 0, transform: "translateY(12px)" }, "100%": { opacity: 1, transform: "translateY(0)" } },
+            shimmer: { "0%": { backgroundPosition: "0% 50%" }, "50%": { backgroundPosition: "100% 50%" }, "100%": { backgroundPosition: "0% 50%" } },
+            dot: { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-10px)" } },
+          },
+          animation: {
+            floaty: "floaty 7s ease-in-out infinite",
+            fadeUp: "fadeUp .55s ease-out both",
+            shimmer: "shimmer 7s ease infinite",
+            dot: "dot 1s ease-in-out infinite",
+          }
+        }
+      }
+    };
+  </script>
+
   <style>
-    /* Smooth focus ring for keyboard users */
-    :focus-visible { outline: 3px solid rgba(99,102,241,.7); outline-offset: 3px; }
-
-    /* Prevent layout shift when modal opens */
-    .no-scroll { overflow: hidden; }
-
-    /* Subtle animated gradient background */
-    .hero-gradient {
-      background: linear-gradient(120deg, rgba(99,102,241,.20), rgba(59,130,246,.18), rgba(168,85,247,.16));
-      background-size: 200% 200%;
+    /* =========================
+       PROFESSIONAL DESIGN TOKENS
+       ========================= */
+    :root{
+      --accent: 99 102 241; /* indigo-500 */
+      --bgA: 2 6 23;        /* slate-950 */
+      --bgB: 15 23 42;      /* slate-900 */
+      --cardW: 255 255 255;
+      --textW: 226 232 240; /* slate-200 */
+      --muted: 148 163 184; /* slate-400 */
+    }
+    html.light{
+      --bgA: 248 250 252; /* slate-50 */
+      --bgB: 241 245 249; /* slate-100 */
+      --textW: 15 23 42;  /* slate-900 */
+      --muted: 71 85 105; /* slate-600 */
     }
 
-    /* Optional: reduce motion support */
-    @media (prefers-reduced-motion: reduce) {
-      * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    body{
+      background:
+        radial-gradient(900px circle at 18% 10%, rgba(var(--accent), .18), transparent 60%),
+        radial-gradient(900px circle at 85% 30%, rgba(34, 211, 238, .14), transparent 60%),
+        radial-gradient(900px circle at 50% 90%, rgba(236, 72, 153, .10), transparent 55%),
+        linear-gradient(180deg, rgb(var(--bgA)), rgb(var(--bgB)));
+      color: rgb(var(--textW));
     }
+
+    /* Glass */
+    .glass{
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(18px);
+    }
+    html.light .glass{
+      background: rgba(15,23,42,.04);
+      border: 1px solid rgba(15,23,42,.10);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar{ width: 10px; }
+    ::-webkit-scrollbar-thumb{ background: rgba(148,163,184,.25); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover{ background: rgba(148,163,184,.40); }
+
+    /* Selection */
+    ::selection{ background: rgba(var(--accent), .25); }
+
+    /* Lock scroll when modal open */
+    .no-scroll{ overflow: hidden; }
+
+    /* Custom cursor */
+    body.custom-cursor-enabled { cursor: none; }
+    .cursor-dot{
+      position: fixed;
+      top: 0; left: 0;
+      width: 10px; height: 10px;
+      border-radius: 999px;
+      background: rgba(var(--accent), 1);
+      pointer-events: none;
+      transform: translate(-50%,-50%);
+      z-index: 99999;
+      box-shadow: 0 0 25px rgba(var(--accent), .35);
+    }
+    .cursor-ring{
+      position: fixed;
+      top: 0; left: 0;
+      width: 40px; height: 40px;
+      border-radius: 999px;
+      border: 2px solid rgba(var(--accent), .45);
+      pointer-events: none;
+      transform: translate(-50%,-50%);
+      z-index: 99998;
+      transition: width .15s ease, height .15s ease, border-color .15s ease;
+      background: radial-gradient(circle, rgba(var(--accent), .10), transparent 60%);
+    }
+    .cursor-active .cursor-ring{
+      width: 55px; height: 55px;
+      border-color: rgba(var(--accent), .75);
+    }
+
+    /* Preloader */
+    #preloader{
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: rgb(0,0,0);
+      z-index: 999999;
+      transition: opacity .4s ease, visibility .4s ease;
+    }
+    #preloader.hidden{ opacity: 0; visibility: hidden; }
+
+    /* nice focus */
+    :focus-visible{ outline: 3px solid rgba(var(--accent), .4); outline-offset: 4px; border-radius: 14px; }
   </style>
 </head>
 
-<body class="bg-slate-950 text-slate-100 dark:bg-slate-950 dark:text-slate-100">
-  <!-- Background decoration -->
-  <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-    <div class="absolute -top-32 -left-24 h-96 w-96 rounded-full bg-indigo-500/15 blur-3xl animate-floaty"></div>
-    <div class="absolute top-24 -right-24 h-[28rem] w-[28rem] rounded-full bg-cyan-500/10 blur-3xl animate-floaty" style="animation-delay: 1.2s;"></div>
-    <div class="absolute -bottom-40 left-1/3 h-[30rem] w-[30rem] rounded-full bg-fuchsia-500/10 blur-3xl animate-floaty" style="animation-delay: 2.2s;"></div>
+<body class="min-h-screen font-sans">
+  <!-- ================= PRELOADER ================= -->
+  <div id="preloader">
+    <div class="text-center">
+      <div class="mx-auto flex justify-center gap-2">
+        <span class="h-3 w-3 rounded-full bg-white/80 animate-dot"></span>
+        <span class="h-3 w-3 rounded-full bg-white/80 animate-dot" style="animation-delay:.12s"></span>
+        <span class="h-3 w-3 rounded-full bg-white/80 animate-dot" style="animation-delay:.24s"></span>
+      </div>
+      <p class="mt-5 text-white/80 text-sm tracking-widest uppercase">Loading</p>
+      <div class="mt-5 h-1 w-56 rounded-full bg-white/10 overflow-hidden">
+        <div class="h-full w-1/2 bg-gradient-to-r from-indigo-400 via-cyan-300 to-pink-400 animate-shimmer"
+          style="background-size: 250% 250%"></div>
+      </div>
+    </div>
   </div>
 
-  <!-- NAV -->
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" id="cursorDot" hidden></div>
+  <div class="cursor-ring" id="cursorRing" hidden></div>
+
+  <!-- Sounds -->
+  <audio id="typing-sound" src="src/typesound.mp3" preload="auto"></audio>
+  <audio id="nav-hover-sound" src="src/watersplash.mp3" preload="auto"></audio>
+  <audio id="service-hover-sound" src="src/Click.mp3" preload="auto"></audio>
+
+  <!-- ================= DATA (EDIT HERE TO ADD MORE) ================= -->
+  <script>
+    const DATA = {
+      identity: {
+        name: "Shah Mehrab Hossain",
+        location: "Bangladesh",
+        logo: "images/logo.png",
+        heroBg: "images/background.jpg",
+        heroBgMobile: "images/background1.jpg",
+        avatar: "images/one.jpg",
+        cv: "file/shahmehrab.pdf",
+        email: "admin@shahmehrab.xyz",
+        phone: "+8801777961826",
+      },
+
+      typedRoles: ["Embedded System Expert", "IoT Specialist", "Developer"],
+
+      about: {
+        title: "About Me",
+        paragraphs: [
+          "I am an enthusiastic student of computer science and engineering who is proficient in a number of programming languages, such as Python, Java, C, C++, and JavaScript. My skills also include web creation, where I create dynamic and user-friendly websites using HTML, CSS, and WordPress.",
+          "Additionally, I have practical expertise with 3D design, 3D printing, and embedded systems, which enables me to smoothly integrate hardware and software. I also have excellent graphic design abilities, which allow me to create designs that are both aesthetically pleasing and functional.",
+          "I enjoy having fun in hackathons, contribute to open-source projects, and experiment with new programming languages and technologies in my free time. In addition, I'm passionate about digital art and photography, which inspires me and improves my design work. I firmly believe in lifelong learning and constantly look for chances to broaden my expertise in the ever changing tech sector."
+        ],
+        quickStats: [
+          { k: "Focus", v: "Embedded • Robotics • IoT" },
+          { k: "Computer Vision", v: "OpenCV • MediaPipe" },
+          { k: "Design", v: "UI/UX • Adobe Suite" },
+          { k: "University", v: "United International University (UIU)" },
+        ]
+      },
+
+      skillsIcons: [
+        { title: "C", img: "images/skills/c-logo.png" },
+        { title: "C++", img: "images/skills/cpp-logo.png" },
+        { title: "Python", img: "images/skills/python-logo.png" },
+        { title: "Java", img: "images/skills/java-logo.png" },
+        { title: "JavaScript", img: "images/skills/javascript-logo.png" },
+        { title: "Dart", img: "images/skills/dart-logo.png" },
+        { title: "MySQL", img: "images/skills/mysql-logo.png" },
+        { title: "PHP", img: "images/skills/php-logo.png" },
+        { title: "VS Code", img: "images/skills/vscode-logo.png" },
+        { title: "ROS2", img: "images/skills/ros2-logo.png" },
+        { title: "Robotics", img: "images/skills/robotics-logo.png" },
+        { title: "IoT", img: "images/skills/iot-logo.png" },
+        { title: "Embedded Systems", img: "images/skills/embedded-logo.png" },
+        { title: "Arduino", img: "images/skills/arduino-logo.png" },
+        { title: "GitHub", img: "images/skills/github-logo.png" },
+        { title: "Blender", img: "images/skills/blender-logo.png" },
+        { title: "Fusion 360", img: "images/skills/fusion360-logo.png" },
+        { title: "SolidWorks", img: "images/skills/solidworks-logo.png" },
+        { title: "UI/UX Design", img: "images/skills/uiux-logo.png" },
+        { title: "WordPress", img: "images/skills/wordpress-logo.png" },
+        { title: "Photoshop", img: "images/skills/photoshop-logo.png" },
+        { title: "Illustrator", img: "images/skills/illustrator-logo.png" },
+        { title: "Premiere Pro", img: "images/skills/premiere-logo.png" },
+      ],
+
+      // Your original experience list kept + made it cleaner
+      experience: [
+        { when: "2023 - Current", what: "Electrical and Software Team Lead at UIU Mars Rover Team", details: "Guiding team projects and mentoring members." },
+        { when: "2022 - 2023", what: "Mechanical and Fabrication Team Member at UIU Mars Rover Team", details: "Assisting in design and assembly of rover components." },
+        { when: "2021 - Current", what: "Designing web and app interfaces at XTZ", details: "Collaborating with development teams to implement designs." },
+        { when: "URC 2024", what: "Preparing for the University Rover Challenge 2024", details: "Building on previous experiences to enhance performance." },
+        { when: "URC 2023", what: "Competitor in the University Rover Challenge 2023", details: "Demonstrating innovation in robotic design." },
+        { when: "ARC 2023", what: "Participant in the Anatolian Rover Challenge 2023", details: "Contributing to team efforts in robotics engineering." },
+        { when: "2019 - 2021", what: "Focused on designing web and app interfaces", details: "Improving usability and aesthetic appeal." },
+        { when: "2017 - 2019", what: "Developed Android and iOS applications", details: "Emphasizing user engagement and performance optimization." },
+        { when: "UI/UX Design", what: "Created user-friendly interfaces", details: "Enhancing user experience and engagement." },
+        { when: "Web Development", what: "Designed and maintained various websites", details: "Ensuring functionality and responsiveness." },
+      ],
+
+      education: [
+        { when: "2022 - Current", what: "BSc in CSE", where: "United International University (UIU)" },
+        { when: "2020", what: "HSC", where: "Brindaban Govt. College" },
+        { when: "2018", what: "SSC", where: "Habiganj Govt. High School" },
+      ],
+
+      certifications: [
+        { year: "2023", title: "URC 2023 — University Rover Challenge (URC)", img: "images/Cerificates/urc23.jpg" },
+        { year: "2023", title: "aRC 2023 — Anatolian Rover Challenge (aRC)", img: "images/Cerificates/arc23.jpg" },
+        { year: "2024", title: "URC 2024 — University Rover Challenge (URC)", img: "images/Cerificates/urc24.jpg" },
+
+        // ADDED MORE (you can replace images later)
+        { year: "2022", title: "URC 2022 — University Rover Challenge (URC)", img: "images/Cerificates/urc23.jpg" },
+        { year: "2022", title: "aRC 2022 — Anatolian Rover Challenge (aRC)", img: "images/Cerificates/arc23.jpg" },
+      ],
+
+      services: [
+        { icon: "fa-solid fa-code", title: "Web Design", desc: "Creating responsive, user-friendly websites tailored to your business needs with modern aesthetics and performance." },
+        { icon: "fa-brands fa-app-store", title: "App Design", desc: "Designing intuitive mobile app UI/UX ensuring smooth experience across Android and iOS." },
+        { icon: "fa-solid fa-crop", title: "UI/UX Design", desc: "Delivering user-centered UI/UX solutions with strong hierarchy, clarity, and conversion-friendly flows." },
+        { icon: "fa-solid fa-microchip", title: "Embedded Systems", desc: "Developing reliable embedded solutions with sensors, control logic, and robust communication protocols." },
+        { icon: "fa-brands fa-unity", title: "3D Design", desc: "3D modeling, rendering and prototyping for products, robotics components, and visualization." },
+        { icon: "fa-solid fa-draw-polygon", title: "Graphics Design", desc: "Brand visuals, logos, social designs and presentation-ready assets." },
+        { icon: "fa-solid fa-wifi", title: "IoT Solutions", desc: "Connecting devices to dashboards, automation logic, telemetry and remote control." },
+        { icon: "fa-solid fa-robot", title: "Robotics", desc: "Robotics systems integration using sensor fusion, ROS2 nodes, autonomy pipeline & UI controls." },
+      ],
+
+      // Portfolio items + MODALS (kept your AuTax content and video + added more items)
+      projects: [
+        {
+          id: "autax",
+          title: "AuTax: A Self-Driving Taxi",
+          cover: "images/work/AuTax.png",
+          subtitle: "This project integrates cutting-edge technologies",
+          modal: {
+            intro: "AuTax is an innovative project aimed at creating a fully autonomous taxi capable of navigating complex urban environments. This project integrates cutting-edge technologies to deliver a seamless self-driving experience.",
+            youtube: "https://www.youtube.com/embed/TixH0lE5oqY?si=EymC74W6o0SB6848",
+            features: [
+              "Autonomous navigation through city streets",
+              "Advanced obstacle detection and avoidance",
+              "Integration with a user-friendly mobile app for booking",
+              "Real-time traffic updates and route optimization"
+            ],
+            tech: [
+              "Computer Vision with OpenCV and YOLO for object detection",
+              "ROS2 for robotic control and communication",
+              "LiDAR and Ultrasonic sensors for mapping and navigation",
+              "Python and C++ for core programming"
+            ],
+            challenges: "Tuning navigation algorithms for complex city environments, ensuring safety during dynamic traffic conditions, and optimizing computational resources for real-time processing.",
+            providesTitle: "What AuTax Provides",
+            providesText: "AuTax is designed to replace expensive platforms like TurtleBot, offering a practical and cost-effective solution for learning and practicing ROS (Robot Operating System).",
+            providesList: [
+              "Start ROS practice without investing in costly hardware",
+              "Affordable yet powerful alternative to TurtleBot",
+              "Explore self-driving & autonomy concepts on a flexible platform",
+              "Develop and test custom navigation algorithms",
+              "Focus on learning and innovating instead of budget constraints"
+            ],
+            image: "images/work/AuTax.png"
+          }
+        },
+        {
+          id: "social",
+          title: "Social Media App",
+          cover: "images/work/work-1.png",
+          subtitle: "Connect with people worldwide, fostering real-time communication.",
+          modal: {
+            intro: "This app connects users globally, fostering real-time communication and collaboration.",
+            image: "images/work/work-2.png",
+            extra: [
+              "Clean feed layout with modern spacing",
+              "Profile & messaging UI patterns",
+              "Mobile-first responsive structure"
+            ]
+          }
+        },
+        {
+          id: "music",
+          title: "Music App",
+          cover: "images/work/work-2.png",
+          subtitle: "Stream your favorite tracks, create playlists, and discover new music daily.",
+          modal: {
+            intro: "Enjoy seamless music streaming, curated playlists, and daily recommendations.",
+            image: "images/work/work-3.png",
+            extra: [
+              "Playlist-focused UX",
+              "Better typography and contrast",
+              "Smooth interaction states"
+            ]
+          }
+        },
+
+        // ADDED MORE PROJECTS (you can replace images/text)
+        {
+          id: "robotdog",
+          title: "Quadruped Robot Dog (Prototype)",
+          cover: "images/work/work-4.png",
+          subtitle: "Embedded + sensors + gait control + remote monitoring.",
+          modal: {
+            intro: "A quadruped robot prototype focused on stable locomotion, sensor-driven feedback, and remote UI control for inspection and hazardous environment monitoring.",
+            extra: [
+              "IMU-based posture stabilization",
+              "Gait patterns and motion profiling",
+              "Wireless telemetry & dashboard UI",
+              "Modular hardware design for upgrades"
+            ]
+          }
+        },
+        {
+          id: "iotdash",
+          title: "IoT Dashboard UI (Concept)",
+          cover: "images/work/work-5.png",
+          subtitle: "A clean dashboard for device monitoring, alerts and analytics.",
+          modal: {
+            intro: "A professional IoT dashboard UI concept for monitoring sensor streams, alerts, device status and history graphs.",
+            extra: [
+              "Status cards + logs + filters",
+              "Alert center with severity levels",
+              "Device list & quick actions",
+              "Mobile responsive layout"
+            ]
+          }
+        }
+      ],
+
+      // Load-more items (your old ones but cleaned)
+      loadMoreProjects: [
+        {
+          id: "gaming",
+          title: "Online Gaming App",
+          cover: "images/work/work-3.png",
+          subtitle: "Engage in thrilling multiplayer battles, level up, and compete with friends.",
+          modal: {
+            intro: "Multiplayer gaming UI/UX concept focusing on matchmaking, profiles, and ranking."
+          }
+        },
+        {
+          id: "multiplayer",
+          title: "Multiplayer Game",
+          cover: "images/work/work-4.png",
+          subtitle: "Learn new skills with interactive courses and live mentorship.",
+          modal: {
+            intro: "Project card placeholder (replace with your real project)."
+          }
+        },
+        {
+          id: "snake",
+          title: "Snake Game",
+          cover: "images/work/work-5.png",
+          subtitle: "Track workouts, set goals, and monitor your progress effortlessly.",
+          modal: {
+            intro: "Project card placeholder (replace with your real project)."
+          }
+        }
+      ],
+
+      socials: [
+        { icon: "fab fa-facebook", href: "https://www.facebook.com/shah.mehrab.hossain/" },
+        { icon: "fa-brands fa-x-twitter", href: "https://twitter.com/" },
+        { icon: "fab fa-instagram", href: "https://www.instagram.com/smh.009/" },
+        { icon: "fab fa-linkedin", href: "https://www.linkedin.com/in/shah-mehrab-hossain-a6a1691ba/" },
+        { icon: "fab fa-github", href: "https://github.com/shahm009" },
+        { icon: "fab fa-stack-overflow", href: "https://stackoverflow.com/users/20249958/shah009" }
+      ],
+
+      // Your original Google Script URL kept
+      googleScriptURL: "https://script.google.com/macros/s/AKfycbwjMYFVTmh0NAP6JTMf_kPawXRtiZHOcBLp0OOZKQmJgBES_S7jx5rhoA5bzvUu3kRP/exec",
+
+      // Music
+      tracks: [
+        { name: "Track 1", url: "src/music/Track1.mp3" },
+        { name: "Track 2", url: "src/music/Track2.mp3" },
+        { name: "Track 3", url: "src/music/Track3.mp3" }
+      ],
+    };
+  </script>
+  <!-- ================= END DATA ================= -->
+
+  <!-- ================= TOP BAR / NAV ================= -->
   <header class="sticky top-0 z-50">
-    <nav class="mx-auto max-w-6xl px-4 py-3">
-      <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-xl shadow-soft">
-        <a href="#home" class="flex items-center gap-3">
-          <img src="images/logo.png" alt="Logo" class="h-10 w-auto rounded-lg">
-          <div class="leading-tight">
-            <p class="text-sm font-semibold tracking-wide">Shah Mehrab</p>
-            <p class="text-xs text-slate-300">Embedded • Robotics • IoT</p>
+    <div class="mx-auto max-w-7xl px-4 py-3">
+      <div class="glass rounded-2xl px-4 py-3 shadow-soft">
+        <div class="flex items-center justify-between gap-3">
+          <a href="#home" class="flex items-center gap-3">
+            <img id="logo" class="h-10 w-10 rounded-xl object-cover" alt="Logo" />
+            <div class="leading-tight">
+              <p class="font-extrabold tracking-tight" id="navName"></p>
+              <p class="text-xs" style="color: rgba(var(--muted),1)">Portfolio • Robotics • Embedded</p>
+            </div>
+          </a>
+
+          <nav class="hidden md:flex items-center gap-1">
+            <a class="nav-link px-3 py-2 rounded-xl text-sm hover:shadow-glow transition" href="#home">Home</a>
+            <a class="nav-link px-3 py-2 rounded-xl text-sm hover:shadow-glow transition" href="#about">About</a>
+            <a class="nav-link px-3 py-2 rounded-xl text-sm hover:shadow-glow transition" href="#services">Services</a>
+            <a class="nav-link px-3 py-2 rounded-xl text-sm hover:shadow-glow transition" href="#portfolio">Portfolio</a>
+            <a class="nav-link px-3 py-2 rounded-xl text-sm hover:shadow-glow transition" href="#contact">Contact</a>
+          </nav>
+
+          <div class="flex items-center gap-2">
+            <!-- Accent -->
+            <button id="accentBtn"
+              class="glass rounded-xl px-3 py-2 text-sm hover:shadow-glow transition">
+              <i class="fa-solid fa-palette mr-2"></i>Accent
+            </button>
+
+            <!-- Theme -->
+            <button id="themeBtn"
+              class="glass rounded-xl px-3 py-2 text-sm hover:shadow-glow transition">
+              <span id="themeIcon">🌙</span>
+              <span class="hidden sm:inline ml-2">Theme</span>
+            </button>
+
+            <!-- Cursor -->
+            <button id="cursorBtn"
+              class="hidden sm:inline glass rounded-xl px-3 py-2 text-sm hover:shadow-glow transition">
+              <i class="fa-solid fa-arrow-pointer mr-2"></i>Cursor
+            </button>
+
+            <!-- Mobile -->
+            <button id="menuBtn" class="md:hidden glass rounded-xl px-3 py-2 hover:shadow-glow transition" aria-label="Open menu">
+              <i class="fa-solid fa-bars"></i>
+            </button>
           </div>
-        </a>
+        </div>
 
-        <!-- Desktop links -->
-        <ul class="hidden md:flex items-center gap-2" id="navLinks">
-          <li><a class="navItem px-3 py-2 rounded-xl text-sm text-slate-200 hover:bg-white/10" href="#home">Home</a></li>
-          <li><a class="navItem px-3 py-2 rounded-xl text-sm text-slate-200 hover:bg-white/10" href="#about">About</a></li>
-          <li><a class="navItem px-3 py-2 rounded-xl text-sm text-slate-200 hover:bg-white/10" href="#services">Services</a></li>
-          <li><a class="navItem px-3 py-2 rounded-xl text-sm text-slate-200 hover:bg-white/10" href="#projects">Portfolio</a></li>
-          <li><a class="navItem px-3 py-2 rounded-xl text-sm text-slate-200 hover:bg-white/10" href="#contact">Contact</a></li>
-        </ul>
+        <!-- Accent Panel -->
+        <div id="accentPanel" class="hidden mt-3">
+          <div class="glass rounded-2xl p-4">
+            <p class="text-sm mb-3" style="color: rgba(var(--muted),1)">Choose your accent color (saved)</p>
+            <div class="flex flex-wrap gap-2" id="accentColors"></div>
+          </div>
+        </div>
 
-        <div class="flex items-center gap-2">
-          <!-- Theme toggle -->
-          <button id="themeToggle" class="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm hover:bg-white/10">
-            <span id="themeIcon" class="mr-2">🌙</span><span class="hidden sm:inline">Theme</span>
-          </button>
-
-          <!-- Mobile menu button -->
-          <button id="menuBtn" class="md:hidden rounded-xl border border-white/10 bg-white/5 px-3 py-2 hover:bg-white/10" aria-label="Open menu">
-            <i class="fa-solid fa-bars"></i>
-          </button>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden mt-3">
+          <div class="grid gap-2">
+            <a class="nav-link glass rounded-2xl px-4 py-3" href="#home">Home</a>
+            <a class="nav-link glass rounded-2xl px-4 py-3" href="#about">About</a>
+            <a class="nav-link glass rounded-2xl px-4 py-3" href="#services">Services</a>
+            <a class="nav-link glass rounded-2xl px-4 py-3" href="#portfolio">Portfolio</a>
+            <a class="nav-link glass rounded-2xl px-4 py-3" href="#contact">Contact</a>
+          </div>
         </div>
       </div>
-
-      <!-- Mobile menu -->
-      <div id="mobileMenu" class="mt-3 hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-soft">
-        <div class="flex flex-col p-3">
-          <a class="px-4 py-3 rounded-xl hover:bg-white/10" href="#home">Home</a>
-          <a class="px-4 py-3 rounded-xl hover:bg-white/10" href="#about">About</a>
-          <a class="px-4 py-3 rounded-xl hover:bg-white/10" href="#services">Services</a>
-          <a class="px-4 py-3 rounded-xl hover:bg-white/10" href="#projects">Portfolio</a>
-          <a class="px-4 py-3 rounded-xl hover:bg-white/10" href="#contact">Contact</a>
-        </div>
-      </div>
-    </nav>
+    </div>
   </header>
 
-  <!-- HERO -->
-  <section id="home" class="mx-auto max-w-6xl px-4 pt-10 pb-16">
-    <div class="hero-gradient animate-shimmer rounded-3xl border border-white/10 bg-white/5 p-8 md:p-12 backdrop-blur-xl shadow-soft">
-      <div class="grid gap-10 md:grid-cols-2 md:items-center">
-        <div>
-          <p class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-slate-200">
-            <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
-            Available for projects & collaborations
-          </p>
+  <!-- ================= HERO ================= -->
+  <main id="home" class="mx-auto max-w-7xl px-4 pt-6 pb-16">
+    <section class="glass rounded-3xl overflow-hidden shadow-soft">
+      <div class="relative">
+        <!-- Background image overlay -->
+        <div id="heroBg" class="absolute inset-0 bg-center bg-cover opacity-[.25]"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/35 to-black/65"></div>
 
-          <h1 class="mt-6 text-3xl md:text-5xl font-extrabold leading-tight">
-            Hi, I’m <span class="bg-gradient-to-r from-cyan-300 to-indigo-300 bg-clip-text text-transparent">Shah Mehrab Hossain</span>
-            <span class="block text-slate-300 font-semibold mt-2 text-lg md:text-xl">from Bangladesh</span>
-          </h1>
+        <div class="relative p-7 md:p-10">
+          <div class="grid gap-10 md:grid-cols-2 md:items-center">
+            <div class="animate-fadeUp">
+              <p class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs glass">
+                <span class="h-2 w-2 rounded-full" style="background: rgb(var(--accent))"></span>
+                Available for collaborations • Remote / On-site
+              </p>
 
-          <p class="mt-5 text-slate-200/90 text-base md:text-lg leading-relaxed">
-            I build <span class="text-white font-semibold">embedded systems</span>, <span class="text-white font-semibold">robotics prototypes</span>,
-            and <span class="text-white font-semibold">IoT solutions</span> — plus clean web experiences.
-          </p>
+              <h1 class="mt-5 text-3xl md:text-5xl font-black leading-tight">
+                Hi, I am <span class="bg-gradient-to-r from-cyan-300 to-indigo-300 bg-clip-text text-transparent" id="heroName"></span>
+                <span class="block mt-2 text-base md:text-lg font-semibold" style="color: rgba(var(--muted),1)">
+                  from <span id="heroLocation"></span>.
+                </span>
+              </h1>
 
-          <div class="mt-6 flex flex-wrap gap-3">
-            <a href="#projects" class="rounded-2xl bg-white text-slate-950 px-5 py-3 font-semibold hover:opacity-90">
-              View Portfolio <i class="fa-solid fa-arrow-right ml-2"></i>
-            </a>
-            <a href="#contact" class="rounded-2xl border border-white/15 bg-white/5 px-5 py-3 font-semibold hover:bg-white/10">
-              Contact Me
-            </a>
-            <a href="file/shahmehrab.pdf" download class="rounded-2xl border border-white/15 bg-white/5 px-5 py-3 font-semibold hover:bg-white/10">
-              Download CV <i class="fa-solid fa-download ml-2"></i>
-            </a>
-          </div>
+              <!-- Typed roles -->
+              <p class="mt-4 text-lg md:text-xl font-semibold">
+                <span style="color: rgba(var(--muted),1)">I am</span>
+                <span id="typedText" class="ml-2 font-extrabold"></span>
+                <span class="ml-1 opacity-60" id="typingCursor">|</span>
+              </p>
 
-          <!-- Role tags -->
-          <div class="mt-7 flex flex-wrap gap-2">
-            <span class="rounded-full bg-white/5 px-3 py-2 text-xs text-slate-200 border border-white/10">Embedded Systems</span>
-            <span class="rounded-full bg-white/5 px-3 py-2 text-xs text-slate-200 border border-white/10">Robotics</span>
-            <span class="rounded-full bg-white/5 px-3 py-2 text-xs text-slate-200 border border-white/10">ROS2</span>
-            <span class="rounded-full bg-white/5 px-3 py-2 text-xs text-slate-200 border border-white/10">Computer Vision</span>
-          </div>
-        </div>
+              <p class="mt-4 text-sm md:text-base leading-relaxed" style="color: rgba(var(--textW),.90)">
+                I build real-world systems combining <b>embedded engineering</b>, <b>robotics (ROS2)</b>, <b>IoT</b>, and <b>computer vision</b>.
+                I also design high-quality <b>UI/UX</b> for dashboards, apps and project portfolios.
+              </p>
 
-        <div class="relative">
-          <div class="absolute -inset-4 rounded-3xl bg-gradient-to-r from-indigo-500/20 to-cyan-500/20 blur-2xl"></div>
-          <div class="relative rounded-3xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
-            <img src="images/one.jpg" alt="Profile photo" class="w-full rounded-2xl object-cover">
-            <div class="mt-4 grid grid-cols-3 gap-3 text-center">
-              <div class="rounded-2xl border border-white/10 bg-white/5 p-3">
-                <p class="text-xl font-extrabold">3+</p>
-                <p class="text-xs text-slate-300">Rover events</p>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <a href="#portfolio"
+                  class="rounded-2xl px-5 py-3 font-black text-slate-950 hover:opacity-90 transition"
+                  style="background: rgb(var(--accent))">
+                  View Portfolio <i class="fa-solid fa-arrow-right ml-2"></i>
+                </a>
+
+                <a href="#contact"
+                  class="glass rounded-2xl px-5 py-3 font-black hover:shadow-glow transition">
+                  Contact Me <i class="fa-solid fa-paper-plane ml-2"></i>
+                </a>
+
+                <a id="cvBtnTop"
+                  class="glass rounded-2xl px-5 py-3 font-black hover:shadow-glow transition"
+                  download>
+                  Download CV <i class="fa-solid fa-download ml-2"></i>
+                </a>
               </div>
-              <div class="rounded-2xl border border-white/10 bg-white/5 p-3">
-                <p class="text-xl font-extrabold">10+</p>
-                <p class="text-xs text-slate-300">Projects</p>
+
+              <!-- Strong “pro” chips -->
+              <div class="mt-6 flex flex-wrap gap-2">
+                <span class="glass rounded-full px-3 py-2 text-xs">ROS2 • Robotics</span>
+                <span class="glass rounded-full px-3 py-2 text-xs">Embedded • IoT</span>
+                <span class="glass rounded-full px-3 py-2 text-xs">OpenCV • MediaPipe</span>
+                <span class="glass rounded-full px-3 py-2 text-xs">UI/UX • Adobe Suite</span>
               </div>
-              <div class="rounded-2xl border border-white/10 bg-white/5 p-3">
-                <p class="text-xl font-extrabold">CSE</p>
-                <p class="text-xs text-slate-300">UIU Student</p>
+            </div>
+
+            <!-- Right side: pro card + music -->
+            <div class="animate-fadeUp" style="animation-delay:.08s">
+              <div class="glass rounded-3xl p-5 md:p-6">
+                <div class="flex items-center gap-4">
+                  <img id="avatar" class="h-16 w-16 rounded-2xl object-cover ring-2 ring-white/10" alt="Avatar">
+                  <div class="flex-1">
+                    <p class="font-black text-lg" id="cardName"></p>
+                    <p class="text-sm" style="color: rgba(var(--muted),1)">
+                      Embedded • Robotics • IoT • Developer
+                    </p>
+                  </div>
+                  <div class="h-10 w-10 rounded-2xl grid place-items-center"
+                    style="background: rgba(var(--accent), .18)">
+                    <i class="fa-solid fa-bolt" style="color: rgb(var(--accent))"></i>
+                  </div>
+                </div>
+
+                <div class="mt-5 grid grid-cols-2 gap-3">
+                  <div class="glass rounded-2xl p-4">
+                    <p class="text-xs" style="color: rgba(var(--muted),1)">Main Stack</p>
+                    <p class="mt-1 font-bold">C/C++ • Python</p>
+                  </div>
+                  <div class="glass rounded-2xl p-4">
+                    <p class="text-xs" style="color: rgba(var(--muted),1)">Robotics</p>
+                    <p class="mt-1 font-bold">ROS2 • Sensors</p>
+                  </div>
+                  <div class="glass rounded-2xl p-4">
+                    <p class="text-xs" style="color: rgba(var(--muted),1)">Design</p>
+                    <p class="mt-1 font-bold">UI/UX • Branding</p>
+                  </div>
+                  <div class="glass rounded-2xl p-4">
+                    <p class="text-xs" style="color: rgba(var(--muted),1)">IoT</p>
+                    <p class="mt-1 font-bold">Wi-Fi • Dashboards</p>
+                  </div>
+                </div>
+
+                <!-- Music Player (Pro) -->
+                <div class="mt-5 glass rounded-2xl p-4">
+                  <p class="text-xs mb-2" style="color: rgba(var(--muted),1)">Music Player</p>
+                  <div class="flex items-center gap-3">
+                    <button id="prevBtn" class="glass rounded-xl px-3 py-2 hover:shadow-glow transition" aria-label="Previous">
+                      <i class="fa-solid fa-backward"></i>
+                    </button>
+
+                    <button id="playBtn"
+                      class="rounded-xl px-4 py-2 font-black text-slate-950 hover:opacity-90 transition"
+                      style="background: rgb(var(--accent))">
+                      <i id="playIcon" class="fa-solid fa-play"></i>
+                      <i id="pauseIcon" class="fa-solid fa-pause hidden"></i>
+                      <span class="ml-2">Play</span>
+                    </button>
+
+                    <button id="nextBtn" class="glass rounded-xl px-3 py-2 hover:shadow-glow transition" aria-label="Next">
+                      <i class="fa-solid fa-forward"></i>
+                    </button>
+
+                    <div class="ml-auto text-right">
+                      <p class="text-xs" style="color: rgba(var(--muted),1)">Now Playing</p>
+                      <p class="text-sm font-bold truncate max-w-[170px]" id="trackName">Track</p>
+                    </div>
+                  </div>
+                  <audio id="player" preload="auto"></audio>
+                </div>
+
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ABOUT -->
-  <section id="about" class="mx-auto max-w-6xl px-4 py-14">
-    <div class="grid gap-10 md:grid-cols-2 md:items-start">
-      <div class="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur-xl shadow-soft">
-        <h2 class="text-2xl md:text-3xl font-extrabold">About Me</h2>
-        <p class="mt-4 text-slate-200/90 leading-relaxed">
-          I’m a Computer Science & Engineering student focused on <b>embedded systems</b>, <b>robotics</b>, and <b>IoT</b>.
-          I enjoy integrating hardware + software, building prototypes, and presenting clean, professional interfaces.
-        </p>
-
-        <div class="mt-6 grid grid-cols-2 gap-3">
-          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <p class="text-sm text-slate-300">Primary</p>
-            <p class="font-semibold mt-1">Embedded + Robotics</p>
+    <!-- ================= ABOUT ================= -->
+    <section id="about" class="mt-10">
+      <div class="glass rounded-3xl p-7 md:p-10 shadow-soft">
+        <div class="flex items-end justify-between flex-wrap gap-3">
+          <div>
+            <h2 class="text-2xl md:text-4xl font-black" id="aboutTitle"></h2>
+            <p class="mt-2 text-sm md:text-base" style="color: rgba(var(--muted),1)">
+              A clear and professional overview — easy to expand.
+            </p>
           </div>
-          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <p class="text-sm text-slate-300">Also</p>
-            <p class="font-semibold mt-1">UI/UX + Web</p>
-          </div>
-          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <p class="text-sm text-slate-300">Tools</p>
-            <p class="font-semibold mt-1">ROS2, OpenCV, Arduino</p>
-          </div>
-          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <p class="text-sm text-slate-300">Location</p>
-            <p class="font-semibold mt-1">Bangladesh</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur-xl shadow-soft">
-        <div class="flex items-center justify-between gap-3">
-          <h3 class="text-xl font-extrabold">Skills</h3>
-          <div class="flex gap-2">
-            <button class="skillFilter px-3 py-2 text-xs rounded-xl border border-white/10 bg-white/5 hover:bg-white/10" data-filter="all">All</button>
-            <button class="skillFilter px-3 py-2 text-xs rounded-xl border border-white/10 bg-white/5 hover:bg-white/10" data-filter="dev">Dev</button>
-            <button class="skillFilter px-3 py-2 text-xs rounded-xl border border-white/10 bg-white/5 hover:bg-white/10" data-filter="robotics">Robotics</button>
-            <button class="skillFilter px-3 py-2 text-xs rounded-xl border border-white/10 bg-white/5 hover:bg-white/10" data-filter="design">Design</button>
+          <div class="flex gap-2 flex-wrap">
+            <button class="tabBtn glass rounded-2xl px-4 py-2 text-sm font-bold hover:shadow-glow transition" data-tab="skillsTab">Skills</button>
+            <button class="tabBtn glass rounded-2xl px-4 py-2 text-sm font-bold hover:shadow-glow transition" data-tab="experienceTab">Experience</button>
+            <button class="tabBtn glass rounded-2xl px-4 py-2 text-sm font-bold hover:shadow-glow transition" data-tab="educationTab">Education</button>
+            <button class="tabBtn glass rounded-2xl px-4 py-2 text-sm font-bold hover:shadow-glow transition" data-tab="certTab">Certifications</button>
           </div>
         </div>
 
-        <div class="mt-5 grid grid-cols-3 sm:grid-cols-4 gap-3" id="skillsGrid">
-          <!-- Dev -->
-          <div class="skillCard" data-type="dev"><img class="h-10 mx-auto" src="images/skills/python-logo.png" alt="Python"></div>
-          <div class="skillCard" data-type="dev"><img class="h-10 mx-auto" src="images/skills/java-logo.png" alt="Java"></div>
-          <div class="skillCard" data-type="dev"><img class="h-10 mx-auto" src="images/skills/c-logo.png" alt="C"></div>
-          <div class="skillCard" data-type="dev"><img class="h-10 mx-auto" src="images/skills/cpp-logo.png" alt="C++"></div>
-          <div class="skillCard" data-type="dev"><img class="h-10 mx-auto" src="images/skills/javascript-logo.png" alt="JavaScript"></div>
-          <div class="skillCard" data-type="dev"><img class="h-10 mx-auto" src="images/skills/mysql-logo.png" alt="MySQL"></div>
-          <!-- Robotics -->
-          <div class="skillCard" data-type="robotics"><img class="h-10 mx-auto" src="images/skills/ros2-logo.png" alt="ROS2"></div>
-          <div class="skillCard" data-type="robotics"><img class="h-10 mx-auto" src="images/skills/robotics-logo.png" alt="Robotics"></div>
-          <div class="skillCard" data-type="robotics"><img class="h-10 mx-auto" src="images/skills/iot-logo.png" alt="IoT"></div>
-          <div class="skillCard" data-type="robotics"><img class="h-10 mx-auto" src="images/skills/embedded-logo.png" alt="Embedded"></div>
-          <div class="skillCard" data-type="robotics"><img class="h-10 mx-auto" src="images/skills/arduino-logo.png" alt="Arduino"></div>
-          <!-- Design -->
-          <div class="skillCard" data-type="design"><img class="h-10 mx-auto" src="images/skills/photoshop-logo.png" alt="Photoshop"></div>
-          <div class="skillCard" data-type="design"><img class="h-10 mx-auto" src="images/skills/illustrator-logo.png" alt="Illustrator"></div>
-          <div class="skillCard" data-type="design"><img class="h-10 mx-auto" src="images/skills/uiux-logo.png" alt="UIUX"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SERVICES -->
-  <section id="services" class="mx-auto max-w-6xl px-4 py-14">
-    <div class="flex items-end justify-between gap-6 flex-wrap">
-      <div>
-        <h2 class="text-2xl md:text-3xl font-extrabold">Services</h2>
-        <p class="mt-2 text-slate-300">Clean, modern work — engineered for performance.</p>
-      </div>
-    </div>
-
-    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      <!-- Card -->
-      <div class="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl hover:bg-white/10 transition">
-        <div class="flex items-center gap-3">
-          <div class="h-11 w-11 rounded-2xl bg-indigo-500/20 grid place-items-center"><i class="fa-solid fa-code"></i></div>
-          <h3 class="font-bold text-lg">Web Design</h3>
-        </div>
-        <p class="mt-3 text-slate-300">Responsive, fast, modern UI with clear UX.</p>
-      </div>
-
-      <div class="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl hover:bg-white/10 transition">
-        <div class="flex items-center gap-3">
-          <div class="h-11 w-11 rounded-2xl bg-cyan-500/20 grid place-items-center"><i class="fa-solid fa-microchip"></i></div>
-          <h3 class="font-bold text-lg">Embedded Systems</h3>
-        </div>
-        <p class="mt-3 text-slate-300">Reliable microcontroller + sensor integration projects.</p>
-      </div>
-
-      <div class="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl hover:bg-white/10 transition">
-        <div class="flex items-center gap-3">
-          <div class="h-11 w-11 rounded-2xl bg-fuchsia-500/20 grid place-items-center"><i class="fa-solid fa-robot"></i></div>
-          <h3 class="font-bold text-lg">Robotics</h3>
-        </div>
-        <p class="mt-3 text-slate-300">ROS2, control systems, sensor-driven autonomy.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROJECTS -->
-  <section id="projects" class="mx-auto max-w-6xl px-4 py-14">
-    <div class="flex items-end justify-between gap-6 flex-wrap">
-      <div>
-        <h2 class="text-2xl md:text-3xl font-extrabold">Portfolio</h2>
-        <p class="mt-2 text-slate-300">Tap a project to see details.</p>
-      </div>
-    </div>
-
-    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      <!-- Project Card -->
-      <button class="projectCard group text-left rounded-3xl overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 transition"
-        data-title="AuTax: A Self-Driving Taxi"
-        data-desc="Autonomous navigation prototype using Computer Vision + ROS2. Built as a cost-effective learning platform."
-        data-img="images/work/AuTax.png"
-        data-tags="ROS2,OpenCV,YOLO,Robotics">
-        <div class="aspect-[16/10] overflow-hidden">
-          <img src="images/work/AuTax.png" alt="AuTax" class="h-full w-full object-cover group-hover:scale-105 transition duration-500">
-        </div>
-        <div class="p-5">
-          <h3 class="font-bold text-lg">AuTax: A Self-Driving Taxi</h3>
-          <p class="mt-2 text-slate-300 text-sm line-clamp-2">Autonomous navigation + obstacle detection with ROS2.</p>
-          <div class="mt-4 flex flex-wrap gap-2">
-            <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200">ROS2</span>
-            <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200">OpenCV</span>
+        <div class="mt-7 grid gap-7 md:grid-cols-3 md:items-start">
+          <div class="md:col-span-1">
+            <div class="glass rounded-3xl p-5">
+              <img id="aboutImg" class="w-full rounded-2xl object-cover animate-floaty" alt="About photo">
+              <div class="mt-4 grid grid-cols-2 gap-3" id="quickStats"></div>
+            </div>
           </div>
-        </div>
-      </button>
 
-      <button class="projectCard group text-left rounded-3xl overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 transition"
-        data-title="Social Media App UI"
-        data-desc="Modern social UI concept with responsive layout and clean UX patterns."
-        data-img="images/work/work-1.png"
-        data-tags="UI/UX,Web,Design">
-        <div class="aspect-[16/10] overflow-hidden">
-          <img src="images/work/work-1.png" alt="Social App" class="h-full w-full object-cover group-hover:scale-105 transition duration-500">
-        </div>
-        <div class="p-5">
-          <h3 class="font-bold text-lg">Social Media App</h3>
-          <p class="mt-2 text-slate-300 text-sm line-clamp-2">Clean UI focused on engagement and clarity.</p>
-          <div class="mt-4 flex flex-wrap gap-2">
-            <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200">UI/UX</span>
-          </div>
-        </div>
-      </button>
+          <div class="md:col-span-2">
+            <div class="glass rounded-3xl p-6 md:p-7">
+              <div class="space-y-4 text-sm md:text-base leading-relaxed" id="aboutParagraphs"></div>
+            </div>
 
-      <button class="projectCard group text-left rounded-3xl overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 transition"
-        data-title="Music App"
-        data-desc="Streaming app concept with playlist UX and modern visual hierarchy."
-        data-img="images/work/work-2.png"
-        data-tags="UI/UX,Mobile,Design">
-        <div class="aspect-[16/10] overflow-hidden">
-          <img src="images/work/work-2.png" alt="Music App" class="h-full w-full object-cover group-hover:scale-105 transition duration-500">
-        </div>
-        <div class="p-5">
-          <h3 class="font-bold text-lg">Music App</h3>
-          <p class="mt-2 text-slate-300 text-sm line-clamp-2">Simple, fast, beautiful music experience.</p>
-          <div class="mt-4 flex flex-wrap gap-2">
-            <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200">Design</span>
-          </div>
-        </div>
-      </button>
-    </div>
-  </section>
+            <!-- TABS -->
+            <div class="mt-5">
+              <!-- SKILLS TAB -->
+              <div id="skillsTab" class="tabPanel">
+                <div class="glass rounded-3xl p-6 md:p-7">
+                  <p class="text-sm mb-4" style="color: rgba(var(--muted),1)">
+                    Your original skill icons — now in a pro grid + hover tooltip.
+                  </p>
+                  <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3" id="skillsGrid"></div>
 
-  <!-- CONTACT -->
-  <section id="contact" class="mx-auto max-w-6xl px-4 py-14">
-    <div class="grid gap-6 md:grid-cols-2">
-      <div class="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur-xl shadow-soft">
-        <h2 class="text-2xl font-extrabold">Contact</h2>
-        <p class="mt-2 text-slate-300">Want to build something? Send a message.</p>
+                  <!-- ADDED: Skill categories (more content) -->
+                  <div class="mt-6 grid gap-3 md:grid-cols-2">
+                    <div class="glass rounded-2xl p-5">
+                      <p class="text-xs" style="color: rgba(var(--muted),1)">Robotics</p>
+                      <p class="mt-2 font-bold">ROS2 • Sensor fusion • Kinematics • Telemetry</p>
+                    </div>
+                    <div class="glass rounded-2xl p-5">
+                      <p class="text-xs" style="color: rgba(var(--muted),1)">Embedded</p>
+                      <p class="mt-2 font-bold">I2C/SPI/UART • PWM • Drivers • Debugging</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-        <div class="mt-6 space-y-3 text-slate-200">
-          <a class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 hover:bg-white/10"
-             href="mailto:admin@shahmehrab.xyz">
-            <i class="fa-solid fa-paper-plane"></i> admin@shahmehrab.xyz
-          </a>
+              <!-- EXPERIENCE TAB -->
+              <div id="experienceTab" class="tabPanel hidden">
+                <div class="glass rounded-3xl p-6 md:p-7">
+                  <div class="space-y-3" id="experienceList"></div>
 
-          <a class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 hover:bg-white/10"
-             href="tel:+8801777961826">
-            <i class="fa-solid fa-phone"></i> +8801777961826
-          </a>
+                  <!-- ADDED: Strong “impact” section -->
+                  <div class="mt-6 glass rounded-2xl p-5">
+                    <p class="text-xs" style="color: rgba(var(--muted),1)">What I do best</p>
+                    <ul class="mt-3 grid gap-2 md:grid-cols-2 text-sm">
+                      <li class="glass rounded-2xl px-4 py-3"><i class="fa-solid fa-check mr-2" style="color: rgb(var(--accent))"></i>System-level thinking (HW + SW)</li>
+                      <li class="glass rounded-2xl px-4 py-3"><i class="fa-solid fa-check mr-2" style="color: rgb(var(--accent))"></i>Clean UI/UX & product presentation</li>
+                      <li class="glass rounded-2xl px-4 py-3"><i class="fa-solid fa-check mr-2" style="color: rgb(var(--accent))"></i>Prototyping & iteration fast</li>
+                      <li class="glass rounded-2xl px-4 py-3"><i class="fa-solid fa-check mr-2" style="color: rgb(var(--accent))"></i>Debugging hard problems</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
 
-          <div class="flex flex-wrap gap-2 pt-2">
-            <a class="px-4 py-2 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10" target="_blank" href="https://www.facebook.com/shah.mehrab.hossain/"><i class="fab fa-facebook"></i></a>
-            <a class="px-4 py-2 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10" target="_blank" href="https://www.instagram.com/smh.009/"><i class="fab fa-instagram"></i></a>
-            <a class="px-4 py-2 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10" target="_blank" href="https://www.linkedin.com/in/shah-mehrab-hossain-a6a1691ba/"><i class="fab fa-linkedin"></i></a>
-            <a class="px-4 py-2 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10" target="_blank" href="https://github.com/shahm009"><i class="fab fa-github"></i></a>
+              <!-- EDUCATION TAB -->
+              <div id="educationTab" class="tabPanel hidden">
+                <div class="glass rounded-3xl p-6 md:p-7">
+                  <div class="space-y-3" id="educationList"></div>
+
+                  <!-- ADDED: Coursework block -->
+                  <div class="mt-6 glass rounded-2xl p-5">
+                    <p class="text-xs" style="color: rgba(var(--muted),1)">Relevant Areas</p>
+                    <div class="mt-3 flex flex-wrap gap-2 text-xs">
+                      <span class="glass rounded-full px-3 py-2">Embedded Systems</span>
+                      <span class="glass rounded-full px-3 py-2">Robotics</span>
+                      <span class="glass rounded-full px-3 py-2">Computer Vision</span>
+                      <span class="glass rounded-full px-3 py-2">IoT & Networks</span>
+                      <span class="glass rounded-full px-3 py-2">UI/UX</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CERT TAB -->
+              <div id="certTab" class="tabPanel hidden">
+                <div class="glass rounded-3xl p-6 md:p-7">
+                  <p class="text-sm mb-4" style="color: rgba(var(--muted),1)">
+                    Your original certificates + added more. Click to preview.
+                  </p>
+                  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id="certGrid"></div>
+                </div>
+              </div>
+            </div>
+            <!-- END TABS -->
           </div>
         </div>
       </div>
+    </section>
 
-      <div class="rounded-3xl border border-white/10 bg-white/5 p-7 backdrop-blur-xl shadow-soft">
-        <h3 class="text-xl font-extrabold">Send a message</h3>
+    <!-- ================= SERVICES ================= -->
+    <section id="services" class="mt-10">
+      <div class="glass rounded-3xl p-7 md:p-10 shadow-soft">
+        <div class="flex items-end justify-between flex-wrap gap-3">
+          <div>
+            <h2 class="text-2xl md:text-4xl font-black">My Services</h2>
+            <p class="mt-2 text-sm md:text-base" style="color: rgba(var(--muted),1)">
+              Your original 8 services — redesigned into premium cards.
+            </p>
+          </div>
+          <span class="glass rounded-full px-4 py-2 text-xs">Hover cards for interaction</span>
+        </div>
 
-        <form id="contactForm" class="mt-5 space-y-4">
-          <input required name="Name" placeholder="Your Name"
-            class="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-400 focus:bg-white/10">
-          <input required type="email" name="Email" placeholder="Your Email"
-            class="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-400 focus:bg-white/10">
-          <textarea required name="Message" rows="5" placeholder="Your Message"
-            class="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-slate-100 placeholder:text-slate-400 focus:bg-white/10"></textarea>
-
-          <button type="submit"
-            class="w-full rounded-2xl bg-white px-5 py-3 font-bold text-slate-950 hover:opacity-90">
-            Submit <i class="fa-solid fa-paper-plane ml-2"></i>
-          </button>
-
-          <p id="formMsg" class="text-sm text-slate-300"></p>
-        </form>
+        <div class="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" id="servicesGrid"></div>
       </div>
-    </div>
+    </section>
 
-    <footer class="mt-10 text-center text-sm text-slate-400">
-      © 2026 <span class="text-slate-200 font-semibold">Shah Mehrab Hossain</span>. All rights reserved.
-    </footer>
-  </section>
+    <!-- ================= PORTFOLIO ================= -->
+    <section id="portfolio" class="mt-10">
+      <div class="glass rounded-3xl p-7 md:p-10 shadow-soft">
+        <div class="flex items-end justify-between flex-wrap gap-3">
+          <div>
+            <h2 class="text-2xl md:text-4xl font-black">My Work</h2>
+            <p class="mt-2 text-sm md:text-base" style="color: rgba(var(--muted),1)">
+              Your original works + added more — with a single professional modal.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            <input id="searchProjects"
+              class="glass rounded-2xl px-4 py-3 text-sm w-[220px] md:w-[280px] placeholder:text-slate-400"
+              placeholder="Search projects…"
+            />
+            <button id="loadMoreBtn"
+              class="glass rounded-2xl px-5 py-3 font-black hover:shadow-glow transition">
+              See more
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id="projectsGrid"></div>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section id="contact" class="mt-10 pb-16">
+      <div class="glass rounded-3xl p-7 md:p-10 shadow-soft">
+        <div class="grid gap-6 md:grid-cols-2">
+          <div>
+            <h2 class="text-2xl md:text-4xl font-black">Contact Me</h2>
+            <p class="mt-2 text-sm md:text-base" style="color: rgba(var(--muted),1)">
+              Let’s collaborate — I respond fast with clear communication.
+            </p>
+
+            <div class="mt-6 space-y-3">
+              <a id="emailLink" class="glass rounded-2xl px-4 py-3 flex items-center gap-3 hover:shadow-glow transition" href="#">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span id="emailText"></span>
+              </a>
+              <a id="phoneLink" class="glass rounded-2xl px-4 py-3 flex items-center gap-3 hover:shadow-glow transition" href="#">
+                <i class="fa-solid fa-phone"></i>
+                <span id="phoneText"></span>
+              </a>
+
+              <div class="mt-4 flex flex-wrap gap-2" id="socialLinks"></div>
+
+              <a id="cvBtn"
+                class="mt-3 inline-flex items-center gap-2 rounded-2xl px-5 py-3 font-black text-slate-950 hover:opacity-90 transition"
+                style="background: rgb(var(--accent))"
+                download>
+                <i class="fa-solid fa-download"></i> Download CV
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <div class="glass rounded-3xl p-6 md:p-7">
+              <h3 class="text-xl font-black">Send a Message</h3>
+              <p class="mt-2 text-sm" style="color: rgba(var(--muted),1)">
+                This connects to your Google Script (same URL you used).
+              </p>
+
+              <form id="contactForm" class="mt-5 space-y-4">
+                <input class="glass rounded-2xl px-4 py-3 text-sm w-full placeholder:text-slate-400"
+                  type="text" name="Name" placeholder="Your Name" required>
+                <input class="glass rounded-2xl px-4 py-3 text-sm w-full placeholder:text-slate-400"
+                  type="email" name="Email" placeholder="Your Email" required>
+                <textarea class="glass rounded-2xl px-4 py-3 text-sm w-full placeholder:text-slate-400"
+                  name="Message" rows="6" placeholder="Your Message" required></textarea>
+
+                <button id="submitBtn"
+                  class="w-full rounded-2xl px-5 py-3 font-black text-slate-950 hover:opacity-90 transition"
+                  style="background: rgb(var(--accent))">
+                  Submit <i class="fa-solid fa-paper-plane ml-2"></i>
+                </button>
+
+                <p id="formMsg" class="text-sm" style="color: rgba(var(--muted),1)"></p>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-10 border-t border-white/10 pt-6 text-center text-sm" style="color: rgba(var(--muted),1)">
+          Copyright © <span id="year"></span>
+          <span class="font-bold" style="color: rgba(var(--textW),1)"><span id="copyrightName"></span></span>.
+          All rights reserved.
+        </div>
+      </div>
+    </section>
+  </main>
 
   <!-- Back to top -->
-  <button id="backTop" class="fixed bottom-5 right-5 hidden rounded-2xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-xl hover:bg-white/10">
+  <button id="backTop"
+    class="fixed bottom-5 right-5 hidden glass rounded-2xl px-4 py-3 hover:shadow-glow transition"
+    aria-label="Back to top">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
-  <!-- MODAL -->
-  <div id="modal" class="fixed inset-0 hidden z-[999]">
-    <div class="absolute inset-0 bg-black/60"></div>
+  <!-- ================= PROJECT MODAL ================= -->
+  <div id="projectModal" class="fixed inset-0 hidden z-[999]">
+    <div id="modalOverlay" class="absolute inset-0 bg-black/70"></div>
 
-    <div class="relative mx-auto mt-10 max-w-3xl px-4">
-      <div class="rounded-3xl border border-white/10 bg-slate-950/90 backdrop-blur-xl shadow-soft overflow-hidden">
+    <div class="relative mx-auto mt-6 max-w-4xl px-4">
+      <div class="glass rounded-3xl overflow-hidden shadow-soft">
         <div class="flex items-center justify-between p-5 border-b border-white/10">
-          <h3 id="modalTitle" class="text-lg font-extrabold">Project</h3>
-          <button id="modalClose" class="rounded-xl border border-white/10 bg-white/5 px-3 py-2 hover:bg-white/10" aria-label="Close modal">
+          <div>
+            <p class="text-xs" style="color: rgba(var(--muted),1)">Project Details</p>
+            <h3 id="modalTitle" class="text-lg md:text-xl font-black"></h3>
+          </div>
+          <button id="modalClose" class="glass rounded-xl px-3 py-2 hover:shadow-glow transition" aria-label="Close">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
 
-        <img id="modalImg" src="" alt="" class="w-full max-h-[340px] object-cover">
+        <div class="p-6 md:p-7 space-y-6 max-h-[80vh] overflow-y-auto">
+          <p id="modalIntro" class="text-sm md:text-base leading-relaxed" style="color: rgba(var(--textW),.92)"></p>
 
-        <div class="p-6">
-          <p id="modalDesc" class="text-slate-200/90 leading-relaxed"></p>
-          <div id="modalTags" class="mt-4 flex flex-wrap gap-2"></div>
+          <div id="modalVideoWrap" class="hidden">
+            <div class="glass rounded-2xl overflow-hidden">
+              <div class="aspect-video">
+                <iframe id="modalVideo" class="w-full h-full"
+                  src="" title="YouTube video player" frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen></iframe>
+              </div>
+            </div>
+          </div>
+
+          <div id="modalSections" class="space-y-5"></div>
+
+          <img id="modalImage" class="w-full rounded-2xl object-cover hidden" alt="Project image">
         </div>
       </div>
     </div>
   </div>
 
-  <!-- JS -->
-  <script>
-    // THEME TOGGLE (saved)
-    const html = document.documentElement;
-    const themeToggle = document.getElementById("themeToggle");
-    const themeIcon = document.getElementById("themeIcon");
+  <!-- ================= CERT PREVIEW MODAL ================= -->
+  <div id="certModal" class="fixed inset-0 hidden z-[999]">
+    <div id="certOverlay" class="absolute inset-0 bg-black/70"></div>
+    <div class="relative mx-auto mt-6 max-w-5xl px-4">
+      <div class="glass rounded-3xl overflow-hidden shadow-soft">
+        <div class="flex items-center justify-between p-4 border-b border-white/10">
+          <p id="certTitle" class="font-black"></p>
+          <button id="certClose" class="glass rounded-xl px-3 py-2 hover:shadow-glow transition">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <img id="certImg" class="w-full object-contain max-h-[85vh]" alt="Certificate">
+      </div>
+    </div>
+  </div>
 
-    function setTheme(mode) {
-      if (mode === "light") {
-        html.classList.remove("dark");
-        document.body.classList.remove("bg-slate-950");
-        document.body.classList.add("bg-slate-50", "text-slate-950");
-        localStorage.setItem("theme", "light");
-        themeIcon.textContent = "☀️";
-      } else {
-        html.classList.add("dark");
-        document.body.classList.remove("bg-slate-50", "text-slate-950");
-        document.body.classList.add("bg-slate-950", "text-slate-100");
-        localStorage.setItem("theme", "dark");
-        themeIcon.textContent = "🌙";
+  <script>
+    // ==============================
+    // Theme + Accent (Pro)
+    // ==============================
+    const ACCENTS = [
+      { name: "Indigo", rgb: "99 102 241" },
+      { name: "Cyan", rgb: "34 211 238" },
+      { name: "Emerald", rgb: "16 185 129" },
+      { name: "Rose", rgb: "244 63 94" },
+      { name: "Amber", rgb: "245 158 11" },
+      { name: "Violet", rgb: "139 92 246" },
+      { name: "Sky", rgb: "56 189 248" },
+    ];
+
+    const htmlEl = document.documentElement;
+
+    function setTheme(mode){
+      if(mode === "light"){
+        htmlEl.classList.add("light");
+        document.getElementById("themeIcon").textContent = "☀️";
+      }else{
+        htmlEl.classList.remove("light");
+        document.getElementById("themeIcon").textContent = "🌙";
       }
+      localStorage.setItem("theme", mode);
     }
 
-    const savedTheme = localStorage.getItem("theme") || "dark";
-    setTheme(savedTheme);
+    function setAccent(rgb){
+      htmlEl.style.setProperty("--accent", rgb);
+      localStorage.setItem("accent", rgb);
+    }
 
-    themeToggle.addEventListener("click", () => {
+    setTheme(localStorage.getItem("theme") || "dark");
+    setAccent(localStorage.getItem("accent") || "99 102 241");
+
+    document.getElementById("themeBtn").addEventListener("click", () => {
       const current = localStorage.getItem("theme") || "dark";
       setTheme(current === "dark" ? "light" : "dark");
     });
 
-    // MOBILE MENU
+    const accentBtn = document.getElementById("accentBtn");
+    const accentPanel = document.getElementById("accentPanel");
+    accentBtn.addEventListener("click", () => accentPanel.classList.toggle("hidden"));
+
+    const accentColors = document.getElementById("accentColors");
+    ACCENTS.forEach(a => {
+      const b = document.createElement("button");
+      b.className = "glass rounded-2xl px-4 py-2 text-sm font-bold hover:shadow-glow transition flex items-center gap-2";
+      b.innerHTML = `<span class="h-3 w-3 rounded-full" style="background: rgb(${a.rgb.replaceAll(" ", ",")})"></span>${a.name}`;
+      b.addEventListener("click", () => setAccent(a.rgb));
+      accentColors.appendChild(b);
+    });
+
+    // ==============================
+    // Preloader
+    // ==============================
+    window.addEventListener("load", () => {
+      setTimeout(() => document.getElementById("preloader").classList.add("hidden"), 900);
+    });
+
+    // ==============================
+    // Mobile Menu
+    // ==============================
     const menuBtn = document.getElementById("menuBtn");
     const mobileMenu = document.getElementById("mobileMenu");
     menuBtn.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
     mobileMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => mobileMenu.classList.add("hidden")));
 
-    // ACTIVE NAV (IntersectionObserver)
-    const sections = ["home","about","services","projects","contact"].map(id => document.getElementById(id));
-    const navItems = document.querySelectorAll(".navItem");
+    // ==============================
+    // Hover Sounds (Nav + Services)
+    // ==============================
+    const navSound = document.getElementById("nav-hover-sound");
+    navSound.volume = 0.08;
+    const srvSound = document.getElementById("service-hover-sound");
+    srvSound.volume = 0.4;
 
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          navItems.forEach(a => a.classList.remove("bg-white/10"));
-          const active = document.querySelector(`.navItem[href="#${entry.target.id}"]`);
-          if (active) active.classList.add("bg-white/10");
-        }
-      });
-    }, { threshold: 0.55 });
+    function playSafe(audio){
+      try { audio.currentTime = 0; audio.play(); } catch(e){}
+    }
 
-    sections.forEach(s => s && obs.observe(s));
-
-    // SKILL FILTER
-    const skillBtns = document.querySelectorAll(".skillFilter");
-    const skillCards = document.querySelectorAll(".skillCard");
-    skillCards.forEach(c => c.classList.add("rounded-2xl","border","border-white/10","bg-white/5","p-4","hover:bg-white/10","transition"));
-
-    skillBtns.forEach(btn => {
-      btn.addEventListener("click", () => {
-        const f = btn.dataset.filter;
-        skillBtns.forEach(b => b.classList.remove("bg-white/10"));
-        btn.classList.add("bg-white/10");
-
-        skillCards.forEach(card => {
-          const type = card.dataset.type;
-          card.style.display = (f === "all" || type === f) ? "block" : "none";
-        });
-      });
+    document.querySelectorAll(".nav-link").forEach(link => {
+      link.addEventListener("mouseover", () => playSafe(navSound));
     });
 
-    // PROJECT MODAL
-    const modal = document.getElementById("modal");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalDesc = document.getElementById("modalDesc");
-    const modalImg = document.getElementById("modalImg");
-    const modalTags = document.getElementById("modalTags");
-    const modalClose = document.getElementById("modalClose");
+    // ==============================
+    // Render Core Identity
+    // ==============================
+    const id = DATA.identity;
+    document.getElementById("logo").src = id.logo;
+    document.getElementById("navName").textContent = id.name;
 
-    function openModal(data) {
-      modalTitle.textContent = data.title;
-      modalDesc.textContent = data.desc;
-      modalImg.src = data.img;
-      modalImg.alt = data.title;
+    document.getElementById("heroName").textContent = id.name;
+    document.getElementById("heroLocation").textContent = id.location;
 
-      modalTags.innerHTML = "";
-      (data.tags || "").split(",").filter(Boolean).forEach(t => {
-        const tag = document.createElement("span");
-        tag.className = "rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200";
-        tag.textContent = t.trim();
-        modalTags.appendChild(tag);
+    const heroBg = document.getElementById("heroBg");
+    const isMobile = window.matchMedia("(max-width: 600px)").matches;
+    heroBg.style.backgroundImage = `url('${isMobile ? id.heroBgMobile : id.heroBg}')`;
+
+    document.getElementById("avatar").src = id.avatar;
+    document.getElementById("cardName").textContent = id.name;
+
+    document.getElementById("cvBtn").href = id.cv;
+    document.getElementById("cvBtnTop").href = id.cv;
+
+    document.getElementById("emailText").textContent = id.email;
+    document.getElementById("emailLink").href = `mailto:${id.email}`;
+    document.getElementById("phoneText").textContent = id.phone;
+    document.getElementById("phoneLink").href = `tel:${id.phone.replaceAll(" ", "")}`;
+
+    // Footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("copyrightName").textContent = id.name;
+
+    // Socials
+    const socialWrap = document.getElementById("socialLinks");
+    DATA.socials.forEach(s => {
+      const a = document.createElement("a");
+      a.href = s.href;
+      a.target = "_blank";
+      a.className = "glass rounded-2xl px-4 py-3 hover:shadow-glow transition";
+      a.innerHTML = `<i class="${s.icon}"></i>`;
+      socialWrap.appendChild(a);
+    });
+
+    // ==============================
+    // About content
+    // ==============================
+    document.getElementById("aboutTitle").textContent = DATA.about.title;
+    document.getElementById("aboutImg").src = id.avatar;
+
+    const aboutP = document.getElementById("aboutParagraphs");
+    DATA.about.paragraphs.forEach(p => {
+      const el = document.createElement("p");
+      el.textContent = p;
+      aboutP.appendChild(el);
+    });
+
+    const statsWrap = document.getElementById("quickStats");
+    DATA.about.quickStats.forEach(s => {
+      const card = document.createElement("div");
+      card.className = "glass rounded-2xl p-4";
+      card.innerHTML = `<p class="text-xs" style="color: rgba(var(--muted),1)">${s.k}</p><p class="mt-1 font-bold">${s.v}</p>`;
+      statsWrap.appendChild(card);
+    });
+
+    // ==============================
+    // Tabs (Pro)
+    // ==============================
+    const tabBtns = document.querySelectorAll(".tabBtn");
+    const tabPanels = document.querySelectorAll(".tabPanel");
+    function openTab(id){
+      tabPanels.forEach(p => p.classList.add("hidden"));
+      document.getElementById(id).classList.remove("hidden");
+      tabBtns.forEach(b => b.style.boxShadow = "none");
+      const activeBtn = [...tabBtns].find(x => x.dataset.tab === id);
+      if(activeBtn) activeBtn.style.boxShadow = "0 0 0 6px rgba(var(--accent), .18)";
+    }
+    tabBtns.forEach(btn => btn.addEventListener("click", () => openTab(btn.dataset.tab)));
+    openTab("skillsTab");
+
+    // ==============================
+    // Skills icons grid
+    // ==============================
+    const skillsGrid = document.getElementById("skillsGrid");
+    DATA.skillsIcons.forEach(s => {
+      const item = document.createElement("div");
+      item.className = "glass rounded-2xl p-3 grid place-items-center hover:shadow-glow transition group";
+      item.title = s.title;
+      item.innerHTML = `
+        <img src="${s.img}" alt="${s.title}" class="h-10 w-10 object-contain group-hover:scale-110 transition">
+        <p class="mt-2 text-[11px] font-bold text-center" style="color: rgba(var(--muted),1)">${s.title}</p>
+      `;
+      skillsGrid.appendChild(item);
+    });
+
+    // ==============================
+    // Experience + Education lists
+    // ==============================
+    const expWrap = document.getElementById("experienceList");
+    DATA.experience.forEach(e => {
+      const card = document.createElement("div");
+      card.className = "glass rounded-2xl p-5 hover:shadow-glow transition";
+      card.innerHTML = `
+        <p class="text-xs" style="color: rgba(var(--muted),1)">${e.when}</p>
+        <p class="mt-1 font-black">${e.what}</p>
+        <p class="mt-2 text-sm" style="color: rgba(var(--textW),.90)">${e.details}</p>
+      `;
+      expWrap.appendChild(card);
+    });
+
+    const eduWrap = document.getElementById("educationList");
+    DATA.education.forEach(e => {
+      const card = document.createElement("div");
+      card.className = "glass rounded-2xl p-5 hover:shadow-glow transition";
+      card.innerHTML = `
+        <p class="text-xs" style="color: rgba(var(--muted),1)">${e.when}</p>
+        <p class="mt-1 font-black">${e.what}</p>
+        <p class="mt-2 text-sm" style="color: rgba(var(--textW),.90)">${e.where}</p>
+      `;
+      eduWrap.appendChild(card);
+    });
+
+    // ==============================
+    // Certifications grid + modal
+    // ==============================
+    const certGrid = document.getElementById("certGrid");
+    const certModal = document.getElementById("certModal");
+    const certOverlay = document.getElementById("certOverlay");
+    const certClose = document.getElementById("certClose");
+    const certImg = document.getElementById("certImg");
+    const certTitle = document.getElementById("certTitle");
+
+    function openCert(c){
+      certTitle.textContent = `${c.year} — ${c.title}`;
+      certImg.src = c.img;
+      certModal.classList.remove("hidden");
+      document.body.classList.add("no-scroll");
+    }
+    function closeCert(){
+      certModal.classList.add("hidden");
+      certImg.src = "";
+      document.body.classList.remove("no-scroll");
+    }
+    certOverlay.addEventListener("click", closeCert);
+    certClose.addEventListener("click", closeCert);
+
+    DATA.certifications.forEach(c => {
+      const card = document.createElement("button");
+      card.className = "text-left glass rounded-3xl overflow-hidden hover:shadow-glow transition";
+      card.innerHTML = `
+        <div class="aspect-[16/10] overflow-hidden">
+          <img src="${c.img}" alt="${c.title}" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+        </div>
+        <div class="p-5">
+          <p class="text-xs" style="color: rgba(var(--muted),1)">${c.year}</p>
+          <p class="mt-1 font-black">${c.title}</p>
+        </div>
+      `;
+      card.addEventListener("click", () => openCert(c));
+      certGrid.appendChild(card);
+    });
+
+    // ==============================
+    // Services grid (with hover sound)
+    // ==============================
+    const servicesGrid = document.getElementById("servicesGrid");
+    DATA.services.forEach(s => {
+      const card = document.createElement("div");
+      card.className = "service-card glass rounded-3xl p-6 hover:shadow-glow transition cursor-pointer";
+      card.innerHTML = `
+        <div class="h-12 w-12 rounded-2xl grid place-items-center mb-4"
+          style="background: rgba(var(--accent), .18)">
+          <i class="${s.icon}" style="color: rgb(var(--accent))"></i>
+        </div>
+        <h3 class="font-black text-lg">${s.title}</h3>
+        <p class="mt-2 text-sm leading-relaxed" style="color: rgba(var(--textW),.88)">${s.desc}</p>
+        <a class="mt-4 inline-flex items-center gap-2 text-sm font-bold hover:opacity-80"
+          href="#contact" style="color: rgb(var(--accent))">
+          Learn more <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      `;
+      card.addEventListener("mouseover", () => playSafe(srvSound));
+      servicesGrid.appendChild(card);
+    });
+
+    // ==============================
+    // Projects grid + search + load more + modal
+    // ==============================
+    const projectsGrid = document.getElementById("projectsGrid");
+    const searchProjects = document.getElementById("searchProjects");
+    const loadMoreBtn = document.getElementById("loadMoreBtn");
+
+    let loadedMore = false;
+    function currentProjects(){
+      return loadedMore ? [...DATA.projects, ...DATA.loadMoreProjects] : [...DATA.projects];
+    }
+
+    function renderProjects(){
+      const q = (searchProjects.value || "").trim().toLowerCase();
+      projectsGrid.innerHTML = "";
+
+      const list = currentProjects().filter(p => {
+        const text = (p.title + " " + p.subtitle).toLowerCase();
+        return !q || text.includes(q);
       });
 
-      modal.classList.remove("hidden");
+      list.forEach(p => {
+        const card = document.createElement("button");
+        card.className = "text-left glass rounded-3xl overflow-hidden hover:shadow-glow transition";
+        card.innerHTML = `
+          <div class="aspect-[16/10] overflow-hidden">
+            <img src="${p.cover}" alt="${p.title}"
+              class="w-full h-full object-cover hover:scale-105 transition duration-500">
+          </div>
+          <div class="p-5">
+            <h3 class="font-black text-lg">${p.title}</h3>
+            <p class="mt-2 text-sm" style="color: rgba(var(--textW),.88)">${p.subtitle}</p>
+            <div class="mt-4 inline-flex items-center gap-2 text-sm font-bold"
+              style="color: rgb(var(--accent))">
+              View Details <i class="fa-solid fa-up-right-from-square"></i>
+            </div>
+          </div>
+        `;
+        card.addEventListener("click", () => openProject(p));
+        projectsGrid.appendChild(card);
+      });
+
+      if(!list.length){
+        const empty = document.createElement("div");
+        empty.className = "glass rounded-3xl p-7 text-sm";
+        empty.style.color = "rgba(var(--muted),1)";
+        empty.textContent = "No projects found. Try another keyword.";
+        projectsGrid.appendChild(empty);
+      }
+    }
+
+    searchProjects.addEventListener("input", renderProjects);
+
+    loadMoreBtn.addEventListener("click", () => {
+      loadedMore = true;
+      loadMoreBtn.disabled = true;
+      loadMoreBtn.textContent = "Loaded";
+      renderProjects();
+    });
+
+    // Modal
+    const projectModal = document.getElementById("projectModal");
+    const modalOverlay = document.getElementById("modalOverlay");
+    const modalClose = document.getElementById("modalClose");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalIntro = document.getElementById("modalIntro");
+    const modalSections = document.getElementById("modalSections");
+    const modalVideoWrap = document.getElementById("modalVideoWrap");
+    const modalVideo = document.getElementById("modalVideo");
+    const modalImage = document.getElementById("modalImage");
+
+    function openProject(p){
+      modalTitle.textContent = p.title;
+      modalIntro.textContent = p.modal?.intro || p.subtitle || "";
+
+      // reset
+      modalSections.innerHTML = "";
+      modalImage.classList.add("hidden");
+      modalVideoWrap.classList.add("hidden");
+      modalVideo.src = "";
+
+      // video if exists
+      if(p.modal?.youtube){
+        modalVideoWrap.classList.remove("hidden");
+        modalVideo.src = p.modal.youtube;
+      }
+
+      // sections
+      if(p.modal?.features?.length){
+        modalSections.appendChild(sectionList("Features", p.modal.features));
+      }
+      if(p.modal?.tech?.length){
+        modalSections.appendChild(sectionList("Technologies Used", p.modal.tech));
+      }
+      if(p.modal?.challenges){
+        modalSections.appendChild(sectionText("Challenges Faced", p.modal.challenges));
+      }
+      if(p.modal?.providesTitle || p.modal?.providesText){
+        modalSections.appendChild(sectionText(p.modal.providesTitle || "What It Provides", p.modal.providesText || ""));
+      }
+      if(p.modal?.providesList?.length){
+        modalSections.appendChild(sectionList("Key Benefits", p.modal.providesList));
+      }
+      if(p.modal?.extra?.length){
+        modalSections.appendChild(sectionList("Highlights", p.modal.extra));
+      }
+
+      // image
+      if(p.modal?.image){
+        modalImage.src = p.modal.image;
+        modalImage.classList.remove("hidden");
+      }
+
+      projectModal.classList.remove("hidden");
       document.body.classList.add("no-scroll");
     }
 
-    function closeModal() {
-      modal.classList.add("hidden");
+    function closeProject(){
+      projectModal.classList.add("hidden");
+      modalVideo.src = "";
       document.body.classList.remove("no-scroll");
     }
 
-    document.querySelectorAll(".projectCard").forEach(btn => {
-      btn.addEventListener("click", () => {
-        openModal({
-          title: btn.dataset.title,
-          desc: btn.dataset.desc,
-          img: btn.dataset.img,
-          tags: btn.dataset.tags
-        });
+    function sectionList(title, items){
+      const wrap = document.createElement("div");
+      wrap.className = "glass rounded-2xl p-5";
+      wrap.innerHTML = `<h4 class="font-black text-base mb-3">${title}</h4>`;
+      const ul = document.createElement("ul");
+      ul.className = "grid gap-2 md:grid-cols-2 text-sm";
+      items.forEach(it => {
+        const li = document.createElement("li");
+        li.className = "glass rounded-2xl px-4 py-3";
+        li.innerHTML = `<i class="fa-solid fa-check mr-2" style="color: rgb(var(--accent))"></i>${it}`;
+        ul.appendChild(li);
       });
+      wrap.appendChild(ul);
+      return wrap;
+    }
+
+    function sectionText(title, text){
+      const wrap = document.createElement("div");
+      wrap.className = "glass rounded-2xl p-5";
+      wrap.innerHTML = `<h4 class="font-black text-base">${title}</h4><p class="mt-2 text-sm leading-relaxed" style="color: rgba(var(--textW),.90)">${text}</p>`;
+      return wrap;
+    }
+
+    modalOverlay.addEventListener("click", closeProject);
+    modalClose.addEventListener("click", closeProject);
+    window.addEventListener("keydown", (e) => { if(e.key === "Escape") { closeProject(); closeCert(); } });
+
+    renderProjects();
+
+    // ==============================
+    // Typed roles (with sound)
+    // ==============================
+    const typedEl = document.getElementById("typedText");
+    const typingSound = document.getElementById("typing-sound");
+    typingSound.volume = 0.12;
+
+    let roleIndex = 0, charIndex = 0, deleting = false;
+    const typeSpeed = 55, deleteSpeed = 30, pause = 900;
+
+    function tick(){
+      const role = DATA.typedRoles[roleIndex];
+      if(!deleting){
+        typedEl.textContent = role.slice(0, charIndex++);
+        playSafe(typingSound);
+        if(charIndex > role.length){
+          deleting = true;
+          setTimeout(tick, pause);
+          return;
+        }
+        setTimeout(tick, typeSpeed);
+      } else {
+        typedEl.textContent = role.slice(0, charIndex--);
+        if(charIndex < 0){
+          deleting = false;
+          roleIndex = (roleIndex + 1) % DATA.typedRoles.length;
+          charIndex = 0;
+        }
+        setTimeout(tick, deleteSpeed);
+      }
+    }
+    tick();
+
+    // ==============================
+    // Music Player
+    // ==============================
+    const player = document.getElementById("player");
+    const trackName = document.getElementById("trackName");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const playBtn = document.getElementById("playBtn");
+    const playIcon = document.getElementById("playIcon");
+    const pauseIcon = document.getElementById("pauseIcon");
+
+    let tIndex = 0;
+    function loadTrack(i){
+      const t = DATA.tracks[i];
+      player.src = t.url;
+      trackName.textContent = t.name;
+    }
+    loadTrack(tIndex);
+
+    function togglePlay(){
+      if(player.paused){
+        player.play();
+        playIcon.classList.add("hidden");
+        pauseIcon.classList.remove("hidden");
+      }else{
+        player.pause();
+        playIcon.classList.remove("hidden");
+        pauseIcon.classList.add("hidden");
+      }
+    }
+    function prevTrack(){
+      tIndex = (tIndex - 1 + DATA.tracks.length) % DATA.tracks.length;
+      loadTrack(tIndex);
+      player.play();
+      playIcon.classList.add("hidden");
+      pauseIcon.classList.remove("hidden");
+    }
+    function nextTrack(){
+      tIndex = (tIndex + 1) % DATA.tracks.length;
+      loadTrack(tIndex);
+      player.play();
+      playIcon.classList.add("hidden");
+      pauseIcon.classList.remove("hidden");
+    }
+
+    playBtn.addEventListener("click", togglePlay);
+    prevBtn.addEventListener("click", prevTrack);
+    nextBtn.addEventListener("click", nextTrack);
+
+    // ==============================
+    // Contact form (Google Script)
+    // ==============================
+    const form = document.getElementById("contactForm");
+    const formMsg = document.getElementById("formMsg");
+    const submitBtn = document.getElementById("submitBtn");
+
+    function sanitize(input){
+      const div = document.createElement("div");
+      div.innerText = input;
+      return div.innerHTML;
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      // sanitize
+      form.Name.value = sanitize(form.Name.value);
+      form.Email.value = sanitize(form.Email.value);
+      form.Message.value = sanitize(form.Message.value);
+
+      formMsg.textContent = "Sending message...";
+      submitBtn.disabled = true;
+
+      try{
+        const res = await fetch(DATA.googleScriptURL, { method: "POST", body: new FormData(form) });
+        if(!res.ok) throw new Error("Failed");
+        formMsg.textContent = "Message sent successfully!";
+        form.reset();
+        setTimeout(() => formMsg.textContent = "", 5000);
+      }catch(err){
+        formMsg.textContent = "Error sending message. Please try again later.";
+      }finally{
+        submitBtn.disabled = false;
+      }
     });
 
-    modalClose.addEventListener("click", closeModal);
-    modal.addEventListener("click", (e) => { if (e.target === modal.firstElementChild) closeModal(); });
-    window.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
-
-    // BACK TO TOP
+    // ==============================
+    // Back to top
+    // ==============================
     const backTop = document.getElementById("backTop");
     window.addEventListener("scroll", () => {
-      backTop.classList.toggle("hidden", window.scrollY < 400);
+      backTop.classList.toggle("hidden", window.scrollY < 350);
     });
     backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
-    // CONTACT FORM (replace with your Google Script if you want)
-    const contactForm = document.getElementById("contactForm");
-    const formMsg = document.getElementById("formMsg");
-    contactForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      formMsg.textContent = "Message ready ✅ (connect your Google Script endpoint to submit).";
-      contactForm.reset();
+    // ==============================
+    // Custom Cursor toggle
+    // ==============================
+    const cursorBtn = document.getElementById("cursorBtn");
+    const cursorDot = document.getElementById("cursorDot");
+    const cursorRing = document.getElementById("cursorRing");
+
+    function setCursorEnabled(enabled){
+      localStorage.setItem("cursor", enabled ? "on" : "off");
+      document.body.classList.toggle("custom-cursor-enabled", enabled);
+      cursorDot.hidden = !enabled;
+      cursorRing.hidden = !enabled;
+    }
+
+    const cursorDefault = (localStorage.getItem("cursor") || "off") === "on";
+    setCursorEnabled(cursorDefault);
+
+    cursorBtn.addEventListener("click", () => {
+      const now = (localStorage.getItem("cursor") || "off") === "on";
+      setCursorEnabled(!now);
     });
+
+    document.addEventListener("mousemove", (e) => {
+      if(cursorDot.hidden) return;
+      cursorDot.style.left = e.clientX + "px";
+      cursorDot.style.top = e.clientY + "px";
+      cursorRing.style.left = e.clientX + "px";
+      cursorRing.style.top = e.clientY + "px";
+    });
+
+    document.addEventListener("mousedown", () => document.body.classList.add("cursor-active"));
+    document.addEventListener("mouseup", () => document.body.classList.remove("cursor-active"));
   </script>
 </body>
 </html>
