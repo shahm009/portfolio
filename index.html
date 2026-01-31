@@ -25,23 +25,22 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
-      darkMode: "class",
+      darkMode: ["class"], // we will toggle .dark on <html>
       theme: {
         extend: {
           fontFamily: { sans: ["Inter", "ui-sans-serif", "system-ui"] },
           boxShadow: {
-            soft: "0 28px 90px rgba(2,6,23,.35)",
-            glow: "0 0 0 6px rgba(99,102,241,.20)",
+            soft: "0 30px 90px rgba(2, 6, 23, .28)",
+            softDark: "0 30px 90px rgba(0, 0, 0, .60)",
+            focus: "0 0 0 6px rgba(99,102,241,.18)",
           },
           keyframes: {
-            floaty: { "0%,100%": { transform: "translateY(0px)" }, "50%": { transform: "translateY(-10px)" } },
             fadeUp: { "0%": { opacity: 0, transform: "translateY(12px)" }, "100%": { opacity: 1, transform: "translateY(0)" } },
             shimmer: { "0%": { backgroundPosition: "0% 50%" }, "50%": { backgroundPosition: "100% 50%" }, "100%": { backgroundPosition: "0% 50%" } },
             dot: { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-10px)" } },
           },
           animation: {
-            floaty: "floaty 7s ease-in-out infinite",
-            fadeUp: "fadeUp .55s ease-out both",
+            fadeUp: "fadeUp .6s ease-out both",
             shimmer: "shimmer 7s ease infinite",
             dot: "dot 1s ease-in-out infinite",
           }
@@ -51,42 +50,143 @@
   </script>
 
   <style>
-    /* =========================
-       PROFESSIONAL DESIGN TOKENS
-       ========================= */
-    :root{
-      --accent: 99 102 241; /* indigo-500 */
-      --bgA: 2 6 23;        /* slate-950 */
-      --bgB: 15 23 42;      /* slate-900 */
-      --cardW: 255 255 255;
-      --textW: 226 232 240; /* slate-200 */
-      --muted: 148 163 184; /* slate-400 */
-    }
-    html.light{
-      --bgA: 248 250 252; /* slate-50 */
-      --bgB: 241 245 249; /* slate-100 */
-      --textW: 15 23 42;  /* slate-900 */
-      --muted: 71 85 105; /* slate-600 */
+    /* ======================================================
+       REAL LIGHT/DARK SYSTEM (EVERYTHING CHANGES)
+       - We use CSS tokens for ALL surfaces, borders, shadows,
+         inputs, modal, glass, etc.
+       - Toggle: html.dark (default), html.light
+       ====================================================== */
+
+    html{
+      --bg0: 248 250 252;     /* slate-50 */
+      --bg1: 241 245 249;     /* slate-100 */
+      --text: 15 23 42;       /* slate-900 */
+      --muted: 71 85 105;     /* slate-600 */
+      --line: 15 23 42;       /* slate-900 for border with alpha */
+      --card: 255 255 255;    /* white base */
+      --card2: 248 250 252;   /* alt surface */
+      --shadow: 2 6 23;       /* slate-950 */
+      --glowA: 59 130 246;    /* blue-500 */
+      --glowB: 16 185 129;    /* emerald-500 */
+      --glowC: 236 72 153;    /* pink-500 */
+      --brand: 99 102 241;    /* indigo-500 */
+      --radius: 22px;
     }
 
+    html.dark{
+      --bg0: 2 6 23;          /* slate-950 */
+      --bg1: 15 23 42;        /* slate-900 */
+      --text: 226 232 240;    /* slate-200 */
+      --muted: 148 163 184;   /* slate-400 */
+      --line: 255 255 255;
+      --card: 15 23 42;       /* slate-900 */
+      --card2: 2 6 23;        /* slate-950 */
+      --shadow: 0 0 0;
+      --glowA: 99 102 241;    /* indigo */
+      --glowB: 34 211 238;    /* cyan */
+      --glowC: 236 72 153;    /* pink */
+      --brand: 99 102 241;
+    }
+
+    /* Whole page background changes properly */
     body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: rgb(var(--text));
       background:
-        radial-gradient(900px circle at 18% 10%, rgba(var(--accent), .18), transparent 60%),
-        radial-gradient(900px circle at 85% 30%, rgba(34, 211, 238, .14), transparent 60%),
-        radial-gradient(900px circle at 50% 90%, rgba(236, 72, 153, .10), transparent 55%),
-        linear-gradient(180deg, rgb(var(--bgA)), rgb(var(--bgB)));
-      color: rgb(var(--textW));
+        radial-gradient(900px circle at 18% 10%, rgba(var(--glowA), .18), transparent 60%),
+        radial-gradient(900px circle at 85% 30%, rgba(var(--glowB), .12), transparent 60%),
+        radial-gradient(900px circle at 50% 90%, rgba(var(--glowC), .10), transparent 55%),
+        linear-gradient(180deg, rgb(var(--bg0)), rgb(var(--bg1)));
+      min-height: 100vh;
     }
 
-    /* Glass */
-    .glass{
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(18px);
+    /* Smooth theme transition */
+    .theme-transition, .theme-transition *{
+      transition: background-color .35s ease,
+                  color .35s ease,
+                  border-color .35s ease,
+                  box-shadow .35s ease,
+                  opacity .35s ease,
+                  transform .35s ease;
     }
-    html.light .glass{
-      background: rgba(15,23,42,.04);
-      border: 1px solid rgba(15,23,42,.10);
+
+    /* True surfaces */
+    .surface{
+      background: rgba(var(--card), .72);
+      border: 1px solid rgba(var(--line), .10);
+      box-shadow: 0 22px 80px rgba(var(--shadow), .10);
+      border-radius: var(--radius);
+      backdrop-filter: blur(16px);
+    }
+    html.dark .surface{
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.10);
+      box-shadow: 0 22px 90px rgba(0,0,0,.60);
+    }
+
+    .surface-strong{
+      background: rgba(var(--card), .92);
+      border: 1px solid rgba(var(--line), .12);
+      border-radius: var(--radius);
+    }
+    html.dark .surface-strong{
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.12);
+    }
+
+    .chip{
+      border-radius: 999px;
+      border: 1px solid rgba(var(--line), .12);
+      background: rgba(var(--card), .70);
+    }
+    html.dark .chip{
+      border-color: rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+    }
+
+    .btn-glass{
+      border-radius: 16px;
+      border: 1px solid rgba(var(--line), .12);
+      background: rgba(var(--card), .70);
+    }
+    html.dark .btn-glass{
+      border-color: rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+    }
+    .btn-glass:hover{ box-shadow: 0 0 0 6px rgba(var(--brand), .14); }
+
+    .btn-primary{
+      background: rgb(var(--brand));
+      color: rgb(2 6 23);
+      border-radius: 16px;
+      font-weight: 900;
+    }
+    html.dark .btn-primary{
+      color: rgb(2 6 23);
+    }
+
+    .muted{ color: rgba(var(--muted), 1); }
+    .line{ border-color: rgba(var(--line), .12); }
+    html.dark .line{ border-color: rgba(255,255,255,.10); }
+
+    input, textarea{
+      outline: none;
+      border-radius: 16px;
+      border: 1px solid rgba(var(--line), .12);
+      background: rgba(var(--card), .80);
+      color: rgb(var(--text));
+    }
+    html.dark input, html.dark textarea{
+      border-color: rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: rgb(var(--text));
+    }
+    input::placeholder, textarea::placeholder{ color: rgba(var(--muted), .85); }
+
+    :focus-visible{
+      outline: 3px solid rgba(var(--brand), .28);
+      outline-offset: 4px;
+      border-radius: 14px;
     }
 
     /* Scrollbar */
@@ -94,56 +194,120 @@
     ::-webkit-scrollbar-thumb{ background: rgba(148,163,184,.25); border-radius: 999px; }
     ::-webkit-scrollbar-thumb:hover{ background: rgba(148,163,184,.40); }
 
-    /* Selection */
-    ::selection{ background: rgba(var(--accent), .25); }
-
     /* Lock scroll when modal open */
     .no-scroll{ overflow: hidden; }
 
-    /* Custom cursor */
-    body.custom-cursor-enabled { cursor: none; }
-    .cursor-dot{
-      position: fixed;
-      top: 0; left: 0;
-      width: 10px; height: 10px;
-      border-radius: 999px;
-      background: rgba(var(--accent), 1);
-      pointer-events: none;
-      transform: translate(-50%,-50%);
-      z-index: 99999;
-      box-shadow: 0 0 25px rgba(var(--accent), .35);
-    }
-    .cursor-ring{
-      position: fixed;
-      top: 0; left: 0;
-      width: 40px; height: 40px;
-      border-radius: 999px;
-      border: 2px solid rgba(var(--accent), .45);
-      pointer-events: none;
-      transform: translate(-50%,-50%);
-      z-index: 99998;
-      transition: width .15s ease, height .15s ease, border-color .15s ease;
-      background: radial-gradient(circle, rgba(var(--accent), .10), transparent 60%);
-    }
-    .cursor-active .cursor-ring{
-      width: 55px; height: 55px;
-      border-color: rgba(var(--accent), .75);
-    }
-
     /* Preloader */
     #preloader{
-      position: fixed;
-      inset: 0;
-      display: grid;
-      place-items: center;
+      position: fixed; inset: 0;
+      display: grid; place-items: center;
       background: rgb(0,0,0);
       z-index: 999999;
       transition: opacity .4s ease, visibility .4s ease;
     }
     #preloader.hidden{ opacity: 0; visibility: hidden; }
 
-    /* nice focus */
-    :focus-visible{ outline: 3px solid rgba(var(--accent), .4); outline-offset: 4px; border-radius: 14px; }
+    /* Reveal */
+    .reveal{ opacity: 0; transform: translateY(14px); }
+    .reveal.revealed{ opacity: 1; transform: translateY(0); transition: opacity .7s ease, transform .7s ease; }
+
+    /* Active nav */
+    .nav-link{
+      border-radius: 16px;
+      padding: .55rem .9rem;
+      border: 1px solid transparent;
+    }
+    .nav-link:hover{ box-shadow: 0 0 0 6px rgba(var(--brand), .12); }
+    .nav-link.active{
+      background: rgba(var(--brand), .12);
+      border-color: rgba(var(--brand), .22);
+    }
+    html.dark .nav-link.active{
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.14);
+    }
+
+    /* =========================
+       CURSOR: FEW OPTIONS ONLY
+       - No sliders, no settings.
+       - Just a dropdown: Off / Neo / Dot / Ring / Glow
+       ========================= */
+
+    body.cursor-on{ cursor: none; }
+
+    .cursor-dot, .cursor-ring{
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      transform: translate(-50%,-50%);
+      z-index: 99999;
+      will-change: transform, width, height, opacity;
+      display: none;
+    }
+
+    .cursor-dot{
+      width: 10px; height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,1);
+    }
+    .cursor-ring{
+      width: 40px; height: 40px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,255,255,.45);
+      background: radial-gradient(circle, rgba(255,255,255,.10), transparent 60%);
+      z-index: 99998;
+      transition: width .14s ease, height .14s ease, opacity .14s ease, border-color .14s ease;
+    }
+    .cursor-active .cursor-ring{ opacity: .9; }
+
+    /* Cursor styles */
+    body.cursor-style-neo .cursor-dot{
+      width: 9px; height: 9px;
+      background: rgba(255,255,255,1);
+      box-shadow: 0 0 22px rgba(255,255,255,.22);
+    }
+    body.cursor-style-neo .cursor-ring{
+      width: 44px; height: 44px;
+      border-color: rgba(255,255,255,.38);
+      background: radial-gradient(circle, rgba(99,102,241,.18), transparent 65%);
+      box-shadow: 0 0 30px rgba(99,102,241,.18);
+    }
+
+    body.cursor-style-dot .cursor-ring{ display: none !important; }
+    body.cursor-style-dot .cursor-dot{
+      width: 12px; height: 12px;
+      background: rgba(255,255,255,1);
+      box-shadow: 0 0 26px rgba(99,102,241,.18);
+    }
+
+    body.cursor-style-ring .cursor-dot{
+      width: 6px; height: 6px; opacity: .85;
+    }
+    body.cursor-style-ring .cursor-ring{
+      width: 52px; height: 52px;
+      border-color: rgba(255,255,255,.55);
+      background: radial-gradient(circle, rgba(255,255,255,.08), transparent 60%);
+    }
+
+    body.cursor-style-glow .cursor-dot{
+      width: 8px; height: 8px;
+      background: rgb(var(--brand));
+      box-shadow: 0 0 22px rgba(var(--brand), .45), 0 0 50px rgba(var(--brand), .18);
+    }
+    body.cursor-style-glow .cursor-ring{
+      width: 56px; height: 56px;
+      border-color: rgba(var(--brand), .45);
+      background: radial-gradient(circle, rgba(var(--brand), .14), transparent 62%);
+      box-shadow: 0 0 45px rgba(var(--brand), .22);
+    }
+
+    /* show cursor elements when enabled */
+    body.cursor-on .cursor-dot,
+    body.cursor-on .cursor-ring{ display: block; }
+
+    /* small premium hover on interactive */
+    .hover-pop:hover{ transform: translateY(-2px); }
+
   </style>
 </head>
 
@@ -164,9 +328,9 @@
     </div>
   </div>
 
-  <!-- Custom Cursor -->
-  <div class="cursor-dot" id="cursorDot" hidden></div>
-  <div class="cursor-ring" id="cursorRing" hidden></div>
+  <!-- Cursor -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
 
   <!-- Sounds -->
   <audio id="typing-sound" src="src/typesound.mp3" preload="auto"></audio>
@@ -231,7 +395,6 @@
         { title: "Premiere Pro", img: "images/skills/premiere-logo.png" },
       ],
 
-      // Your original experience list kept + made it cleaner
       experience: [
         { when: "2023 - Current", what: "Electrical and Software Team Lead at UIU Mars Rover Team", details: "Guiding team projects and mentoring members." },
         { when: "2022 - 2023", what: "Mechanical and Fabrication Team Member at UIU Mars Rover Team", details: "Assisting in design and assembly of rover components." },
@@ -255,8 +418,6 @@
         { year: "2023", title: "URC 2023 — University Rover Challenge (URC)", img: "images/Cerificates/urc23.jpg" },
         { year: "2023", title: "aRC 2023 — Anatolian Rover Challenge (aRC)", img: "images/Cerificates/arc23.jpg" },
         { year: "2024", title: "URC 2024 — University Rover Challenge (URC)", img: "images/Cerificates/urc24.jpg" },
-
-        // ADDED MORE (you can replace images later)
         { year: "2022", title: "URC 2022 — University Rover Challenge (URC)", img: "images/Cerificates/urc23.jpg" },
         { year: "2022", title: "aRC 2022 — Anatolian Rover Challenge (aRC)", img: "images/Cerificates/arc23.jpg" },
       ],
@@ -272,37 +433,35 @@
         { icon: "fa-solid fa-robot", title: "Robotics", desc: "Robotics systems integration using sensor fusion, ROS2 nodes, autonomy pipeline & UI controls." },
       ],
 
-      // Portfolio items + MODALS (kept your AuTax content and video + added more items)
       projects: [
         {
           id: "autax",
           title: "AuTax: A Self-Driving Taxi",
           cover: "images/work/AuTax.png",
-          subtitle: "This project integrates cutting-edge technologies",
+          subtitle: "Autonomous taxi platform integrating vision, ROS2 and sensors.",
           modal: {
-            intro: "AuTax is an innovative project aimed at creating a fully autonomous taxi capable of navigating complex urban environments. This project integrates cutting-edge technologies to deliver a seamless self-driving experience.",
+            intro: "AuTax is an autonomous taxi concept designed to navigate complex urban environments using robotics middleware and real-time perception.",
             youtube: "https://www.youtube.com/embed/TixH0lE5oqY?si=EymC74W6o0SB6848",
             features: [
               "Autonomous navigation through city streets",
-              "Advanced obstacle detection and avoidance",
-              "Integration with a user-friendly mobile app for booking",
-              "Real-time traffic updates and route optimization"
+              "Obstacle detection and avoidance",
+              "Route optimization and realtime telemetry",
+              "Mobile-first operator UI concepts"
             ],
             tech: [
-              "Computer Vision with OpenCV and YOLO for object detection",
-              "ROS2 for robotic control and communication",
-              "LiDAR and Ultrasonic sensors for mapping and navigation",
-              "Python and C++ for core programming"
+              "Computer Vision: OpenCV + YOLO",
+              "ROS2 for control and messaging",
+              "LiDAR + Ultrasonic for sensing",
+              "Python + C++"
             ],
-            challenges: "Tuning navigation algorithms for complex city environments, ensuring safety during dynamic traffic conditions, and optimizing computational resources for real-time processing.",
+            challenges: "Tuning navigation for dynamic environments, resource optimization for real-time processing, and safe behavior design.",
             providesTitle: "What AuTax Provides",
-            providesText: "AuTax is designed to replace expensive platforms like TurtleBot, offering a practical and cost-effective solution for learning and practicing ROS (Robot Operating System).",
+            providesText: "A practical, cost-effective platform for learning ROS and autonomy concepts without expensive robots.",
             providesList: [
-              "Start ROS practice without investing in costly hardware",
-              "Affordable yet powerful alternative to TurtleBot",
-              "Explore self-driving & autonomy concepts on a flexible platform",
-              "Develop and test custom navigation algorithms",
-              "Focus on learning and innovating instead of budget constraints"
+              "Start ROS practice without costly hardware",
+              "Affordable alternative to TurtleBot-type kits",
+              "Build and test navigation algorithms",
+              "Learn autonomy pipeline end-to-end"
             ],
             image: "images/work/AuTax.png"
           }
@@ -311,95 +470,40 @@
           id: "social",
           title: "Social Media App",
           cover: "images/work/work-1.png",
-          subtitle: "Connect with people worldwide, fostering real-time communication.",
-          modal: {
-            intro: "This app connects users globally, fostering real-time communication and collaboration.",
-            image: "images/work/work-2.png",
-            extra: [
-              "Clean feed layout with modern spacing",
-              "Profile & messaging UI patterns",
-              "Mobile-first responsive structure"
-            ]
-          }
+          subtitle: "Real-time communication UI concept with clean feed patterns.",
+          modal: { intro: "A modern social UI concept focusing on readability, spacing, and interaction states.", image: "images/work/work-2.png",
+            extra: ["Clean feed layout", "Profile + messaging patterns", "Mobile-first responsive structure"] }
         },
         {
           id: "music",
           title: "Music App",
           cover: "images/work/work-2.png",
-          subtitle: "Stream your favorite tracks, create playlists, and discover new music daily.",
-          modal: {
-            intro: "Enjoy seamless music streaming, curated playlists, and daily recommendations.",
-            image: "images/work/work-3.png",
-            extra: [
-              "Playlist-focused UX",
-              "Better typography and contrast",
-              "Smooth interaction states"
-            ]
-          }
+          subtitle: "Stream tracks, playlists, and discover new music daily.",
+          modal: { intro: "A music UX concept with playlist-first navigation.", image: "images/work/work-3.png",
+            extra: ["Playlist-focused UX", "Better typography + contrast", "Smooth interaction states"] }
         },
-
-        // ADDED MORE PROJECTS (you can replace images/text)
         {
           id: "robotdog",
           title: "Quadruped Robot Dog (Prototype)",
           cover: "images/work/work-4.png",
           subtitle: "Embedded + sensors + gait control + remote monitoring.",
-          modal: {
-            intro: "A quadruped robot prototype focused on stable locomotion, sensor-driven feedback, and remote UI control for inspection and hazardous environment monitoring.",
-            extra: [
-              "IMU-based posture stabilization",
-              "Gait patterns and motion profiling",
-              "Wireless telemetry & dashboard UI",
-              "Modular hardware design for upgrades"
-            ]
-          }
+          modal: { intro: "Quadruped prototype focused on stable locomotion, sensor feedback and remote UI control.",
+            extra: ["IMU-based posture stabilization","Gait patterns and motion profiling","Wireless telemetry + dashboard UI","Modular hardware design for upgrades"] }
         },
         {
           id: "iotdash",
           title: "IoT Dashboard UI (Concept)",
           cover: "images/work/work-5.png",
-          subtitle: "A clean dashboard for device monitoring, alerts and analytics.",
-          modal: {
-            intro: "A professional IoT dashboard UI concept for monitoring sensor streams, alerts, device status and history graphs.",
-            extra: [
-              "Status cards + logs + filters",
-              "Alert center with severity levels",
-              "Device list & quick actions",
-              "Mobile responsive layout"
-            ]
-          }
+          subtitle: "Device monitoring, alerts, analytics and history graphs.",
+          modal: { intro: "A professional IoT dashboard concept for monitoring sensor streams and device health.",
+            extra: ["Status cards + logs + filters","Alert center with severity","Device list & quick actions","Mobile responsive layout"] }
         }
       ],
 
-      // Load-more items (your old ones but cleaned)
       loadMoreProjects: [
-        {
-          id: "gaming",
-          title: "Online Gaming App",
-          cover: "images/work/work-3.png",
-          subtitle: "Engage in thrilling multiplayer battles, level up, and compete with friends.",
-          modal: {
-            intro: "Multiplayer gaming UI/UX concept focusing on matchmaking, profiles, and ranking."
-          }
-        },
-        {
-          id: "multiplayer",
-          title: "Multiplayer Game",
-          cover: "images/work/work-4.png",
-          subtitle: "Learn new skills with interactive courses and live mentorship.",
-          modal: {
-            intro: "Project card placeholder (replace with your real project)."
-          }
-        },
-        {
-          id: "snake",
-          title: "Snake Game",
-          cover: "images/work/work-5.png",
-          subtitle: "Track workouts, set goals, and monitor your progress effortlessly.",
-          modal: {
-            intro: "Project card placeholder (replace with your real project)."
-          }
-        }
+        { id: "gaming", title: "Online Gaming App", cover: "images/work/work-3.png", subtitle: "Multiplayer UI concept with ranking & profile screens.", modal: { intro: "A UI/UX concept focusing on matchmaking, ranking, and profiles." } },
+        { id: "multiplayer", title: "Multiplayer Game", cover: "images/work/work-4.png", subtitle: "Project placeholder (replace with your real project).", modal: { intro: "Project card placeholder (replace with real content)." } },
+        { id: "snake", title: "Snake Game", cover: "images/work/work-5.png", subtitle: "Project placeholder (replace with your real project).", modal: { intro: "Project card placeholder (replace with real content)." } },
       ],
 
       socials: [
@@ -411,10 +515,8 @@
         { icon: "fab fa-stack-overflow", href: "https://stackoverflow.com/users/20249958/shah009" }
       ],
 
-      // Your original Google Script URL kept
       googleScriptURL: "https://script.google.com/macros/s/AKfycbwjMYFVTmh0NAP6JTMf_kPawXRtiZHOcBLp0OOZKQmJgBES_S7jx5rhoA5bzvUu3kRP/exec",
 
-      // Music
       tracks: [
         { name: "Track 1", url: "src/music/Track1.mp3" },
         { name: "Track 2", url: "src/music/Track2.mp3" },
@@ -427,194 +529,187 @@
   <!-- ================= TOP BAR / NAV ================= -->
   <header class="sticky top-0 z-50">
     <div class="mx-auto max-w-7xl px-4 py-3">
-      <div class="glass rounded-2xl px-4 py-3 shadow-soft">
+      <div class="surface px-4 py-3">
         <div class="flex items-center justify-between gap-3">
-          <a href="#home" class="flex items-center gap-3">
+          <a href="#home" class="flex items-center gap-3 hover:opacity-90 transition">
             <img id="logo" class="h-10 w-10 rounded-xl object-cover" alt="Logo" />
             <div class="leading-tight">
               <p class="font-extrabold tracking-tight" id="navName"></p>
-              <p class="text-xs" style="color: rgba(var(--muted),1)">Portfolio • Robotics • Embedded</p>
+              <p class="text-xs muted">Portfolio • Robotics • Embedded</p>
             </div>
           </a>
 
           <nav class="hidden md:flex items-center gap-1">
-            <a class="nav-link px-3 py-2 rounded-xl text-sm hover:shadow-glow transition" href="#home">Home</a>
-            <a class="nav-link px-3 py-2 rounded-xl text-sm hover:shadow-glow transition" href="#about">About</a>
-            <a class="nav-link px-3 py-2 rounded-xl text-sm hover:shadow-glow transition" href="#services">Services</a>
-            <a class="nav-link px-3 py-2 rounded-xl text-sm hover:shadow-glow transition" href="#portfolio">Portfolio</a>
-            <a class="nav-link px-3 py-2 rounded-xl text-sm hover:shadow-glow transition" href="#contact">Contact</a>
+            <a class="nav-link transition" href="#home">Home</a>
+            <a class="nav-link transition" href="#about">About</a>
+            <a class="nav-link transition" href="#services">Services</a>
+            <a class="nav-link transition" href="#portfolio">Portfolio</a>
+            <a class="nav-link transition" href="#contact">Contact</a>
           </nav>
 
           <div class="flex items-center gap-2">
-            <!-- Accent -->
-            <button id="accentBtn"
-              class="glass rounded-xl px-3 py-2 text-sm hover:shadow-glow transition">
-              <i class="fa-solid fa-palette mr-2"></i>Accent
-            </button>
+            <!-- Cursor style -->
+            <div class="hidden sm:flex items-center gap-2 btn-glass px-3 py-2">
+              <i class="fa-solid fa-mouse-pointer muted"></i>
+              <select id="cursorSelect" class="bg-transparent text-sm font-bold outline-none"
+                      style="color: rgb(var(--text));">
+                <option value="off">Cursor: Off</option>
+                <option value="neo">Cursor: Neo</option>
+                <option value="dot">Cursor: Dot</option>
+                <option value="ring">Cursor: Ring</option>
+                <option value="glow">Cursor: Glow</option>
+              </select>
+            </div>
 
             <!-- Theme -->
-            <button id="themeBtn"
-              class="glass rounded-xl px-3 py-2 text-sm hover:shadow-glow transition">
-              <span id="themeIcon">🌙</span>
+            <button id="themeBtn" class="btn-glass px-3 py-2 text-sm font-bold hover:shadow-[0_0_0_6px_rgba(99,102,241,.14)] transition">
+              <span id="themeIcon">☀️</span>
               <span class="hidden sm:inline ml-2">Theme</span>
             </button>
 
-            <!-- Cursor -->
-            <button id="cursorBtn"
-              class="hidden sm:inline glass rounded-xl px-3 py-2 text-sm hover:shadow-glow transition">
-              <i class="fa-solid fa-arrow-pointer mr-2"></i>Cursor
-            </button>
-
             <!-- Mobile -->
-            <button id="menuBtn" class="md:hidden glass rounded-xl px-3 py-2 hover:shadow-glow transition" aria-label="Open menu">
+            <button id="menuBtn" class="md:hidden btn-glass px-3 py-2" aria-label="Open menu">
               <i class="fa-solid fa-bars"></i>
             </button>
-          </div>
-        </div>
-
-        <!-- Accent Panel -->
-        <div id="accentPanel" class="hidden mt-3">
-          <div class="glass rounded-2xl p-4">
-            <p class="text-sm mb-3" style="color: rgba(var(--muted),1)">Choose your accent color (saved)</p>
-            <div class="flex flex-wrap gap-2" id="accentColors"></div>
           </div>
         </div>
 
         <!-- Mobile Menu -->
         <div id="mobileMenu" class="hidden md:hidden mt-3">
           <div class="grid gap-2">
-            <a class="nav-link glass rounded-2xl px-4 py-3" href="#home">Home</a>
-            <a class="nav-link glass rounded-2xl px-4 py-3" href="#about">About</a>
-            <a class="nav-link glass rounded-2xl px-4 py-3" href="#services">Services</a>
-            <a class="nav-link glass rounded-2xl px-4 py-3" href="#portfolio">Portfolio</a>
-            <a class="nav-link glass rounded-2xl px-4 py-3" href="#contact">Contact</a>
+            <a class="btn-glass px-4 py-3" href="#home">Home</a>
+            <a class="btn-glass px-4 py-3" href="#about">About</a>
+            <a class="btn-glass px-4 py-3" href="#services">Services</a>
+            <a class="btn-glass px-4 py-3" href="#portfolio">Portfolio</a>
+            <a class="btn-glass px-4 py-3" href="#contact">Contact</a>
+
+            <!-- Cursor for mobile -->
+            <div class="btn-glass px-4 py-3 flex items-center gap-3">
+              <i class="fa-solid fa-mouse-pointer muted"></i>
+              <select id="cursorSelectMobile" class="bg-transparent text-sm font-bold outline-none"
+                      style="color: rgb(var(--text)); width: 100%;">
+                <option value="off">Cursor: Off</option>
+                <option value="neo">Cursor: Neo</option>
+                <option value="dot">Cursor: Dot</option>
+                <option value="ring">Cursor: Ring</option>
+                <option value="glow">Cursor: Glow</option>
+              </select>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </header>
 
   <!-- ================= HERO ================= -->
   <main id="home" class="mx-auto max-w-7xl px-4 pt-6 pb-16">
-    <section class="glass rounded-3xl overflow-hidden shadow-soft">
+    <section class="surface overflow-hidden shadow-[0_30px_90px_rgba(2,6,23,.10)] reveal">
       <div class="relative">
-        <!-- Background image overlay -->
-        <div id="heroBg" class="absolute inset-0 bg-center bg-cover opacity-[.25]"></div>
-        <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/35 to-black/65"></div>
+        <div id="heroBg" class="absolute inset-0 bg-center bg-cover opacity-[.20]"></div>
+        <div class="absolute inset-0"
+          style="background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.10), rgba(0,0,0,.22));"></div>
 
         <div class="relative p-7 md:p-10">
           <div class="grid gap-10 md:grid-cols-2 md:items-center">
-            <div class="animate-fadeUp">
-              <p class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs glass">
-                <span class="h-2 w-2 rounded-full" style="background: rgb(var(--accent))"></span>
+            <div>
+              <p class="inline-flex items-center gap-2 chip px-4 py-2 text-xs">
+                <span class="h-2 w-2 rounded-full" style="background: rgb(var(--brand))"></span>
                 Available for collaborations • Remote / On-site
               </p>
 
               <h1 class="mt-5 text-3xl md:text-5xl font-black leading-tight">
-                Hi, I am <span class="bg-gradient-to-r from-cyan-300 to-indigo-300 bg-clip-text text-transparent" id="heroName"></span>
-                <span class="block mt-2 text-base md:text-lg font-semibold" style="color: rgba(var(--muted),1)">
+                Hi, I am <span class="bg-gradient-to-r from-cyan-500 to-indigo-500 bg-clip-text text-transparent" id="heroName"></span>
+                <span class="block mt-2 text-base md:text-lg font-semibold muted">
                   from <span id="heroLocation"></span>.
                 </span>
               </h1>
 
-              <!-- Typed roles -->
               <p class="mt-4 text-lg md:text-xl font-semibold">
-                <span style="color: rgba(var(--muted),1)">I am</span>
+                <span class="muted">I am</span>
                 <span id="typedText" class="ml-2 font-extrabold"></span>
                 <span class="ml-1 opacity-60" id="typingCursor">|</span>
               </p>
 
-              <p class="mt-4 text-sm md:text-base leading-relaxed" style="color: rgba(var(--textW),.90)">
+              <p class="mt-4 text-sm md:text-base leading-relaxed" style="color: rgba(var(--text),.92)">
                 I build real-world systems combining <b>embedded engineering</b>, <b>robotics (ROS2)</b>, <b>IoT</b>, and <b>computer vision</b>.
                 I also design high-quality <b>UI/UX</b> for dashboards, apps and project portfolios.
               </p>
 
               <div class="mt-6 flex flex-wrap gap-3">
-                <a href="#portfolio"
-                  class="rounded-2xl px-5 py-3 font-black text-slate-950 hover:opacity-90 transition"
-                  style="background: rgb(var(--accent))">
+                <a href="#portfolio" class="btn-primary px-5 py-3 hover:opacity-90 transition hover-pop">
                   View Portfolio <i class="fa-solid fa-arrow-right ml-2"></i>
                 </a>
 
-                <a href="#contact"
-                  class="glass rounded-2xl px-5 py-3 font-black hover:shadow-glow transition">
+                <a href="#contact" class="btn-glass px-5 py-3 font-black hover-pop transition">
                   Contact Me <i class="fa-solid fa-paper-plane ml-2"></i>
                 </a>
 
-                <a id="cvBtnTop"
-                  class="glass rounded-2xl px-5 py-3 font-black hover:shadow-glow transition"
-                  download>
+                <a id="cvBtnTop" class="btn-glass px-5 py-3 font-black hover-pop transition" download>
                   Download CV <i class="fa-solid fa-download ml-2"></i>
                 </a>
               </div>
 
-              <!-- Strong “pro” chips -->
               <div class="mt-6 flex flex-wrap gap-2">
-                <span class="glass rounded-full px-3 py-2 text-xs">ROS2 • Robotics</span>
-                <span class="glass rounded-full px-3 py-2 text-xs">Embedded • IoT</span>
-                <span class="glass rounded-full px-3 py-2 text-xs">OpenCV • MediaPipe</span>
-                <span class="glass rounded-full px-3 py-2 text-xs">UI/UX • Adobe Suite</span>
+                <span class="chip px-3 py-2 text-xs">ROS2 • Robotics</span>
+                <span class="chip px-3 py-2 text-xs">Embedded • IoT</span>
+                <span class="chip px-3 py-2 text-xs">OpenCV • MediaPipe</span>
+                <span class="chip px-3 py-2 text-xs">UI/UX • Adobe Suite</span>
               </div>
             </div>
 
-            <!-- Right side: pro card + music -->
-            <div class="animate-fadeUp" style="animation-delay:.08s">
-              <div class="glass rounded-3xl p-5 md:p-6">
+            <div>
+              <div class="surface-strong p-5 md:p-6">
                 <div class="flex items-center gap-4">
-                  <img id="avatar" class="h-16 w-16 rounded-2xl object-cover ring-2 ring-white/10" alt="Avatar">
+                  <img id="avatar" class="h-16 w-16 rounded-2xl object-cover ring-2 ring-black/5 dark:ring-white/10" alt="Avatar">
                   <div class="flex-1">
                     <p class="font-black text-lg" id="cardName"></p>
-                    <p class="text-sm" style="color: rgba(var(--muted),1)">
-                      Embedded • Robotics • IoT • Developer
-                    </p>
+                    <p class="text-sm muted">Embedded • Robotics • IoT • Developer</p>
                   </div>
-                  <div class="h-10 w-10 rounded-2xl grid place-items-center"
-                    style="background: rgba(var(--accent), .18)">
-                    <i class="fa-solid fa-bolt" style="color: rgb(var(--accent))"></i>
+                  <div class="h-10 w-10 rounded-2xl grid place-items-center" style="background: rgba(var(--brand), .14)">
+                    <i class="fa-solid fa-bolt" style="color: rgb(var(--brand))"></i>
                   </div>
                 </div>
 
                 <div class="mt-5 grid grid-cols-2 gap-3">
-                  <div class="glass rounded-2xl p-4">
-                    <p class="text-xs" style="color: rgba(var(--muted),1)">Main Stack</p>
+                  <div class="btn-glass p-4">
+                    <p class="text-xs muted">Main Stack</p>
                     <p class="mt-1 font-bold">C/C++ • Python</p>
                   </div>
-                  <div class="glass rounded-2xl p-4">
-                    <p class="text-xs" style="color: rgba(var(--muted),1)">Robotics</p>
+                  <div class="btn-glass p-4">
+                    <p class="text-xs muted">Robotics</p>
                     <p class="mt-1 font-bold">ROS2 • Sensors</p>
                   </div>
-                  <div class="glass rounded-2xl p-4">
-                    <p class="text-xs" style="color: rgba(var(--muted),1)">Design</p>
+                  <div class="btn-glass p-4">
+                    <p class="text-xs muted">Design</p>
                     <p class="mt-1 font-bold">UI/UX • Branding</p>
                   </div>
-                  <div class="glass rounded-2xl p-4">
-                    <p class="text-xs" style="color: rgba(var(--muted),1)">IoT</p>
+                  <div class="btn-glass p-4">
+                    <p class="text-xs muted">IoT</p>
                     <p class="mt-1 font-bold">Wi-Fi • Dashboards</p>
                   </div>
                 </div>
 
-                <!-- Music Player (Pro) -->
-                <div class="mt-5 glass rounded-2xl p-4">
-                  <p class="text-xs mb-2" style="color: rgba(var(--muted),1)">Music Player</p>
+                <!-- Music Player -->
+                <div class="mt-5 btn-glass p-4">
+                  <p class="text-xs mb-2 muted">Music Player</p>
                   <div class="flex items-center gap-3">
-                    <button id="prevBtn" class="glass rounded-xl px-3 py-2 hover:shadow-glow transition" aria-label="Previous">
+                    <button id="prevBtn" class="btn-glass px-3 py-2 hover-pop transition" aria-label="Previous">
                       <i class="fa-solid fa-backward"></i>
                     </button>
 
-                    <button id="playBtn"
-                      class="rounded-xl px-4 py-2 font-black text-slate-950 hover:opacity-90 transition"
-                      style="background: rgb(var(--accent))">
+                    <button id="playBtn" class="btn-primary px-4 py-2 hover:opacity-90 transition hover-pop">
                       <i id="playIcon" class="fa-solid fa-play"></i>
                       <i id="pauseIcon" class="fa-solid fa-pause hidden"></i>
                       <span class="ml-2">Play</span>
                     </button>
 
-                    <button id="nextBtn" class="glass rounded-xl px-3 py-2 hover:shadow-glow transition" aria-label="Next">
+                    <button id="nextBtn" class="btn-glass px-3 py-2 hover-pop transition" aria-label="Next">
                       <i class="fa-solid fa-forward"></i>
                     </button>
 
                     <div class="ml-auto text-right">
-                      <p class="text-xs" style="color: rgba(var(--muted),1)">Now Playing</p>
+                      <p class="text-xs muted">Now Playing</p>
                       <p class="text-sm font-bold truncate max-w-[170px]" id="trackName">Track</p>
                     </div>
                   </div>
@@ -629,124 +724,93 @@
     </section>
 
     <!-- ================= ABOUT ================= -->
-    <section id="about" class="mt-10">
-      <div class="glass rounded-3xl p-7 md:p-10 shadow-soft">
+    <section id="about" class="mt-10 reveal">
+      <div class="surface p-7 md:p-10">
         <div class="flex items-end justify-between flex-wrap gap-3">
           <div>
             <h2 class="text-2xl md:text-4xl font-black" id="aboutTitle"></h2>
-            <p class="mt-2 text-sm md:text-base" style="color: rgba(var(--muted),1)">
+            <p class="mt-2 text-sm md:text-base muted">
               A clear and professional overview — easy to expand.
             </p>
           </div>
           <div class="flex gap-2 flex-wrap">
-            <button class="tabBtn glass rounded-2xl px-4 py-2 text-sm font-bold hover:shadow-glow transition" data-tab="skillsTab">Skills</button>
-            <button class="tabBtn glass rounded-2xl px-4 py-2 text-sm font-bold hover:shadow-glow transition" data-tab="experienceTab">Experience</button>
-            <button class="tabBtn glass rounded-2xl px-4 py-2 text-sm font-bold hover:shadow-glow transition" data-tab="educationTab">Education</button>
-            <button class="tabBtn glass rounded-2xl px-4 py-2 text-sm font-bold hover:shadow-glow transition" data-tab="certTab">Certifications</button>
+            <button class="tabBtn btn-glass px-4 py-2 text-sm font-black hover-pop transition" data-tab="skillsTab">Skills</button>
+            <button class="tabBtn btn-glass px-4 py-2 text-sm font-black hover-pop transition" data-tab="experienceTab">Experience</button>
+            <button class="tabBtn btn-glass px-4 py-2 text-sm font-black hover-pop transition" data-tab="educationTab">Education</button>
+            <button class="tabBtn btn-glass px-4 py-2 text-sm font-black hover-pop transition" data-tab="certTab">Certifications</button>
           </div>
         </div>
 
         <div class="mt-7 grid gap-7 md:grid-cols-3 md:items-start">
           <div class="md:col-span-1">
-            <div class="glass rounded-3xl p-5">
-              <img id="aboutImg" class="w-full rounded-2xl object-cover animate-floaty" alt="About photo">
+            <div class="surface-strong p-5">
+              <img id="aboutImg" class="w-full rounded-2xl object-cover" alt="About photo">
               <div class="mt-4 grid grid-cols-2 gap-3" id="quickStats"></div>
             </div>
           </div>
 
           <div class="md:col-span-2">
-            <div class="glass rounded-3xl p-6 md:p-7">
+            <div class="surface-strong p-6 md:p-7">
               <div class="space-y-4 text-sm md:text-base leading-relaxed" id="aboutParagraphs"></div>
             </div>
 
-            <!-- TABS -->
             <div class="mt-5">
-              <!-- SKILLS TAB -->
               <div id="skillsTab" class="tabPanel">
-                <div class="glass rounded-3xl p-6 md:p-7">
-                  <p class="text-sm mb-4" style="color: rgba(var(--muted),1)">
-                    Your original skill icons — now in a pro grid + hover tooltip.
+                <div class="surface-strong p-6 md:p-7">
+                  <p class="text-sm mb-4 muted">
+                    Skill icons in a clean pro grid.
                   </p>
                   <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3" id="skillsGrid"></div>
 
-                  <!-- ADDED: Skill categories (more content) -->
                   <div class="mt-6 grid gap-3 md:grid-cols-2">
-                    <div class="glass rounded-2xl p-5">
-                      <p class="text-xs" style="color: rgba(var(--muted),1)">Robotics</p>
+                    <div class="btn-glass p-5">
+                      <p class="text-xs muted">Robotics</p>
                       <p class="mt-2 font-bold">ROS2 • Sensor fusion • Kinematics • Telemetry</p>
                     </div>
-                    <div class="glass rounded-2xl p-5">
-                      <p class="text-xs" style="color: rgba(var(--muted),1)">Embedded</p>
+                    <div class="btn-glass p-5">
+                      <p class="text-xs muted">Embedded</p>
                       <p class="mt-2 font-bold">I2C/SPI/UART • PWM • Drivers • Debugging</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- EXPERIENCE TAB -->
               <div id="experienceTab" class="tabPanel hidden">
-                <div class="glass rounded-3xl p-6 md:p-7">
+                <div class="surface-strong p-6 md:p-7">
                   <div class="space-y-3" id="experienceList"></div>
-
-                  <!-- ADDED: Strong “impact” section -->
-                  <div class="mt-6 glass rounded-2xl p-5">
-                    <p class="text-xs" style="color: rgba(var(--muted),1)">What I do best</p>
-                    <ul class="mt-3 grid gap-2 md:grid-cols-2 text-sm">
-                      <li class="glass rounded-2xl px-4 py-3"><i class="fa-solid fa-check mr-2" style="color: rgb(var(--accent))"></i>System-level thinking (HW + SW)</li>
-                      <li class="glass rounded-2xl px-4 py-3"><i class="fa-solid fa-check mr-2" style="color: rgb(var(--accent))"></i>Clean UI/UX & product presentation</li>
-                      <li class="glass rounded-2xl px-4 py-3"><i class="fa-solid fa-check mr-2" style="color: rgb(var(--accent))"></i>Prototyping & iteration fast</li>
-                      <li class="glass rounded-2xl px-4 py-3"><i class="fa-solid fa-check mr-2" style="color: rgb(var(--accent))"></i>Debugging hard problems</li>
-                    </ul>
-                  </div>
                 </div>
               </div>
 
-              <!-- EDUCATION TAB -->
               <div id="educationTab" class="tabPanel hidden">
-                <div class="glass rounded-3xl p-6 md:p-7">
+                <div class="surface-strong p-6 md:p-7">
                   <div class="space-y-3" id="educationList"></div>
-
-                  <!-- ADDED: Coursework block -->
-                  <div class="mt-6 glass rounded-2xl p-5">
-                    <p class="text-xs" style="color: rgba(var(--muted),1)">Relevant Areas</p>
-                    <div class="mt-3 flex flex-wrap gap-2 text-xs">
-                      <span class="glass rounded-full px-3 py-2">Embedded Systems</span>
-                      <span class="glass rounded-full px-3 py-2">Robotics</span>
-                      <span class="glass rounded-full px-3 py-2">Computer Vision</span>
-                      <span class="glass rounded-full px-3 py-2">IoT & Networks</span>
-                      <span class="glass rounded-full px-3 py-2">UI/UX</span>
-                    </div>
-                  </div>
                 </div>
               </div>
 
-              <!-- CERT TAB -->
               <div id="certTab" class="tabPanel hidden">
-                <div class="glass rounded-3xl p-6 md:p-7">
-                  <p class="text-sm mb-4" style="color: rgba(var(--muted),1)">
-                    Your original certificates + added more. Click to preview.
-                  </p>
+                <div class="surface-strong p-6 md:p-7">
+                  <p class="text-sm mb-4 muted">Click to preview certificates.</p>
                   <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id="certGrid"></div>
                 </div>
               </div>
             </div>
-            <!-- END TABS -->
+
           </div>
         </div>
       </div>
     </section>
 
     <!-- ================= SERVICES ================= -->
-    <section id="services" class="mt-10">
-      <div class="glass rounded-3xl p-7 md:p-10 shadow-soft">
+    <section id="services" class="mt-10 reveal">
+      <div class="surface p-7 md:p-10">
         <div class="flex items-end justify-between flex-wrap gap-3">
           <div>
             <h2 class="text-2xl md:text-4xl font-black">My Services</h2>
-            <p class="mt-2 text-sm md:text-base" style="color: rgba(var(--muted),1)">
-              Your original 8 services — redesigned into premium cards.
+            <p class="mt-2 text-sm md:text-base muted">
+              Premium service cards with micro-interactions.
             </p>
           </div>
-          <span class="glass rounded-full px-4 py-2 text-xs">Hover cards for interaction</span>
+          <span class="chip px-4 py-2 text-xs">Hover cards for interaction</span>
         </div>
 
         <div class="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" id="servicesGrid"></div>
@@ -754,23 +818,20 @@
     </section>
 
     <!-- ================= PORTFOLIO ================= -->
-    <section id="portfolio" class="mt-10">
-      <div class="glass rounded-3xl p-7 md:p-10 shadow-soft">
+    <section id="portfolio" class="mt-10 reveal">
+      <div class="surface p-7 md:p-10">
         <div class="flex items-end justify-between flex-wrap gap-3">
           <div>
             <h2 class="text-2xl md:text-4xl font-black">My Work</h2>
-            <p class="mt-2 text-sm md:text-base" style="color: rgba(var(--muted),1)">
-              Your original works + added more — with a single professional modal.
+            <p class="mt-2 text-sm md:text-base muted">
+              Works + search + modal details.
             </p>
           </div>
 
           <div class="flex flex-wrap gap-2">
-            <input id="searchProjects"
-              class="glass rounded-2xl px-4 py-3 text-sm w-[220px] md:w-[280px] placeholder:text-slate-400"
-              placeholder="Search projects…"
-            />
-            <button id="loadMoreBtn"
-              class="glass rounded-2xl px-5 py-3 font-black hover:shadow-glow transition">
+            <input id="searchProjects" class="px-4 py-3 text-sm w-[220px] md:w-[280px]"
+              placeholder="Search projects…"/>
+            <button id="loadMoreBtn" class="btn-glass px-5 py-3 font-black hover-pop transition">
               See more
             </button>
           </div>
@@ -781,66 +842,56 @@
     </section>
 
     <!-- ================= CONTACT ================= -->
-    <section id="contact" class="mt-10 pb-16">
-      <div class="glass rounded-3xl p-7 md:p-10 shadow-soft">
+    <section id="contact" class="mt-10 pb-16 reveal">
+      <div class="surface p-7 md:p-10">
         <div class="grid gap-6 md:grid-cols-2">
           <div>
             <h2 class="text-2xl md:text-4xl font-black">Contact Me</h2>
-            <p class="mt-2 text-sm md:text-base" style="color: rgba(var(--muted),1)">
+            <p class="mt-2 text-sm md:text-base muted">
               Let’s collaborate — I respond fast with clear communication.
             </p>
 
             <div class="mt-6 space-y-3">
-              <a id="emailLink" class="glass rounded-2xl px-4 py-3 flex items-center gap-3 hover:shadow-glow transition" href="#">
+              <a id="emailLink" class="btn-glass px-4 py-3 flex items-center gap-3 hover-pop transition" href="#">
                 <i class="fa-solid fa-paper-plane"></i>
                 <span id="emailText"></span>
               </a>
-              <a id="phoneLink" class="glass rounded-2xl px-4 py-3 flex items-center gap-3 hover:shadow-glow transition" href="#">
+              <a id="phoneLink" class="btn-glass px-4 py-3 flex items-center gap-3 hover-pop transition" href="#">
                 <i class="fa-solid fa-phone"></i>
                 <span id="phoneText"></span>
               </a>
 
               <div class="mt-4 flex flex-wrap gap-2" id="socialLinks"></div>
 
-              <a id="cvBtn"
-                class="mt-3 inline-flex items-center gap-2 rounded-2xl px-5 py-3 font-black text-slate-950 hover:opacity-90 transition"
-                style="background: rgb(var(--accent))"
-                download>
+              <a id="cvBtn" class="btn-primary inline-flex items-center gap-2 px-5 py-3 hover:opacity-90 transition hover-pop" download>
                 <i class="fa-solid fa-download"></i> Download CV
               </a>
             </div>
           </div>
 
           <div>
-            <div class="glass rounded-3xl p-6 md:p-7">
+            <div class="surface-strong p-6 md:p-7">
               <h3 class="text-xl font-black">Send a Message</h3>
-              <p class="mt-2 text-sm" style="color: rgba(var(--muted),1)">
-                This connects to your Google Script (same URL you used).
-              </p>
+              <p class="mt-2 text-sm muted">Connected to your Google Script.</p>
 
               <form id="contactForm" class="mt-5 space-y-4">
-                <input class="glass rounded-2xl px-4 py-3 text-sm w-full placeholder:text-slate-400"
-                  type="text" name="Name" placeholder="Your Name" required>
-                <input class="glass rounded-2xl px-4 py-3 text-sm w-full placeholder:text-slate-400"
-                  type="email" name="Email" placeholder="Your Email" required>
-                <textarea class="glass rounded-2xl px-4 py-3 text-sm w-full placeholder:text-slate-400"
-                  name="Message" rows="6" placeholder="Your Message" required></textarea>
+                <input class="px-4 py-3 text-sm w-full" type="text" name="Name" placeholder="Your Name" required>
+                <input class="px-4 py-3 text-sm w-full" type="email" name="Email" placeholder="Your Email" required>
+                <textarea class="px-4 py-3 text-sm w-full" name="Message" rows="6" placeholder="Your Message" required></textarea>
 
-                <button id="submitBtn"
-                  class="w-full rounded-2xl px-5 py-3 font-black text-slate-950 hover:opacity-90 transition"
-                  style="background: rgb(var(--accent))">
+                <button id="submitBtn" class="btn-primary w-full px-5 py-3 hover:opacity-90 transition hover-pop">
                   Submit <i class="fa-solid fa-paper-plane ml-2"></i>
                 </button>
 
-                <p id="formMsg" class="text-sm" style="color: rgba(var(--muted),1)"></p>
+                <p id="formMsg" class="text-sm muted"></p>
               </form>
             </div>
           </div>
         </div>
 
-        <div class="mt-10 border-t border-white/10 pt-6 text-center text-sm" style="color: rgba(var(--muted),1)">
+        <div class="mt-10 border-t pt-6 text-center text-sm line muted">
           Copyright © <span id="year"></span>
-          <span class="font-bold" style="color: rgba(var(--textW),1)"><span id="copyrightName"></span></span>.
+          <span class="font-bold" style="color: rgb(var(--text));"><span id="copyrightName"></span></span>.
           All rights reserved.
         </div>
       </div>
@@ -849,32 +900,31 @@
 
   <!-- Back to top -->
   <button id="backTop"
-    class="fixed bottom-5 right-5 hidden glass rounded-2xl px-4 py-3 hover:shadow-glow transition"
+    class="fixed bottom-5 right-5 hidden btn-glass px-4 py-3 hover-pop transition"
     aria-label="Back to top">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
   <!-- ================= PROJECT MODAL ================= -->
   <div id="projectModal" class="fixed inset-0 hidden z-[999]">
-    <div id="modalOverlay" class="absolute inset-0 bg-black/70"></div>
-
+    <div id="modalOverlay" class="absolute inset-0" style="background: rgba(0,0,0,.65);"></div>
     <div class="relative mx-auto mt-6 max-w-4xl px-4">
-      <div class="glass rounded-3xl overflow-hidden shadow-soft">
-        <div class="flex items-center justify-between p-5 border-b border-white/10">
+      <div class="surface overflow-hidden">
+        <div class="flex items-center justify-between p-5 border-b line">
           <div>
-            <p class="text-xs" style="color: rgba(var(--muted),1)">Project Details</p>
+            <p class="text-xs muted">Project Details</p>
             <h3 id="modalTitle" class="text-lg md:text-xl font-black"></h3>
           </div>
-          <button id="modalClose" class="glass rounded-xl px-3 py-2 hover:shadow-glow transition" aria-label="Close">
+          <button id="modalClose" class="btn-glass px-3 py-2 hover-pop transition" aria-label="Close">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
 
         <div class="p-6 md:p-7 space-y-6 max-h-[80vh] overflow-y-auto">
-          <p id="modalIntro" class="text-sm md:text-base leading-relaxed" style="color: rgba(var(--textW),.92)"></p>
+          <p id="modalIntro" class="text-sm md:text-base leading-relaxed" style="color: rgba(var(--text),.92)"></p>
 
           <div id="modalVideoWrap" class="hidden">
-            <div class="glass rounded-2xl overflow-hidden">
+            <div class="surface-strong overflow-hidden">
               <div class="aspect-video">
                 <iframe id="modalVideo" class="w-full h-full"
                   src="" title="YouTube video player" frameborder="0"
@@ -894,12 +944,12 @@
 
   <!-- ================= CERT PREVIEW MODAL ================= -->
   <div id="certModal" class="fixed inset-0 hidden z-[999]">
-    <div id="certOverlay" class="absolute inset-0 bg-black/70"></div>
+    <div id="certOverlay" class="absolute inset-0" style="background: rgba(0,0,0,.65);"></div>
     <div class="relative mx-auto mt-6 max-w-5xl px-4">
-      <div class="glass rounded-3xl overflow-hidden shadow-soft">
-        <div class="flex items-center justify-between p-4 border-b border-white/10">
+      <div class="surface overflow-hidden">
+        <div class="flex items-center justify-between p-4 border-b line">
           <p id="certTitle" class="font-black"></p>
-          <button id="certClose" class="glass rounded-xl px-3 py-2 hover:shadow-glow transition">
+          <button id="certClose" class="btn-glass px-3 py-2 hover-pop transition">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
@@ -909,105 +959,75 @@
   </div>
 
   <script>
-    // ==============================
-    // Theme + Accent (Pro)
-    // ==============================
-    const ACCENTS = [
-      { name: "Indigo", rgb: "99 102 241" },
-      { name: "Cyan", rgb: "34 211 238" },
-      { name: "Emerald", rgb: "16 185 129" },
-      { name: "Rose", rgb: "244 63 94" },
-      { name: "Amber", rgb: "245 158 11" },
-      { name: "Violet", rgb: "139 92 246" },
-      { name: "Sky", rgb: "56 189 248" },
-    ];
-
+    /* ==============================
+       THEME: true light/dark
+       ============================== */
     const htmlEl = document.documentElement;
 
-    function setTheme(mode){
-      if(mode === "light"){
-        htmlEl.classList.add("light");
-        document.getElementById("themeIcon").textContent = "☀️";
-      }else{
-        htmlEl.classList.remove("light");
+    function applyTheme(mode){
+      document.body.classList.add("theme-transition");
+      if(mode === "dark"){
+        htmlEl.classList.add("dark");
         document.getElementById("themeIcon").textContent = "🌙";
+      }else{
+        htmlEl.classList.remove("dark");
+        document.getElementById("themeIcon").textContent = "☀️";
       }
       localStorage.setItem("theme", mode);
+      setTimeout(() => document.body.classList.remove("theme-transition"), 420);
     }
 
-    function setAccent(rgb){
-      htmlEl.style.setProperty("--accent", rgb);
-      localStorage.setItem("accent", rgb);
-    }
-
-    setTheme(localStorage.getItem("theme") || "dark");
-    setAccent(localStorage.getItem("accent") || "99 102 241");
+    const storedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    applyTheme(storedTheme || (prefersDark ? "dark" : "light"));
 
     document.getElementById("themeBtn").addEventListener("click", () => {
-      const current = localStorage.getItem("theme") || "dark";
-      setTheme(current === "dark" ? "light" : "dark");
+      const current = localStorage.getItem("theme") || (prefersDark ? "dark" : "light");
+      applyTheme(current === "dark" ? "light" : "dark");
     });
 
-    const accentBtn = document.getElementById("accentBtn");
-    const accentPanel = document.getElementById("accentPanel");
-    accentBtn.addEventListener("click", () => accentPanel.classList.toggle("hidden"));
-
-    const accentColors = document.getElementById("accentColors");
-    ACCENTS.forEach(a => {
-      const b = document.createElement("button");
-      b.className = "glass rounded-2xl px-4 py-2 text-sm font-bold hover:shadow-glow transition flex items-center gap-2";
-      b.innerHTML = `<span class="h-3 w-3 rounded-full" style="background: rgb(${a.rgb.replaceAll(" ", ",")})"></span>${a.name}`;
-      b.addEventListener("click", () => setAccent(a.rgb));
-      accentColors.appendChild(b);
-    });
-
-    // ==============================
-    // Preloader
-    // ==============================
+    /* ==============================
+       Preloader
+       ============================== */
     window.addEventListener("load", () => {
-      setTimeout(() => document.getElementById("preloader").classList.add("hidden"), 900);
+      setTimeout(() => document.getElementById("preloader").classList.add("hidden"), 650);
     });
 
-    // ==============================
-    // Mobile Menu
-    // ==============================
+    /* ==============================
+       Mobile Menu
+       ============================== */
     const menuBtn = document.getElementById("menuBtn");
     const mobileMenu = document.getElementById("mobileMenu");
     menuBtn.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
     mobileMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => mobileMenu.classList.add("hidden")));
 
-    // ==============================
-    // Hover Sounds (Nav + Services)
-    // ==============================
+    /* ==============================
+       Hover Sounds
+       ============================== */
     const navSound = document.getElementById("nav-hover-sound");
     navSound.volume = 0.08;
     const srvSound = document.getElementById("service-hover-sound");
-    srvSound.volume = 0.4;
+    srvSound.volume = 0.35;
 
     function playSafe(audio){
       try { audio.currentTime = 0; audio.play(); } catch(e){}
     }
+    document.querySelectorAll(".nav-link").forEach(link => link.addEventListener("mouseover", () => playSafe(navSound)));
 
-    document.querySelectorAll(".nav-link").forEach(link => {
-      link.addEventListener("mouseover", () => playSafe(navSound));
-    });
-
-    // ==============================
-    // Render Core Identity
-    // ==============================
+    /* ==============================
+       Render Identity
+       ============================== */
     const id = DATA.identity;
     document.getElementById("logo").src = id.logo;
     document.getElementById("navName").textContent = id.name;
-
     document.getElementById("heroName").textContent = id.name;
     document.getElementById("heroLocation").textContent = id.location;
+    document.getElementById("avatar").src = id.avatar;
+    document.getElementById("cardName").textContent = id.name;
 
     const heroBg = document.getElementById("heroBg");
     const isMobile = window.matchMedia("(max-width: 600px)").matches;
     heroBg.style.backgroundImage = `url('${isMobile ? id.heroBgMobile : id.heroBg}')`;
-
-    document.getElementById("avatar").src = id.avatar;
-    document.getElementById("cardName").textContent = id.name;
 
     document.getElementById("cvBtn").href = id.cv;
     document.getElementById("cvBtnTop").href = id.cv;
@@ -1017,7 +1037,6 @@
     document.getElementById("phoneText").textContent = id.phone;
     document.getElementById("phoneLink").href = `tel:${id.phone.replaceAll(" ", "")}`;
 
-    // Footer
     document.getElementById("year").textContent = new Date().getFullYear();
     document.getElementById("copyrightName").textContent = id.name;
 
@@ -1027,14 +1046,15 @@
       const a = document.createElement("a");
       a.href = s.href;
       a.target = "_blank";
-      a.className = "glass rounded-2xl px-4 py-3 hover:shadow-glow transition";
+      a.rel = "noreferrer";
+      a.className = "btn-glass px-4 py-3 hover-pop transition";
       a.innerHTML = `<i class="${s.icon}"></i>`;
       socialWrap.appendChild(a);
     });
 
-    // ==============================
-    // About content
-    // ==============================
+    /* ==============================
+       About
+       ============================== */
     document.getElementById("aboutTitle").textContent = DATA.about.title;
     document.getElementById("aboutImg").src = id.avatar;
 
@@ -1048,52 +1068,52 @@
     const statsWrap = document.getElementById("quickStats");
     DATA.about.quickStats.forEach(s => {
       const card = document.createElement("div");
-      card.className = "glass rounded-2xl p-4";
-      card.innerHTML = `<p class="text-xs" style="color: rgba(var(--muted),1)">${s.k}</p><p class="mt-1 font-bold">${s.v}</p>`;
+      card.className = "btn-glass p-4";
+      card.innerHTML = `<p class="text-xs muted">${s.k}</p><p class="mt-1 font-bold">${s.v}</p>`;
       statsWrap.appendChild(card);
     });
 
-    // ==============================
-    // Tabs (Pro)
-    // ==============================
+    /* ==============================
+       Tabs
+       ============================== */
     const tabBtns = document.querySelectorAll(".tabBtn");
     const tabPanels = document.querySelectorAll(".tabPanel");
-    function openTab(id){
+    function openTab(tabId){
       tabPanels.forEach(p => p.classList.add("hidden"));
-      document.getElementById(id).classList.remove("hidden");
+      document.getElementById(tabId).classList.remove("hidden");
       tabBtns.forEach(b => b.style.boxShadow = "none");
-      const activeBtn = [...tabBtns].find(x => x.dataset.tab === id);
-      if(activeBtn) activeBtn.style.boxShadow = "0 0 0 6px rgba(var(--accent), .18)";
+      const activeBtn = [...tabBtns].find(x => x.dataset.tab === tabId);
+      if(activeBtn) activeBtn.style.boxShadow = "0 0 0 6px rgba(99,102,241,.14)";
     }
     tabBtns.forEach(btn => btn.addEventListener("click", () => openTab(btn.dataset.tab)));
     openTab("skillsTab");
 
-    // ==============================
-    // Skills icons grid
-    // ==============================
+    /* ==============================
+       Skills
+       ============================== */
     const skillsGrid = document.getElementById("skillsGrid");
     DATA.skillsIcons.forEach(s => {
       const item = document.createElement("div");
-      item.className = "glass rounded-2xl p-3 grid place-items-center hover:shadow-glow transition group";
+      item.className = "btn-glass p-3 grid place-items-center hover-pop transition";
       item.title = s.title;
       item.innerHTML = `
-        <img src="${s.img}" alt="${s.title}" class="h-10 w-10 object-contain group-hover:scale-110 transition">
-        <p class="mt-2 text-[11px] font-bold text-center" style="color: rgba(var(--muted),1)">${s.title}</p>
+        <img src="${s.img}" alt="${s.title}" class="h-10 w-10 object-contain">
+        <p class="mt-2 text-[11px] font-bold text-center muted">${s.title}</p>
       `;
       skillsGrid.appendChild(item);
     });
 
-    // ==============================
-    // Experience + Education lists
-    // ==============================
+    /* ==============================
+       Experience + Education
+       ============================== */
     const expWrap = document.getElementById("experienceList");
     DATA.experience.forEach(e => {
       const card = document.createElement("div");
-      card.className = "glass rounded-2xl p-5 hover:shadow-glow transition";
+      card.className = "btn-glass p-5 hover-pop transition";
       card.innerHTML = `
-        <p class="text-xs" style="color: rgba(var(--muted),1)">${e.when}</p>
+        <p class="text-xs muted">${e.when}</p>
         <p class="mt-1 font-black">${e.what}</p>
-        <p class="mt-2 text-sm" style="color: rgba(var(--textW),.90)">${e.details}</p>
+        <p class="mt-2 text-sm" style="color: rgba(var(--text),.90)">${e.details}</p>
       `;
       expWrap.appendChild(card);
     });
@@ -1101,18 +1121,18 @@
     const eduWrap = document.getElementById("educationList");
     DATA.education.forEach(e => {
       const card = document.createElement("div");
-      card.className = "glass rounded-2xl p-5 hover:shadow-glow transition";
+      card.className = "btn-glass p-5 hover-pop transition";
       card.innerHTML = `
-        <p class="text-xs" style="color: rgba(var(--muted),1)">${e.when}</p>
+        <p class="text-xs muted">${e.when}</p>
         <p class="mt-1 font-black">${e.what}</p>
-        <p class="mt-2 text-sm" style="color: rgba(var(--textW),.90)">${e.where}</p>
+        <p class="mt-2 text-sm" style="color: rgba(var(--text),.90)">${e.where}</p>
       `;
       eduWrap.appendChild(card);
     });
 
-    // ==============================
-    // Certifications grid + modal
-    // ==============================
+    /* ==============================
+       Certificates
+       ============================== */
     const certGrid = document.getElementById("certGrid");
     const certModal = document.getElementById("certModal");
     const certOverlay = document.getElementById("certOverlay");
@@ -1136,13 +1156,14 @@
 
     DATA.certifications.forEach(c => {
       const card = document.createElement("button");
-      card.className = "text-left glass rounded-3xl overflow-hidden hover:shadow-glow transition";
+      card.className = "text-left btn-glass overflow-hidden hover-pop transition";
+      card.style.borderRadius = "22px";
       card.innerHTML = `
         <div class="aspect-[16/10] overflow-hidden">
-          <img src="${c.img}" alt="${c.title}" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+          <img src="${c.img}" alt="${c.title}" class="w-full h-full object-cover">
         </div>
         <div class="p-5">
-          <p class="text-xs" style="color: rgba(var(--muted),1)">${c.year}</p>
+          <p class="text-xs muted">${c.year}</p>
           <p class="mt-1 font-black">${c.title}</p>
         </div>
       `;
@@ -1150,22 +1171,22 @@
       certGrid.appendChild(card);
     });
 
-    // ==============================
-    // Services grid (with hover sound)
-    // ==============================
+    /* ==============================
+       Services
+       ============================== */
     const servicesGrid = document.getElementById("servicesGrid");
     DATA.services.forEach(s => {
       const card = document.createElement("div");
-      card.className = "service-card glass rounded-3xl p-6 hover:shadow-glow transition cursor-pointer";
+      card.className = "btn-glass p-6 hover-pop transition cursor-pointer";
+      card.style.borderRadius = "22px";
       card.innerHTML = `
-        <div class="h-12 w-12 rounded-2xl grid place-items-center mb-4"
-          style="background: rgba(var(--accent), .18)">
-          <i class="${s.icon}" style="color: rgb(var(--accent))"></i>
+        <div class="h-12 w-12 rounded-2xl grid place-items-center mb-4" style="background: rgba(var(--brand), .14)">
+          <i class="${s.icon}" style="color: rgb(var(--brand))"></i>
         </div>
         <h3 class="font-black text-lg">${s.title}</h3>
-        <p class="mt-2 text-sm leading-relaxed" style="color: rgba(var(--textW),.88)">${s.desc}</p>
+        <p class="mt-2 text-sm leading-relaxed" style="color: rgba(var(--text),.88)">${s.desc}</p>
         <a class="mt-4 inline-flex items-center gap-2 text-sm font-bold hover:opacity-80"
-          href="#contact" style="color: rgb(var(--accent))">
+          href="#contact" style="color: rgb(var(--brand))">
           Learn more <i class="fa-solid fa-arrow-right"></i>
         </a>
       `;
@@ -1173,9 +1194,9 @@
       servicesGrid.appendChild(card);
     });
 
-    // ==============================
-    // Projects grid + search + load more + modal
-    // ==============================
+    /* ==============================
+       Projects + search + load more + modal
+       ============================== */
     const projectsGrid = document.getElementById("projectsGrid");
     const searchProjects = document.getElementById("searchProjects");
     const loadMoreBtn = document.getElementById("loadMoreBtn");
@@ -1196,17 +1217,16 @@
 
       list.forEach(p => {
         const card = document.createElement("button");
-        card.className = "text-left glass rounded-3xl overflow-hidden hover:shadow-glow transition";
+        card.className = "text-left btn-glass overflow-hidden hover-pop transition";
+        card.style.borderRadius = "22px";
         card.innerHTML = `
           <div class="aspect-[16/10] overflow-hidden">
-            <img src="${p.cover}" alt="${p.title}"
-              class="w-full h-full object-cover hover:scale-105 transition duration-500">
+            <img src="${p.cover}" alt="${p.title}" class="w-full h-full object-cover">
           </div>
           <div class="p-5">
             <h3 class="font-black text-lg">${p.title}</h3>
-            <p class="mt-2 text-sm" style="color: rgba(var(--textW),.88)">${p.subtitle}</p>
-            <div class="mt-4 inline-flex items-center gap-2 text-sm font-bold"
-              style="color: rgb(var(--accent))">
+            <p class="mt-2 text-sm" style="color: rgba(var(--text),.88)">${p.subtitle}</p>
+            <div class="mt-4 inline-flex items-center gap-2 text-sm font-bold" style="color: rgb(var(--brand))">
               View Details <i class="fa-solid fa-up-right-from-square"></i>
             </div>
           </div>
@@ -1217,7 +1237,8 @@
 
       if(!list.length){
         const empty = document.createElement("div");
-        empty.className = "glass rounded-3xl p-7 text-sm";
+        empty.className = "btn-glass p-7 text-sm";
+        empty.style.borderRadius = "22px";
         empty.style.color = "rgba(var(--muted),1)";
         empty.textContent = "No projects found. Try another keyword.";
         projectsGrid.appendChild(empty);
@@ -1248,39 +1269,25 @@
       modalTitle.textContent = p.title;
       modalIntro.textContent = p.modal?.intro || p.subtitle || "";
 
-      // reset
       modalSections.innerHTML = "";
       modalImage.classList.add("hidden");
       modalVideoWrap.classList.add("hidden");
       modalVideo.src = "";
 
-      // video if exists
       if(p.modal?.youtube){
         modalVideoWrap.classList.remove("hidden");
         modalVideo.src = p.modal.youtube;
       }
 
-      // sections
-      if(p.modal?.features?.length){
-        modalSections.appendChild(sectionList("Features", p.modal.features));
-      }
-      if(p.modal?.tech?.length){
-        modalSections.appendChild(sectionList("Technologies Used", p.modal.tech));
-      }
-      if(p.modal?.challenges){
-        modalSections.appendChild(sectionText("Challenges Faced", p.modal.challenges));
-      }
+      if(p.modal?.features?.length) modalSections.appendChild(sectionList("Features", p.modal.features));
+      if(p.modal?.tech?.length) modalSections.appendChild(sectionList("Technologies Used", p.modal.tech));
+      if(p.modal?.challenges) modalSections.appendChild(sectionText("Challenges Faced", p.modal.challenges));
       if(p.modal?.providesTitle || p.modal?.providesText){
         modalSections.appendChild(sectionText(p.modal.providesTitle || "What It Provides", p.modal.providesText || ""));
       }
-      if(p.modal?.providesList?.length){
-        modalSections.appendChild(sectionList("Key Benefits", p.modal.providesList));
-      }
-      if(p.modal?.extra?.length){
-        modalSections.appendChild(sectionList("Highlights", p.modal.extra));
-      }
+      if(p.modal?.providesList?.length) modalSections.appendChild(sectionList("Key Benefits", p.modal.providesList));
+      if(p.modal?.extra?.length) modalSections.appendChild(sectionList("Highlights", p.modal.extra));
 
-      // image
       if(p.modal?.image){
         modalImage.src = p.modal.image;
         modalImage.classList.remove("hidden");
@@ -1298,14 +1305,16 @@
 
     function sectionList(title, items){
       const wrap = document.createElement("div");
-      wrap.className = "glass rounded-2xl p-5";
+      wrap.className = "btn-glass p-5";
+      wrap.style.borderRadius = "22px";
       wrap.innerHTML = `<h4 class="font-black text-base mb-3">${title}</h4>`;
       const ul = document.createElement("ul");
       ul.className = "grid gap-2 md:grid-cols-2 text-sm";
       items.forEach(it => {
         const li = document.createElement("li");
-        li.className = "glass rounded-2xl px-4 py-3";
-        li.innerHTML = `<i class="fa-solid fa-check mr-2" style="color: rgb(var(--accent))"></i>${it}`;
+        li.className = "btn-glass px-4 py-3";
+        li.style.borderRadius = "18px";
+        li.innerHTML = `<i class="fa-solid fa-check mr-2" style="color: rgb(var(--brand))"></i>${it}`;
         ul.appendChild(li);
       });
       wrap.appendChild(ul);
@@ -1314,23 +1323,26 @@
 
     function sectionText(title, text){
       const wrap = document.createElement("div");
-      wrap.className = "glass rounded-2xl p-5";
-      wrap.innerHTML = `<h4 class="font-black text-base">${title}</h4><p class="mt-2 text-sm leading-relaxed" style="color: rgba(var(--textW),.90)">${text}</p>`;
+      wrap.className = "btn-glass p-5";
+      wrap.style.borderRadius = "22px";
+      wrap.innerHTML = `<h4 class="font-black text-base">${title}</h4><p class="mt-2 text-sm leading-relaxed" style="color: rgba(var(--text),.90)">${text}</p>`;
       return wrap;
     }
 
     modalOverlay.addEventListener("click", closeProject);
     modalClose.addEventListener("click", closeProject);
-    window.addEventListener("keydown", (e) => { if(e.key === "Escape") { closeProject(); closeCert(); } });
+
+    // escape close
+    window.addEventListener("keydown", (e) => { if(e.key === "Escape") { closeProject(); closeCert(); mobileMenu.classList.add("hidden"); } });
 
     renderProjects();
 
-    // ==============================
-    // Typed roles (with sound)
-    // ==============================
+    /* ==============================
+       Typed roles (with sound)
+       ============================== */
     const typedEl = document.getElementById("typedText");
     const typingSound = document.getElementById("typing-sound");
-    typingSound.volume = 0.12;
+    typingSound.volume = 0.10;
 
     let roleIndex = 0, charIndex = 0, deleting = false;
     const typeSpeed = 55, deleteSpeed = 30, pause = 900;
@@ -1358,9 +1370,9 @@
     }
     tick();
 
-    // ==============================
-    // Music Player
-    // ==============================
+    /* ==============================
+       Music Player
+       ============================== */
     const player = document.getElementById("player");
     const trackName = document.getElementById("trackName");
     const prevBtn = document.getElementById("prevBtn");
@@ -1377,39 +1389,46 @@
     }
     loadTrack(tIndex);
 
-    function togglePlay(){
-      if(player.paused){
-        player.play();
+    function setPlayUI(isPlaying){
+      if(isPlaying){
         playIcon.classList.add("hidden");
         pauseIcon.classList.remove("hidden");
       }else{
-        player.pause();
         playIcon.classList.remove("hidden");
         pauseIcon.classList.add("hidden");
+      }
+    }
+
+    function togglePlay(){
+      if(player.paused){
+        player.play();
+        setPlayUI(true);
+      }else{
+        player.pause();
+        setPlayUI(false);
       }
     }
     function prevTrack(){
       tIndex = (tIndex - 1 + DATA.tracks.length) % DATA.tracks.length;
       loadTrack(tIndex);
       player.play();
-      playIcon.classList.add("hidden");
-      pauseIcon.classList.remove("hidden");
+      setPlayUI(true);
     }
     function nextTrack(){
       tIndex = (tIndex + 1) % DATA.tracks.length;
       loadTrack(tIndex);
       player.play();
-      playIcon.classList.add("hidden");
-      pauseIcon.classList.remove("hidden");
+      setPlayUI(true);
     }
 
     playBtn.addEventListener("click", togglePlay);
     prevBtn.addEventListener("click", prevTrack);
     nextBtn.addEventListener("click", nextTrack);
+    player.addEventListener("ended", nextTrack);
 
-    // ==============================
-    // Contact form (Google Script)
-    // ==============================
+    /* ==============================
+       Contact form (Google Script)
+       ============================== */
     const form = document.getElementById("contactForm");
     const formMsg = document.getElementById("formMsg");
     const submitBtn = document.getElementById("submitBtn");
@@ -1423,7 +1442,6 @@
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      // sanitize
       form.Name.value = sanitize(form.Name.value);
       form.Email.value = sanitize(form.Email.value);
       form.Message.value = sanitize(form.Message.value);
@@ -1444,47 +1462,145 @@
       }
     });
 
-    // ==============================
-    // Back to top
-    // ==============================
+    /* ==============================
+       Back to top
+       ============================== */
     const backTop = document.getElementById("backTop");
     window.addEventListener("scroll", () => {
       backTop.classList.toggle("hidden", window.scrollY < 350);
     });
     backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
-    // ==============================
-    // Custom Cursor toggle
-    // ==============================
-    const cursorBtn = document.getElementById("cursorBtn");
+    /* ==============================
+       Scroll Reveal
+       ============================== */
+    const revealEls = document.querySelectorAll(".reveal");
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(ent => {
+        if(ent.isIntersecting){
+          ent.target.classList.add("revealed");
+          obs.unobserve(ent.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => obs.observe(el));
+
+    /* ==============================
+       Active Nav Highlight
+       ============================== */
+    const sections = ["home","about","services","portfolio","contact"]
+      .map(id => document.getElementById(id))
+      .filter(Boolean);
+
+    const navLinks = [...document.querySelectorAll('a.nav-link[href^="#"]')];
+
+    const navObs = new IntersectionObserver((entries) => {
+      entries.forEach(ent => {
+        if(ent.isIntersecting){
+          const id = ent.target.id;
+          navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === `#${id}`));
+        }
+      });
+    }, { threshold: 0.35 });
+    sections.forEach(sec => navObs.observe(sec));
+
+    /* ==============================
+       CURSOR: few options only
+       - saved in localStorage
+       ============================== */
     const cursorDot = document.getElementById("cursorDot");
     const cursorRing = document.getElementById("cursorRing");
+    const cursorSelect = document.getElementById("cursorSelect");
+    const cursorSelectMobile = document.getElementById("cursorSelectMobile");
 
-    function setCursorEnabled(enabled){
-      localStorage.setItem("cursor", enabled ? "on" : "off");
-      document.body.classList.toggle("custom-cursor-enabled", enabled);
-      cursorDot.hidden = !enabled;
-      cursorRing.hidden = !enabled;
+    function setCursorStyle(style){
+      // reset classes
+      document.body.classList.remove(
+        "cursor-on",
+        "cursor-style-neo",
+        "cursor-style-dot",
+        "cursor-style-ring",
+        "cursor-style-glow"
+      );
+
+      if(style === "off"){
+        localStorage.setItem("cursorStyle", "off");
+        return;
+      }
+
+      document.body.classList.add("cursor-on");
+      document.body.classList.add("cursor-style-" + style);
+      localStorage.setItem("cursorStyle", style);
+
+      // ensure correct ring/dot visibility after style change
+      cursorDot.style.display = "";
+      cursorRing.style.display = "";
     }
 
-    const cursorDefault = (localStorage.getItem("cursor") || "off") === "on";
-    setCursorEnabled(cursorDefault);
+    const storedCursor = localStorage.getItem("cursorStyle") || "neo";
+    setCursorStyle(storedCursor);
+    cursorSelect.value = storedCursor;
+    cursorSelectMobile.value = storedCursor;
 
-    cursorBtn.addEventListener("click", () => {
-      const now = (localStorage.getItem("cursor") || "off") === "on";
-      setCursorEnabled(!now);
+    cursorSelect.addEventListener("change", (e) => {
+      setCursorStyle(e.target.value);
+      cursorSelectMobile.value = e.target.value;
+    });
+    cursorSelectMobile.addEventListener("change", (e) => {
+      setCursorStyle(e.target.value);
+      cursorSelect.value = e.target.value;
     });
 
-    document.addEventListener("mousemove", (e) => {
-      if(cursorDot.hidden) return;
-      cursorDot.style.left = e.clientX + "px";
-      cursorDot.style.top = e.clientY + "px";
-      cursorRing.style.left = e.clientX + "px";
-      cursorRing.style.top = e.clientY + "px";
-    });
+    // cursor movement
+    let mx = 0, my = 0, dx = 0, dy = 0, rx = 0, ry = 0;
 
+    document.addEventListener("mousemove", (e) => { mx = e.clientX; my = e.clientY; });
+
+    function raf(){
+      if(document.body.classList.contains("cursor-on")){
+        dx += (mx - dx) * 0.45;
+        dy += (my - dy) * 0.45;
+
+        rx += (mx - rx) * 0.18;
+        ry += (my - ry) * 0.18;
+
+        cursorDot.style.transform = `translate(${dx}px, ${dy}px)`;
+        cursorRing.style.transform = `translate(${rx}px, ${ry}px)`;
+      }
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // active interaction
     document.addEventListener("mousedown", () => document.body.classList.add("cursor-active"));
     document.addEventListener("mouseup", () => document.body.classList.remove("cursor-active"));
+
+    // ring expand on interactive elements
+    const interactiveSelector = 'a, button, input, textarea, select, [role="button"]';
+    document.querySelectorAll(interactiveSelector).forEach(el => {
+      el.addEventListener("mouseenter", () => {
+        if(!document.body.classList.contains("cursor-on")) return;
+        cursorRing.style.width = "72px";
+        cursorRing.style.height = "72px";
+      });
+      el.addEventListener("mouseleave", () => {
+        if(!document.body.classList.contains("cursor-on")) return;
+        // reset based on style
+        if(document.body.classList.contains("cursor-style-ring")) {
+          cursorRing.style.width = "52px";
+          cursorRing.style.height = "52px";
+        } else if(document.body.classList.contains("cursor-style-glow")) {
+          cursorRing.style.width = "56px";
+          cursorRing.style.height = "56px";
+        } else if(document.body.classList.contains("cursor-style-neo")) {
+          cursorRing.style.width = "44px";
+          cursorRing.style.height = "44px";
+        } else {
+          cursorRing.style.width = "40px";
+          cursorRing.style.height = "40px";
+        }
+      });
+    });
   </script>
 </body>
 </html>
