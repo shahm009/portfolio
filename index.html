@@ -4,345 +4,487 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description"
-    content="Portfolio of Shah Mehrab Hossain, a skilled computer science and engineering student specializing in web development, app development, and embedded systems." />
+  <meta name="description" content="Portfolio of Shah Mehrab Hossain — Embedded Systems, Robotics (ROS2), IoT, Computer Vision, and UI/UX." />
   <title>Shah Mehrab Hossain</title>
 
   <link rel="icon" href="images/S.png" type="image/png" />
-
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
   <!-- Icons -->
   <script src="https://kit.fontawesome.com/d36ce842ae.js" crossorigin="anonymous"></script>
 
-  <!-- Tailwind -->
+  <!-- Tailwind (utilities only) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
-      darkMode: ["class"], // we will toggle .dark on <html>
-      theme: {
-        extend: {
-          fontFamily: { sans: ["Inter", "ui-sans-serif", "system-ui"] },
-          boxShadow: {
-            soft: "0 30px 90px rgba(2, 6, 23, .28)",
-            softDark: "0 30px 90px rgba(0, 0, 0, .60)",
-            focus: "0 0 0 6px rgba(99,102,241,.18)",
-          },
-          keyframes: {
-            fadeUp: { "0%": { opacity: 0, transform: "translateY(12px)" }, "100%": { opacity: 1, transform: "translateY(0)" } },
-            shimmer: { "0%": { backgroundPosition: "0% 50%" }, "50%": { backgroundPosition: "100% 50%" }, "100%": { backgroundPosition: "0% 50%" } },
-            dot: { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-10px)" } },
-          },
-          animation: {
-            fadeUp: "fadeUp .6s ease-out both",
-            shimmer: "shimmer 7s ease infinite",
-            dot: "dot 1s ease-in-out infinite",
-          }
-        }
-      }
+      darkMode: ["class"],
+      theme: { extend: { fontFamily: { sans: ["Inter", "ui-sans-serif", "system-ui"] } } }
     };
   </script>
 
   <style>
-    /* ======================================================
-       REAL LIGHT/DARK SYSTEM (EVERYTHING CHANGES)
-       - We use CSS tokens for ALL surfaces, borders, shadows,
-         inputs, modal, glass, etc.
-       - Toggle: html.dark (default), html.light
-       ====================================================== */
+    /* ==========================================================
+      UI + DARK MODE FIX (monochrome + consistent surfaces)
+      What’s fixed:
+      - True dark mode: surfaces/backgrounds/inputs/cards all swap correctly
+      - Removed “neon accent glow” look → clean monochrome highlights
+      - Primary button now readable in BOTH themes
+      - Cursor colors no longer break in light mode (no mix-blend weirdness)
+      - Preloader respects theme (was hard black)
+      - Better border tokens + contrast tuning
+    ========================================================== */
 
-    html{
-      --bg0: 248 250 252;     /* slate-50 */
-      --bg1: 241 245 249;     /* slate-100 */
-      --text: 15 23 42;       /* slate-900 */
-      --muted: 71 85 105;     /* slate-600 */
-      --line: 15 23 42;       /* slate-900 for border with alpha */
-      --card: 255 255 255;    /* white base */
-      --card2: 248 250 252;   /* alt surface */
-      --shadow: 2 6 23;       /* slate-950 */
-      --glowA: 59 130 246;    /* blue-500 */
-      --glowB: 16 185 129;    /* emerald-500 */
-      --glowC: 236 72 153;    /* pink-500 */
-      --brand: 99 102 241;    /* indigo-500 */
-      --radius: 22px;
+    :root{
+      --radius-1: 16px;
+      --radius-2: 22px;
+      --radius-3: 30px;
+
+      --shadow-1: 0 12px 40px rgba(2, 6, 23, .08);
+      --shadow-2: 0 22px 70px rgba(2, 6, 23, .12);
+      --shadow-3: 0 30px 90px rgba(2, 6, 23, .18);
+
+      --ease: cubic-bezier(.2,.8,.2,1);
+
+      /* Monochrome “brand” (NOT neon accent) */
+      --brand: 15 23 42;        /* slate-900 */
+      --brand2: 71 85 105;      /* slate-600 */
+
+      /* Light */
+      --bg: 248 250 252;        /* slate-50 */
+      --bg2: 241 245 249;       /* slate-100 */
+      --surface: 255 255 255;   /* white */
+      --surface2: 248 250 252;  /* slate-50 */
+
+      --text: 15 23 42;         /* slate-900 */
+      --muted: 71 85 105;       /* slate-600 */
+      --muted2: 100 116 139;    /* slate-500 */
+
+      --border-subtle: 15 23 42;
+      --border-strong: 15 23 42;
+
+      --ring: 15 23 42;
+
+      --noise-opacity: .04;
+      --grid-opacity: .09;
     }
 
     html.dark{
-      --bg0: 2 6 23;          /* slate-950 */
-      --bg1: 15 23 42;        /* slate-900 */
-      --text: 226 232 240;    /* slate-200 */
-      --muted: 148 163 184;   /* slate-400 */
-      --line: 255 255 255;
-      --card: 15 23 42;       /* slate-900 */
-      --card2: 2 6 23;        /* slate-950 */
-      --shadow: 0 0 0;
-      --glowA: 99 102 241;    /* indigo */
-      --glowB: 34 211 238;    /* cyan */
-      --glowC: 236 72 153;    /* pink */
-      --brand: 99 102 241;
+      --bg: 2 6 23;            /* slate-950 */
+      --bg2: 7 12 26;          /* deeper */
+      --surface: 15 23 42;     /* slate-900 */
+      --surface2: 2 6 23;      /* slate-950 */
+
+      --text: 226 232 240;     /* slate-200 */
+      --muted: 178 192 210;    /* readable muted */
+      --muted2: 130 150 175;
+
+      --border-subtle: 255 255 255;
+      --border-strong: 255 255 255;
+
+      /* Monochrome highlight flips */
+      --brand: 226 232 240;
+      --brand2: 148 163 184;
+
+      --ring: 226 232 240;
+
+      --noise-opacity: .06;
+      --grid-opacity: .08;
+
+      --shadow-1: 0 14px 55px rgba(0,0,0,.38);
+      --shadow-2: 0 24px 80px rgba(0,0,0,.55);
+      --shadow-3: 0 34px 110px rgba(0,0,0,.65);
     }
 
-    /* Whole page background changes properly */
+    *{ box-sizing: border-box; }
+    html,body{ height: 100%; }
+
     body{
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color: rgb(var(--text));
       background:
-        radial-gradient(900px circle at 18% 10%, rgba(var(--glowA), .18), transparent 60%),
-        radial-gradient(900px circle at 85% 30%, rgba(var(--glowB), .12), transparent 60%),
-        radial-gradient(900px circle at 50% 90%, rgba(var(--glowC), .10), transparent 55%),
-        linear-gradient(180deg, rgb(var(--bg0)), rgb(var(--bg1)));
-      min-height: 100vh;
+        radial-gradient(1100px circle at 18% -12%, rgba(var(--brand), .10), transparent 58%),
+        radial-gradient(1100px circle at 92% 10%, rgba(var(--brand2), .08), transparent 56%),
+        linear-gradient(180deg, rgb(var(--bg)), rgb(var(--bg2)));
+      overflow-x: hidden;
     }
 
-    /* Smooth theme transition */
+    /* Soft background grid + noise */
+    .bg-grid{
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      opacity: var(--grid-opacity);
+      background-image:
+        linear-gradient(to right, rgba(var(--border-subtle), .08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(var(--border-subtle), .08) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(circle at 40% 10%, rgba(0,0,0,1), rgba(0,0,0,.2) 55%, rgba(0,0,0,0) 85%);
+    }
+    .bg-noise{
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      opacity: var(--noise-opacity);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+
+    /* Controlled transitions */
     .theme-transition, .theme-transition *{
-      transition: background-color .35s ease,
-                  color .35s ease,
-                  border-color .35s ease,
-                  box-shadow .35s ease,
-                  opacity .35s ease,
-                  transform .35s ease;
+      transition:
+        background-color .25s var(--ease),
+        color .25s var(--ease),
+        border-color .25s var(--ease),
+        box-shadow .25s var(--ease);
     }
 
-    /* True surfaces */
-    .surface{
-      background: rgba(var(--card), .72);
-      border: 1px solid rgba(var(--line), .10);
-      box-shadow: 0 22px 80px rgba(var(--shadow), .10);
-      border-radius: var(--radius);
-      backdrop-filter: blur(16px);
+    .containerX{ max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+
+    .glass{
+      background: rgba(var(--surface), .70);
+      border: 1px solid rgba(var(--border-subtle), .10);
+      border-radius: var(--radius-2);
+      box-shadow: var(--shadow-1);
+      backdrop-filter: blur(14px);
     }
-    html.dark .surface{
+    html.dark .glass{
       background: rgba(255,255,255,.06);
-      border-color: rgba(255,255,255,.10);
-      box-shadow: 0 22px 90px rgba(0,0,0,.60);
+      border-color: rgba(var(--border-subtle), .12);
     }
 
-    .surface-strong{
-      background: rgba(var(--card), .92);
-      border: 1px solid rgba(var(--line), .12);
-      border-radius: var(--radius);
+    .panel{
+      background: rgba(var(--surface), .92);
+      border: 1px solid rgba(var(--border-subtle), .10);
+      border-radius: var(--radius-2);
+      box-shadow: var(--shadow-2);
     }
-    html.dark .surface-strong{
-      background: rgba(255,255,255,.08);
-      border-color: rgba(255,255,255,.12);
+    html.dark .panel{
+      background: rgba(255,255,255,.06);
+      border-color: rgba(var(--border-subtle), .12);
+    }
+
+    .card{
+      border-radius: var(--radius-2);
+      border: 1px solid rgba(var(--border-subtle), .10);
+      background: rgba(var(--surface), .70);
+      box-shadow: var(--shadow-1);
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+    }
+    html.dark .card{
+      background: rgba(255,255,255,.05);
+      border-color: rgba(var(--border-subtle), .10);
+    }
+
+    .muted{ color: rgb(var(--muted)); }
+    .muted2{ color: rgb(var(--muted2)); }
+
+    /* Gradient text (monochrome) */
+    .grad-text{
+      background: linear-gradient(135deg, rgba(var(--brand),1), rgba(var(--brand2),1));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Buttons */
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-weight: 800;
+      letter-spacing: -.01em;
+      border: 1px solid rgba(var(--border-subtle), .12);
+      background: rgba(var(--surface), .70);
+      user-select: none;
+      line-height: 1;
+      transform: translateZ(0);
+    }
+    html.dark .btn{ background: rgba(255,255,255,.06); border-color: rgba(var(--border-subtle), .12); }
+
+    .btn:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 0 0 6px rgba(var(--brand), .10);
+    }
+    .btn:active{ transform: translateY(0); }
+
+    /* FIX: primary button now readable in both modes */
+    .btn-primary{
+      border: 1px solid rgba(var(--border-subtle), .16);
+      background: rgba(var(--text), .92);
+      color: rgb(var(--bg));
+      box-shadow: 0 18px 60px rgba(2,6,23,.18);
+    }
+    html.dark .btn-primary{
+      background: rgba(var(--text), .92);
+      color: rgb(var(--bg));
+      box-shadow: 0 18px 60px rgba(0,0,0,.45);
+    }
+    .btn-primary:hover{
+      box-shadow: 0 0 0 6px rgba(var(--border-subtle), .12), 0 22px 90px rgba(2,6,23,.22);
     }
 
     .chip{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(var(--line), .12);
-      background: rgba(var(--card), .70);
-    }
-    html.dark .chip{
-      border-color: rgba(255,255,255,.10);
-      background: rgba(255,255,255,.06);
-    }
-
-    .btn-glass{
-      border-radius: 16px;
-      border: 1px solid rgba(var(--line), .12);
-      background: rgba(var(--card), .70);
-    }
-    html.dark .btn-glass{
-      border-color: rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-    }
-    .btn-glass:hover{ box-shadow: 0 0 0 6px rgba(var(--brand), .14); }
-
-    .btn-primary{
-      background: rgb(var(--brand));
-      color: rgb(2 6 23);
-      border-radius: 16px;
+      border: 1px solid rgba(var(--border-subtle), .10);
+      background: rgba(var(--surface), .65);
+      font-size: 12px;
       font-weight: 900;
     }
-    html.dark .btn-primary{
-      color: rgb(2 6 23);
-    }
+    html.dark .chip{ background: rgba(255,255,255,.05); border-color: rgba(var(--border-subtle), .10); }
 
-    .muted{ color: rgba(var(--muted), 1); }
-    .line{ border-color: rgba(var(--line), .12); }
-    html.dark .line{ border-color: rgba(255,255,255,.10); }
-
-    input, textarea{
+    /* Inputs */
+    input, textarea, select{
       outline: none;
       border-radius: 16px;
-      border: 1px solid rgba(var(--line), .12);
-      background: rgba(var(--card), .80);
+      border: 1px solid rgba(var(--border-subtle), .12);
+      background: rgba(var(--surface), .75);
       color: rgb(var(--text));
+      padding: 12px 14px;
     }
-    html.dark input, html.dark textarea{
-      border-color: rgba(255,255,255,.12);
+    html.dark input, html.dark textarea, html.dark select{
+      border-color: rgba(var(--border-subtle), .12);
       background: rgba(255,255,255,.06);
       color: rgb(var(--text));
     }
-    input::placeholder, textarea::placeholder{ color: rgba(var(--muted), .85); }
+    input::placeholder, textarea::placeholder{ color: rgba(var(--muted), .95); }
 
     :focus-visible{
-      outline: 3px solid rgba(var(--brand), .28);
+      outline: 3px solid rgba(var(--ring), .28);
       outline-offset: 4px;
-      border-radius: 14px;
+      border-radius: 18px;
     }
 
-    /* Scrollbar */
-    ::-webkit-scrollbar{ width: 10px; }
-    ::-webkit-scrollbar-thumb{ background: rgba(148,163,184,.25); border-radius: 999px; }
-    ::-webkit-scrollbar-thumb:hover{ background: rgba(148,163,184,.40); }
-
-    /* Lock scroll when modal open */
-    .no-scroll{ overflow: hidden; }
-
-    /* Preloader */
-    #preloader{
-      position: fixed; inset: 0;
-      display: grid; place-items: center;
-      background: rgb(0,0,0);
-      z-index: 999999;
-      transition: opacity .4s ease, visibility .4s ease;
+    /* Section titles */
+    .kicker{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(var(--muted), 1);
     }
-    #preloader.hidden{ opacity: 0; visibility: hidden; }
+    .kicker .dot{
+      width: 10px; height: 10px; border-radius: 999px;
+      background: rgb(var(--brand));
+      box-shadow: 0 0 0 6px rgba(var(--brand), .10);
+    }
 
-    /* Reveal */
+    .h2{
+      font-size: clamp(22px, 2.6vw, 40px);
+      font-weight: 900;
+      letter-spacing: -.04em;
+      line-height: 1.05;
+    }
+    .h3{
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -.02em;
+    }
+
+    /* Animations */
     .reveal{ opacity: 0; transform: translateY(14px); }
-    .reveal.revealed{ opacity: 1; transform: translateY(0); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.in{ opacity: 1; transform: translateY(0); transition: opacity .8s var(--ease), transform .8s var(--ease); }
 
-    /* Active nav */
-    .nav-link{
-      border-radius: 16px;
-      padding: .55rem .9rem;
+    /* Sticky navbar blur */
+    .navWrap{
+      position: sticky; top: 0; z-index: 60;
+      backdrop-filter: blur(16px);
+    }
+
+    .navLink{
+      padding: 10px 12px;
+      border-radius: 14px;
       border: 1px solid transparent;
+      font-weight: 900;
+      font-size: 14px;
     }
-    .nav-link:hover{ box-shadow: 0 0 0 6px rgba(var(--brand), .12); }
-    .nav-link.active{
-      background: rgba(var(--brand), .12);
-      border-color: rgba(var(--brand), .22);
+    .navLink:hover{ box-shadow: 0 0 0 6px rgba(var(--brand), .08); }
+    .navLink.active{
+      background: rgba(var(--text), .06);
+      border-color: rgba(var(--border-subtle), .14);
     }
-    html.dark .nav-link.active{
+    html.dark .navLink.active{
       background: rgba(255,255,255,.06);
       border-color: rgba(255,255,255,.14);
     }
 
-    /* =========================
-       CURSOR: FEW OPTIONS ONLY
-       - No sliders, no settings.
-       - Just a dropdown: Off / Neo / Dot / Ring / Glow
-       ========================= */
-
-    body.cursor-on{ cursor: none; }
-
-    .cursor-dot, .cursor-ring{
-      position: fixed;
-      top: 0; left: 0;
+    .avatarRing{
+      position: relative;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(var(--border-subtle), .12);
+      background: rgba(var(--surface), .6);
+      box-shadow: var(--shadow-2);
+    }
+    .avatarRing::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(700px circle at 22% 12%, rgba(var(--brand), .18), transparent 62%),
+        radial-gradient(700px circle at 92% 20%, rgba(var(--brand2), .14), transparent 58%);
+      opacity: .55;
       pointer-events: none;
-      transform: translate(-50%,-50%);
+    }
+    html.dark .avatarRing::before{ opacity: .40; }
+
+    /* Preloader (FIX: uses theme variables now) */
+    #preloader{
+      position: fixed; inset: 0;
+      display: grid; place-items: center;
+      background: linear-gradient(180deg, rgb(var(--bg)), rgb(var(--bg2)));
+      z-index: 999999;
+      transition: opacity .35s var(--ease), visibility .35s var(--ease);
+    }
+    #preloader.hidden{ opacity: 0; visibility: hidden; }
+    .dots{ display:flex; gap:8px; }
+    .dots span{
+      width: 10px; height: 10px; border-radius: 999px;
+      background: rgba(var(--text), .70);
+      animation: bounce 1s var(--ease) infinite;
+    }
+    .dots span:nth-child(2){ animation-delay: .12s; }
+    .dots span:nth-child(3){ animation-delay: .24s; }
+    @keyframes bounce{
+      0%,100%{ transform: translateY(0); opacity: .7; }
+      50%{ transform: translateY(-10px); opacity: 1; }
+    }
+
+    /* Cursor (FIX: no blend-mode issues) */
+    body.cursor-on{ cursor: none; }
+    .cursor-dot, .cursor-ring{
+      position: fixed; top:0; left:0;
+      pointer-events:none;
       z-index: 99999;
+      transform: translate(-50%,-50%);
       will-change: transform, width, height, opacity;
       display: none;
     }
-
     .cursor-dot{
       width: 10px; height: 10px;
       border-radius: 999px;
-      background: rgba(255,255,255,1);
+      background: rgba(var(--text), .95);
+      opacity: .95;
+      box-shadow: 0 0 0 6px rgba(var(--text), .06);
     }
     .cursor-ring{
-      width: 40px; height: 40px;
-      border-radius: 999px;
-      border: 2px solid rgba(255,255,255,.45);
-      background: radial-gradient(circle, rgba(255,255,255,.10), transparent 60%);
-      z-index: 99998;
-      transition: width .14s ease, height .14s ease, opacity .14s ease, border-color .14s ease;
-    }
-    .cursor-active .cursor-ring{ opacity: .9; }
-
-    /* Cursor styles */
-    body.cursor-style-neo .cursor-dot{
-      width: 9px; height: 9px;
-      background: rgba(255,255,255,1);
-      box-shadow: 0 0 22px rgba(255,255,255,.22);
-    }
-    body.cursor-style-neo .cursor-ring{
       width: 44px; height: 44px;
-      border-color: rgba(255,255,255,.38);
-      background: radial-gradient(circle, rgba(99,102,241,.18), transparent 65%);
-      box-shadow: 0 0 30px rgba(99,102,241,.18);
+      border-radius: 999px;
+      border: 2px solid rgba(var(--text), .26);
+      background: radial-gradient(circle, rgba(var(--text), .08), transparent 60%);
+      transition: width .14s var(--ease), height .14s var(--ease), opacity .14s var(--ease);
+      opacity: .90;
     }
 
     body.cursor-style-dot .cursor-ring{ display: none !important; }
-    body.cursor-style-dot .cursor-dot{
-      width: 12px; height: 12px;
-      background: rgba(255,255,255,1);
-      box-shadow: 0 0 26px rgba(99,102,241,.18);
-    }
+    body.cursor-style-ring .cursor-dot{ width: 6px; height: 6px; opacity: .90; }
 
-    body.cursor-style-ring .cursor-dot{
-      width: 6px; height: 6px; opacity: .85;
+    body.cursor-style-neo .cursor-dot{
+      background: rgba(var(--text), .95);
+      box-shadow: 0 0 0 8px rgba(var(--text), .05);
     }
-    body.cursor-style-ring .cursor-ring{
-      width: 52px; height: 52px;
-      border-color: rgba(255,255,255,.55);
-      background: radial-gradient(circle, rgba(255,255,255,.08), transparent 60%);
+    body.cursor-style-neo .cursor-ring{
+      border-color: rgba(var(--text), .32);
+      background: radial-gradient(circle, rgba(var(--text), .10), transparent 62%);
+      opacity: .95;
     }
 
     body.cursor-style-glow .cursor-dot{
-      width: 8px; height: 8px;
-      background: rgb(var(--brand));
-      box-shadow: 0 0 22px rgba(var(--brand), .45), 0 0 50px rgba(var(--brand), .18);
+      background: rgba(var(--text), 1);
+      box-shadow: 0 0 24px rgba(var(--text), .18), 0 0 70px rgba(var(--text), .10);
     }
     body.cursor-style-glow .cursor-ring{
-      width: 56px; height: 56px;
-      border-color: rgba(var(--brand), .45);
-      background: radial-gradient(circle, rgba(var(--brand), .14), transparent 62%);
-      box-shadow: 0 0 45px rgba(var(--brand), .22);
+      border-color: rgba(var(--text), .34);
+      background: radial-gradient(circle, rgba(var(--text), .12), transparent 62%);
+      box-shadow: 0 0 70px rgba(var(--text), .10);
     }
 
-    /* show cursor elements when enabled */
     body.cursor-on .cursor-dot,
     body.cursor-on .cursor-ring{ display: block; }
 
-    /* small premium hover on interactive */
-    .hover-pop:hover{ transform: translateY(-2px); }
+    .no-scroll{ overflow: hidden; }
 
+    /* Scrollbar */
+    ::-webkit-scrollbar{ width: 10px; }
+    ::-webkit-scrollbar-thumb{ background: rgba(148,163,184,.28); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover{ background: rgba(148,163,184,.42); }
+
+    .overlay{
+      background: rgba(0,0,0,.66);
+      backdrop-filter: blur(6px);
+    }
+
+    /* Skip link */
+    .skip-link{
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      transform: translateY(-160%);
+      background: rgba(var(--surface), .95);
+      border: 1px solid rgba(var(--border-subtle), .16);
+      padding: 10px 12px;
+      border-radius: 14px;
+      z-index: 999999;
+      box-shadow: var(--shadow-1);
+      font-weight: 900;
+    }
+    html.dark .skip-link{ background: rgba(255,255,255,.08); }
+    .skip-link:focus{ transform: translateY(0); }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      *{ animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+      body.cursor-on{ cursor: auto !important; }
+      .cursor-dot,.cursor-ring{ display:none !important; }
+    }
   </style>
 </head>
 
 <body class="min-h-screen font-sans">
-  <!-- ================= PRELOADER ================= -->
-  <div id="preloader">
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <div class="bg-grid"></div>
+  <div class="bg-noise"></div>
+
+  <!-- PRELOADER -->
+  <div id="preloader" aria-hidden="true">
     <div class="text-center">
-      <div class="mx-auto flex justify-center gap-2">
-        <span class="h-3 w-3 rounded-full bg-white/80 animate-dot"></span>
-        <span class="h-3 w-3 rounded-full bg-white/80 animate-dot" style="animation-delay:.12s"></span>
-        <span class="h-3 w-3 rounded-full bg-white/80 animate-dot" style="animation-delay:.24s"></span>
+      <div class="dots justify-center mx-auto" aria-hidden="true">
+        <span></span><span></span><span></span>
       </div>
-      <p class="mt-5 text-white/80 text-sm tracking-widest uppercase">Loading</p>
-      <div class="mt-5 h-1 w-56 rounded-full bg-white/10 overflow-hidden">
-        <div class="h-full w-1/2 bg-gradient-to-r from-indigo-400 via-cyan-300 to-pink-400 animate-shimmer"
-          style="background-size: 250% 250%"></div>
-      </div>
+      <p class="mt-5 text-[rgba(var(--muted),.92)] text-xs tracking-[.28em] uppercase">Preparing experience</p>
     </div>
   </div>
 
   <!-- Cursor -->
-  <div class="cursor-dot" id="cursorDot"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
   <!-- Sounds -->
   <audio id="typing-sound" src="src/typesound.mp3" preload="auto"></audio>
   <audio id="nav-hover-sound" src="src/watersplash.mp3" preload="auto"></audio>
   <audio id="service-hover-sound" src="src/Click.mp3" preload="auto"></audio>
 
-  <!-- ================= DATA (EDIT HERE TO ADD MORE) ================= -->
+  <!-- =======================
+      DATA (EDIT HERE ONLY)
+  ======================== -->
   <script>
     const DATA = {
       identity: {
         name: "Shah Mehrab Hossain",
         location: "Bangladesh",
+        tagline: "Embedded Systems • Robotics",
         logo: "images/logo.png",
         heroBg: "images/background.jpg",
         heroBgMobile: "images/background1.jpg",
@@ -350,16 +492,30 @@
         cv: "file/shahmehrab.pdf",
         email: "admin@shahmehrab.xyz",
         phone: "+8801777961826",
+        availability: "Available for collaborations • Remote / On-site",
       },
 
-      typedRoles: ["Embedded System Expert", "IoT Specialist", "Developer"],
+      typedRoles: [
+        "Embedded Systems Engineer",
+        "Robotics (ROS2) Developer",
+        "IoT & Sensor Systems Builder",
+        "Computer Vision Enthusiast",
+        "UI/UX & Brand Designer"
+      ],
+
+      highlights: [
+        { icon: "fa-solid fa-microchip", title: "Embedded + IoT", desc: "I2C/SPI/UART, PWM, drivers, telemetry, Wi-Fi dashboards." },
+        { icon: "fa-solid fa-robot", title: "Robotics (ROS2)", desc: "Gaits, sensor fusion, kinematics, planning, visualization (RViz)." },
+        { icon: "fa-solid fa-eye", title: "Computer Vision", desc: "OpenCV + MediaPipe for real-time perception and interaction." },
+        { icon: "fa-solid fa-pen-ruler", title: "UI/UX & Design", desc: "Clean hierarchy, modern UI systems, Adobe Suite workflows." }
+      ],
 
       about: {
         title: "About Me",
         paragraphs: [
-          "I am an enthusiastic student of computer science and engineering who is proficient in a number of programming languages, such as Python, Java, C, C++, and JavaScript. My skills also include web creation, where I create dynamic and user-friendly websites using HTML, CSS, and WordPress.",
-          "Additionally, I have practical expertise with 3D design, 3D printing, and embedded systems, which enables me to smoothly integrate hardware and software. I also have excellent graphic design abilities, which allow me to create designs that are both aesthetically pleasing and functional.",
-          "I enjoy having fun in hackathons, contribute to open-source projects, and experiment with new programming languages and technologies in my free time. In addition, I'm passionate about digital art and photography, which inspires me and improves my design work. I firmly believe in lifelong learning and constantly look for chances to broaden my expertise in the ever changing tech sector."
+          "I am a Computer Science & Engineering student passionate about building real-world systems that blend hardware and software. I work with Python, Java, C, C++, and JavaScript, and I enjoy solving practical problems using embedded systems, robotics, and IoT.",
+          "I have hands-on experience with robotics platforms (including rover and quadruped prototypes), sensor integration, control logic, and ROS2-based workflows. I also create professional UI/UX designs for dashboards, apps, and product interfaces.",
+          "Beyond engineering, I work in graphic design (logos, brand assets, photography) and I enjoy exploring new technologies through hackathons, open-source contributions, and research-style projects."
         ],
         quickStats: [
           { k: "Focus", v: "Embedded • Robotics • IoT" },
@@ -368,6 +524,13 @@
           { k: "University", v: "United International University (UIU)" },
         ]
       },
+
+      skillsGroups: [
+        { title: "Programming", items: ["C", "C++", "Python", "Java", "JavaScript", "PHP", "Dart"] },
+        { title: "Robotics & Embedded", items: ["ROS2", "Sensor Fusion", "Motor Control", "I2C/SPI/UART", "PWM/Drivers", "Debugging"] },
+        { title: "Tools & Platforms", items: ["Arduino", "ESP32", "Raspberry Pi", "MySQL", "Git/GitHub", "VS Code"] },
+        { title: "Design", items: ["UI/UX", "Adobe Illustrator", "Photoshop", "Premiere Pro", "3D Design (Blender/Fusion/SolidWorks)"] }
+      ],
 
       skillsIcons: [
         { title: "C", img: "images/skills/c-logo.png" },
@@ -382,55 +545,48 @@
         { title: "ROS2", img: "images/skills/ros2-logo.png" },
         { title: "Robotics", img: "images/skills/robotics-logo.png" },
         { title: "IoT", img: "images/skills/iot-logo.png" },
-        { title: "Embedded Systems", img: "images/skills/embedded-logo.png" },
+        { title: "Embedded", img: "images/skills/embedded-logo.png" },
         { title: "Arduino", img: "images/skills/arduino-logo.png" },
         { title: "GitHub", img: "images/skills/github-logo.png" },
         { title: "Blender", img: "images/skills/blender-logo.png" },
         { title: "Fusion 360", img: "images/skills/fusion360-logo.png" },
         { title: "SolidWorks", img: "images/skills/solidworks-logo.png" },
-        { title: "UI/UX Design", img: "images/skills/uiux-logo.png" },
+        { title: "UI/UX", img: "images/skills/uiux-logo.png" },
         { title: "WordPress", img: "images/skills/wordpress-logo.png" },
         { title: "Photoshop", img: "images/skills/photoshop-logo.png" },
         { title: "Illustrator", img: "images/skills/illustrator-logo.png" },
-        { title: "Premiere Pro", img: "images/skills/premiere-logo.png" },
+        { title: "Premiere", img: "images/skills/premiere-logo.png" },
       ],
 
-      experience: [
-        { when: "2023 - Current", what: "Electrical and Software Team Lead at UIU Mars Rover Team", details: "Guiding team projects and mentoring members." },
-        { when: "2022 - 2023", what: "Mechanical and Fabrication Team Member at UIU Mars Rover Team", details: "Assisting in design and assembly of rover components." },
-        { when: "2021 - Current", what: "Designing web and app interfaces at XTZ", details: "Collaborating with development teams to implement designs." },
-        { when: "URC 2024", what: "Preparing for the University Rover Challenge 2024", details: "Building on previous experiences to enhance performance." },
-        { when: "URC 2023", what: "Competitor in the University Rover Challenge 2023", details: "Demonstrating innovation in robotic design." },
-        { when: "ARC 2023", what: "Participant in the Anatolian Rover Challenge 2023", details: "Contributing to team efforts in robotics engineering." },
-        { when: "2019 - 2021", what: "Focused on designing web and app interfaces", details: "Improving usability and aesthetic appeal." },
-        { when: "2017 - 2019", what: "Developed Android and iOS applications", details: "Emphasizing user engagement and performance optimization." },
-        { when: "UI/UX Design", what: "Created user-friendly interfaces", details: "Enhancing user experience and engagement." },
-        { when: "Web Development", what: "Designed and maintained various websites", details: "Ensuring functionality and responsiveness." },
+      timeline: [
+        { when: "2023 — Current", title: "Electrical & Software Team Lead", org: "UIU Mars Rover Team", desc: "Guiding team projects, system integration, and mentoring." },
+        { when: "2022 — 2023", title: "Mechanical & Fabrication Team Member", org: "UIU Mars Rover Team", desc: "Design + assembly support for rover components and field testing." },
+        { when: "2021 — Current", title: "UI/UX & Interface Design", org: "XTZ", desc: "Designing web/app interfaces and supporting implementation." }
       ],
 
       education: [
-        { when: "2022 - Current", what: "BSc in CSE", where: "United International University (UIU)" },
+        { when: "2022 — Current", what: "BSc in CSE", where: "United International University (UIU)" },
         { when: "2020", what: "HSC", where: "Brindaban Govt. College" },
         { when: "2018", what: "SSC", where: "Habiganj Govt. High School" },
       ],
 
       certifications: [
-        { year: "2023", title: "URC 2023 — University Rover Challenge (URC)", img: "images/Cerificates/urc23.jpg" },
-        { year: "2023", title: "aRC 2023 — Anatolian Rover Challenge (aRC)", img: "images/Cerificates/arc23.jpg" },
-        { year: "2024", title: "URC 2024 — University Rover Challenge (URC)", img: "images/Cerificates/urc24.jpg" },
-        { year: "2022", title: "URC 2022 — University Rover Challenge (URC)", img: "images/Cerificates/urc23.jpg" },
-        { year: "2022", title: "aRC 2022 — Anatolian Rover Challenge (aRC)", img: "images/Cerificates/arc23.jpg" },
+        { year: "2024", title: "URC 2024 — University Rover Challenge", img: "images/Cerificates/urc24.jpg" },
+        { year: "2023", title: "URC 2023 — University Rover Challenge", img: "images/Cerificates/urc23.jpg" },
+        { year: "2023", title: "aRC 2023 — Anatolian Rover Challenge", img: "images/Cerificates/arc23.jpg" },
+        { year: "2022", title: "URC 2022 — University Rover Challenge", img: "images/Cerificates/urc23.jpg" },
+        { year: "2022", title: "aRC 2022 — Anatolian Rover Challenge", img: "images/Cerificates/arc23.jpg" },
       ],
 
       services: [
-        { icon: "fa-solid fa-code", title: "Web Design", desc: "Creating responsive, user-friendly websites tailored to your business needs with modern aesthetics and performance." },
-        { icon: "fa-brands fa-app-store", title: "App Design", desc: "Designing intuitive mobile app UI/UX ensuring smooth experience across Android and iOS." },
-        { icon: "fa-solid fa-crop", title: "UI/UX Design", desc: "Delivering user-centered UI/UX solutions with strong hierarchy, clarity, and conversion-friendly flows." },
-        { icon: "fa-solid fa-microchip", title: "Embedded Systems", desc: "Developing reliable embedded solutions with sensors, control logic, and robust communication protocols." },
-        { icon: "fa-brands fa-unity", title: "3D Design", desc: "3D modeling, rendering and prototyping for products, robotics components, and visualization." },
-        { icon: "fa-solid fa-draw-polygon", title: "Graphics Design", desc: "Brand visuals, logos, social designs and presentation-ready assets." },
-        { icon: "fa-solid fa-wifi", title: "IoT Solutions", desc: "Connecting devices to dashboards, automation logic, telemetry and remote control." },
-        { icon: "fa-solid fa-robot", title: "Robotics", desc: "Robotics systems integration using sensor fusion, ROS2 nodes, autonomy pipeline & UI controls." },
+        { icon: "fa-solid fa-microchip", title: "Embedded Systems", desc: "Sensors, motor control, protocols, firmware logic, and reliability-first design." },
+        { icon: "fa-solid fa-wifi", title: "IoT Solutions", desc: "Telemetry, dashboards, automation, device health, and remote control workflows." },
+        { icon: "fa-solid fa-robot", title: "Robotics (ROS2)", desc: "Modular ROS2 nodes, perception pipelines, autonomy, and visualization tooling." },
+        { icon: "fa-solid fa-eye", title: "Computer Vision", desc: "Real-time detection & tracking using OpenCV/MediaPipe with optimized pipelines." },
+        { icon: "fa-solid fa-crop", title: "UI/UX Design", desc: "Design systems, clean hierarchy, components, and interaction-focused layouts." },
+        { icon: "fa-solid fa-draw-polygon", title: "Graphic Design", desc: "Logos, brand assets, social media visuals, and presentation-ready design." },
+        { icon: "fa-solid fa-code", title: "Web Development", desc: "Responsive, fast websites with modern UI, clean structure and maintainability." },
+        { icon: "fa-solid fa-cube", title: "3D Design", desc: "3D modeling for robotics parts, prototypes, and product visualization." },
       ],
 
       projects: [
@@ -438,81 +594,105 @@
           id: "autax",
           title: "AuTax: A Self-Driving Taxi",
           cover: "images/work/AuTax.png",
-          subtitle: "Autonomous taxi platform integrating vision, ROS2 and sensors.",
+          subtitle: "Autonomy concept integrating vision + ROS2 + sensors.",
+          tags: ["Robotics", "ROS2", "Computer Vision"],
           modal: {
             intro: "AuTax is an autonomous taxi concept designed to navigate complex urban environments using robotics middleware and real-time perception.",
             youtube: "https://www.youtube.com/embed/TixH0lE5oqY?si=EymC74W6o0SB6848",
             features: [
-              "Autonomous navigation through city streets",
-              "Obstacle detection and avoidance",
-              "Route optimization and realtime telemetry",
-              "Mobile-first operator UI concepts"
+              "Obstacle detection + avoidance concepts",
+              "Route logic + telemetry UI ideas",
+              "Perception-first approach for urban scenes",
+              "Modular architecture planning"
             ],
             tech: [
-              "Computer Vision: OpenCV + YOLO",
-              "ROS2 for control and messaging",
-              "LiDAR + Ultrasonic for sensing",
+              "OpenCV + YOLO (vision ideas)",
+              "ROS2 messaging + node layout",
+              "LiDAR/Ultrasonic sensing plan",
               "Python + C++"
             ],
-            challenges: "Tuning navigation for dynamic environments, resource optimization for real-time processing, and safe behavior design.",
-            providesTitle: "What AuTax Provides",
-            providesText: "A practical, cost-effective platform for learning ROS and autonomy concepts without expensive robots.",
+            challenges: "Real-time tuning for dynamic scenes, resource budgeting, and safe behavior planning.",
+            providesTitle: "What It Provides",
+            providesText: "A practical learning platform for autonomy concepts with a clear architecture and test plan.",
             providesList: [
-              "Start ROS practice without costly hardware",
-              "Affordable alternative to TurtleBot-type kits",
-              "Build and test navigation algorithms",
-              "Learn autonomy pipeline end-to-end"
+              "Learn ROS2 workflows end-to-end",
+              "Build navigation pipelines systematically",
+              "Test perception + control strategies",
+              "Design safety and failure handling"
             ],
             image: "images/work/AuTax.png"
           }
         },
         {
-          id: "social",
-          title: "Social Media App",
-          cover: "images/work/work-1.png",
-          subtitle: "Real-time communication UI concept with clean feed patterns.",
-          modal: { intro: "A modern social UI concept focusing on readability, spacing, and interaction states.", image: "images/work/work-2.png",
-            extra: ["Clean feed layout", "Profile + messaging patterns", "Mobile-first responsive structure"] }
-        },
-        {
-          id: "music",
-          title: "Music App",
-          cover: "images/work/work-2.png",
-          subtitle: "Stream tracks, playlists, and discover new music daily.",
-          modal: { intro: "A music UX concept with playlist-first navigation.", image: "images/work/work-3.png",
-            extra: ["Playlist-focused UX", "Better typography + contrast", "Smooth interaction states"] }
-        },
-        {
           id: "robotdog",
           title: "Quadruped Robot Dog (Prototype)",
           cover: "images/work/work-4.png",
-          subtitle: "Embedded + sensors + gait control + remote monitoring.",
-          modal: { intro: "Quadruped prototype focused on stable locomotion, sensor feedback and remote UI control.",
-            extra: ["IMU-based posture stabilization","Gait patterns and motion profiling","Wireless telemetry + dashboard UI","Modular hardware design for upgrades"] }
+          subtitle: "Stable locomotion + sensors + telemetry for inspection use-cases.",
+          tags: ["Embedded", "Robotics", "IoT"],
+          modal: {
+            intro: "A quadruped prototype focused on stable gait control, sensor feedback, and remote monitoring for hazardous environment inspection.",
+            features: [
+              "IMU-based posture stabilization concept",
+              "Gait patterns + motion profiling",
+              "Wireless telemetry + dashboard UI",
+              "Modular hardware planning for upgrades"
+            ],
+            tech: ["ESP32 / Raspberry Pi", "ROS2 (high-level)", "IMU + distance sensing", "Web UI + telemetry"],
+            challenges: "Balancing stability, power, actuator limits, and clean software modularity for upgrades.",
+            image: "images/work/work-4.png"
+          }
         },
         {
           id: "iotdash",
           title: "IoT Dashboard UI (Concept)",
           cover: "images/work/work-5.png",
-          subtitle: "Device monitoring, alerts, analytics and history graphs.",
-          modal: { intro: "A professional IoT dashboard concept for monitoring sensor streams and device health.",
-            extra: ["Status cards + logs + filters","Alert center with severity","Device list & quick actions","Mobile responsive layout"] }
+          subtitle: "Device monitoring, alerts, analytics, and history graphs.",
+          tags: ["UI/UX", "IoT"],
+          modal: {
+            intro: "A professional IoT dashboard concept for monitoring sensor streams and device health.",
+            extra: ["Status cards + logs + filters", "Alert center with severity", "Device list & quick actions", "Mobile responsive layout"],
+            image: "images/work/work-5.png"
+          }
+        },
+        {
+          id: "social",
+          title: "Social Media App UI",
+          cover: "images/work/work-1.png",
+          subtitle: "Real-time communication UI concept with clean feed patterns.",
+          tags: ["UI/UX"],
+          modal: {
+            intro: "A modern social UI concept focusing on readability, spacing, and interaction states.",
+            image: "images/work/work-2.png",
+            extra: ["Clean feed layout", "Profile + messaging patterns", "Mobile-first responsive structure"]
+          }
+        },
+        {
+          id: "music",
+          title: "Music App UI",
+          cover: "images/work/work-2.png",
+          subtitle: "Stream tracks, playlists, and discover new music daily.",
+          tags: ["UI/UX"],
+          modal: {
+            intro: "A music UX concept with playlist-first navigation.",
+            image: "images/work/work-3.png",
+            extra: ["Playlist-focused UX", "Better typography + contrast", "Smooth interaction states"]
+          }
         }
       ],
 
       loadMoreProjects: [
-        { id: "gaming", title: "Online Gaming App", cover: "images/work/work-3.png", subtitle: "Multiplayer UI concept with ranking & profile screens.", modal: { intro: "A UI/UX concept focusing on matchmaking, ranking, and profiles." } },
-        { id: "multiplayer", title: "Multiplayer Game", cover: "images/work/work-4.png", subtitle: "Project placeholder (replace with your real project).", modal: { intro: "Project card placeholder (replace with real content)." } },
-        { id: "snake", title: "Snake Game", cover: "images/work/work-5.png", subtitle: "Project placeholder (replace with your real project).", modal: { intro: "Project card placeholder (replace with real content)." } },
+        { id: "gaming", title: "Online Gaming App UI", cover: "images/work/work-3.png", subtitle: "Matchmaking UI concept with ranking & profiles.", tags:["UI/UX"], modal: { intro: "A UI/UX concept focusing on matchmaking, ranking, and profiles." } },
+        { id: "multiplayer", title: "Multiplayer Game (Placeholder)", cover: "images/work/work-4.png", subtitle: "Replace with your real project.", tags:["Placeholder"], modal: { intro: "Project card placeholder (replace with real content)." } },
+        { id: "snake", title: "Snake Game (Placeholder)", cover: "images/work/work-5.png", subtitle: "Replace with your real project.", tags:["Placeholder"], modal: { intro: "Project card placeholder (replace with real content)." } },
       ],
 
       socials: [
-        { icon: "fab fa-facebook", href: "https://www.facebook.com/shah.mehrab.hossain/" },
-        { icon: "fa-brands fa-x-twitter", href: "https://twitter.com/" },
-        { icon: "fab fa-instagram", href: "https://www.instagram.com/smh.009/" },
-        { icon: "fab fa-linkedin", href: "https://www.linkedin.com/in/shah-mehrab-hossain-a6a1691ba/" },
-        { icon: "fab fa-github", href: "https://github.com/shahm009" },
-        { icon: "fab fa-stack-overflow", href: "https://stackoverflow.com/users/20249958/shah009" }
+        { icon: "fab fa-facebook", href: "https://www.facebook.com/shah.mehrab.hossain/", label:"Facebook" },
+        { icon: "fa-brands fa-x-twitter", href: "https://twitter.com/", label:"X" },
+        { icon: "fab fa-instagram", href: "https://www.instagram.com/smh.009/", label:"Instagram" },
+        { icon: "fab fa-linkedin", href: "https://www.linkedin.com/in/shah-mehrab-hossain-a6a1691ba/", label:"LinkedIn" },
+        { icon: "fab fa-github", href: "https://github.com/shahm009", label:"GitHub" },
+        { icon: "fab fa-stack-overflow", href: "https://stackoverflow.com/users/20249958/shah009", label:"Stack Overflow" }
       ],
 
       googleScriptURL: "https://script.google.com/macros/s/AKfycbwjMYFVTmh0NAP6JTMf_kPawXRtiZHOcBLp0OOZKQmJgBES_S7jx5rhoA5bzvUu3kRP/exec",
@@ -524,35 +704,34 @@
       ],
     };
   </script>
-  <!-- ================= END DATA ================= -->
+  <!-- ======================= END DATA ======================= -->
 
-  <!-- ================= TOP BAR / NAV ================= -->
-  <header class="sticky top-0 z-50">
-    <div class="mx-auto max-w-7xl px-4 py-3">
-      <div class="surface px-4 py-3">
+  <!-- NAV -->
+  <header class="navWrap">
+    <div class="containerX py-3">
+      <div class="glass px-4 py-3">
         <div class="flex items-center justify-between gap-3">
           <a href="#home" class="flex items-center gap-3 hover:opacity-90 transition">
-            <img id="logo" class="h-10 w-10 rounded-xl object-cover" alt="Logo" />
+            <img id="logo" class="h-11 w-11 rounded-2xl object-cover" alt="Logo" />
             <div class="leading-tight">
-              <p class="font-extrabold tracking-tight" id="navName"></p>
-              <p class="text-xs muted">Portfolio • Robotics • Embedded</p>
+              <p class="font-black tracking-tight" id="navName"></p>
+              <p class="text-xs muted" id="navTagline"></p>
             </div>
           </a>
 
-          <nav class="hidden md:flex items-center gap-1">
-            <a class="nav-link transition" href="#home">Home</a>
-            <a class="nav-link transition" href="#about">About</a>
-            <a class="nav-link transition" href="#services">Services</a>
-            <a class="nav-link transition" href="#portfolio">Portfolio</a>
-            <a class="nav-link transition" href="#contact">Contact</a>
+          <nav class="hidden lg:flex items-center gap-1" aria-label="Primary">
+            <a class="navLink" href="#home">Home</a>
+            <a class="navLink" href="#about">About</a>
+            <a class="navLink" href="#services">Services</a>
+            <a class="navLink" href="#portfolio">Portfolio</a>
+            <a class="navLink" href="#contact">Contact</a>
           </nav>
 
           <div class="flex items-center gap-2">
             <!-- Cursor style -->
-            <div class="hidden sm:flex items-center gap-2 btn-glass px-3 py-2">
+            <div class="hidden md:flex items-center gap-2 btn px-3 py-2">
               <i class="fa-solid fa-mouse-pointer muted"></i>
-              <select id="cursorSelect" class="bg-transparent text-sm font-bold outline-none"
-                      style="color: rgb(var(--text));">
+              <select id="cursorSelect" class="bg-transparent text-sm font-black outline-none" style="color: rgb(var(--text)); padding: 0;">
                 <option value="off">Cursor: Off</option>
                 <option value="neo">Cursor: Neo</option>
                 <option value="dot">Cursor: Dot</option>
@@ -561,33 +740,29 @@
               </select>
             </div>
 
-            <!-- Theme -->
-            <button id="themeBtn" class="btn-glass px-3 py-2 text-sm font-bold hover:shadow-[0_0_0_6px_rgba(99,102,241,.14)] transition">
-              <span id="themeIcon">☀️</span>
-              <span class="hidden sm:inline ml-2">Theme</span>
+            <button id="themeBtn" class="btn px-3 py-2 text-sm font-black" aria-label="Toggle theme">
+              <span id="themeIcon">🌙</span>
+              <span class="hidden sm:inline" id="themeLabel">Theme</span>
             </button>
 
-            <!-- Mobile -->
-            <button id="menuBtn" class="md:hidden btn-glass px-3 py-2" aria-label="Open menu">
+            <button id="menuBtn" class="lg:hidden btn px-3 py-2" aria-label="Open menu" aria-expanded="false">
               <i class="fa-solid fa-bars"></i>
             </button>
           </div>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobileMenu" class="hidden md:hidden mt-3">
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="hidden lg:hidden mt-3" aria-label="Mobile menu">
           <div class="grid gap-2">
-            <a class="btn-glass px-4 py-3" href="#home">Home</a>
-            <a class="btn-glass px-4 py-3" href="#about">About</a>
-            <a class="btn-glass px-4 py-3" href="#services">Services</a>
-            <a class="btn-glass px-4 py-3" href="#portfolio">Portfolio</a>
-            <a class="btn-glass px-4 py-3" href="#contact">Contact</a>
+            <a class="btn px-4 py-3" href="#home">Home</a>
+            <a class="btn px-4 py-3" href="#about">About</a>
+            <a class="btn px-4 py-3" href="#services">Services</a>
+            <a class="btn px-4 py-3" href="#portfolio">Portfolio</a>
+            <a class="btn px-4 py-3" href="#contact">Contact</a>
 
-            <!-- Cursor for mobile -->
-            <div class="btn-glass px-4 py-3 flex items-center gap-3">
+            <div class="btn px-4 py-3 flex items-center gap-3">
               <i class="fa-solid fa-mouse-pointer muted"></i>
-              <select id="cursorSelectMobile" class="bg-transparent text-sm font-bold outline-none"
-                      style="color: rgb(var(--text)); width: 100%;">
+              <select id="cursorSelectMobile" class="bg-transparent text-sm font-black outline-none" style="color: rgb(var(--text)); width: 100%; padding:0;">
                 <option value="off">Cursor: Off</option>
                 <option value="neo">Cursor: Neo</option>
                 <option value="dot">Cursor: Dot</option>
@@ -602,194 +777,179 @@
     </div>
   </header>
 
-  <!-- ================= HERO ================= -->
-  <main id="home" class="mx-auto max-w-7xl px-4 pt-6 pb-16">
-    <section class="surface overflow-hidden shadow-[0_30px_90px_rgba(2,6,23,.10)] reveal">
-      <div class="relative">
-        <div id="heroBg" class="absolute inset-0 bg-center bg-cover opacity-[.20]"></div>
-        <div class="absolute inset-0"
-          style="background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.10), rgba(0,0,0,.22));"></div>
-
-        <div class="relative p-7 md:p-10">
-          <div class="grid gap-10 md:grid-cols-2 md:items-center">
-            <div>
-              <p class="inline-flex items-center gap-2 chip px-4 py-2 text-xs">
-                <span class="h-2 w-2 rounded-full" style="background: rgb(var(--brand))"></span>
-                Available for collaborations • Remote / On-site
-              </p>
-
-              <h1 class="mt-5 text-3xl md:text-5xl font-black leading-tight">
-                Hi, I am <span class="bg-gradient-to-r from-cyan-500 to-indigo-500 bg-clip-text text-transparent" id="heroName"></span>
-                <span class="block mt-2 text-base md:text-lg font-semibold muted">
-                  from <span id="heroLocation"></span>.
-                </span>
-              </h1>
-
-              <p class="mt-4 text-lg md:text-xl font-semibold">
-                <span class="muted">I am</span>
-                <span id="typedText" class="ml-2 font-extrabold"></span>
-                <span class="ml-1 opacity-60" id="typingCursor">|</span>
-              </p>
-
-              <p class="mt-4 text-sm md:text-base leading-relaxed" style="color: rgba(var(--text),.92)">
-                I build real-world systems combining <b>embedded engineering</b>, <b>robotics (ROS2)</b>, <b>IoT</b>, and <b>computer vision</b>.
-                I also design high-quality <b>UI/UX</b> for dashboards, apps and project portfolios.
-              </p>
-
-              <div class="mt-6 flex flex-wrap gap-3">
-                <a href="#portfolio" class="btn-primary px-5 py-3 hover:opacity-90 transition hover-pop">
-                  View Portfolio <i class="fa-solid fa-arrow-right ml-2"></i>
-                </a>
-
-                <a href="#contact" class="btn-glass px-5 py-3 font-black hover-pop transition">
-                  Contact Me <i class="fa-solid fa-paper-plane ml-2"></i>
-                </a>
-
-                <a id="cvBtnTop" class="btn-glass px-5 py-3 font-black hover-pop transition" download>
-                  Download CV <i class="fa-solid fa-download ml-2"></i>
-                </a>
-              </div>
-
-              <div class="mt-6 flex flex-wrap gap-2">
-                <span class="chip px-3 py-2 text-xs">ROS2 • Robotics</span>
-                <span class="chip px-3 py-2 text-xs">Embedded • IoT</span>
-                <span class="chip px-3 py-2 text-xs">OpenCV • MediaPipe</span>
-                <span class="chip px-3 py-2 text-xs">UI/UX • Adobe Suite</span>
-              </div>
+  <main id="content" class="containerX pt-6 pb-16">
+    <!-- HOME -->
+    <section id="home" class="reveal">
+      <div class="panel p-6 md:p-10">
+        <div class="grid gap-10 lg:grid-cols-12 lg:items-center">
+          <div class="lg:col-span-7">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="chip"><span class="dot"></span><span id="availability"></span></span>
+              <span class="chip"><i class="fa-solid fa-location-dot"></i><span id="heroLocation"></span></span>
             </div>
 
-            <div>
-              <div class="surface-strong p-5 md:p-6">
-                <div class="flex items-center gap-4">
-                  <img id="avatar" class="h-16 w-16 rounded-2xl object-cover ring-2 ring-black/5 dark:ring-white/10" alt="Avatar">
-                  <div class="flex-1">
-                    <p class="font-black text-lg" id="cardName"></p>
-                    <p class="text-sm muted">Embedded • Robotics • IoT • Developer</p>
-                  </div>
-                  <div class="h-10 w-10 rounded-2xl grid place-items-center" style="background: rgba(var(--brand), .14)">
-                    <i class="fa-solid fa-bolt" style="color: rgb(var(--brand))"></i>
-                  </div>
-                </div>
+            <h1 class="mt-5 text-3xl md:text-5xl font-black tracking-[-0.05em] leading-[1.05]">
+              Hi, I'm <span id="heroName" class="grad-text"></span>.
+            </h1>
 
-                <div class="mt-5 grid grid-cols-2 gap-3">
-                  <div class="btn-glass p-4">
-                    <p class="text-xs muted">Main Stack</p>
-                    <p class="mt-1 font-bold">C/C++ • Python</p>
-                  </div>
-                  <div class="btn-glass p-4">
-                    <p class="text-xs muted">Robotics</p>
-                    <p class="mt-1 font-bold">ROS2 • Sensors</p>
-                  </div>
-                  <div class="btn-glass p-4">
-                    <p class="text-xs muted">Design</p>
-                    <p class="mt-1 font-bold">UI/UX • Branding</p>
-                  </div>
-                  <div class="btn-glass p-4">
-                    <p class="text-xs muted">IoT</p>
-                    <p class="mt-1 font-bold">Wi-Fi • Dashboards</p>
-                  </div>
-                </div>
+            <p class="mt-4 text-lg md:text-xl font-extrabold">
+              <span class="muted">I build</span>
+              <span id="typedText" class="ml-2"></span>
+              <span class="ml-1 opacity-60" id="typingCursor" aria-hidden="true">|</span>
+            </p>
 
-                <!-- Music Player -->
-                <div class="mt-5 btn-glass p-4">
-                  <p class="text-xs mb-2 muted">Music Player</p>
-                  <div class="flex items-center gap-3">
-                    <button id="prevBtn" class="btn-glass px-3 py-2 hover-pop transition" aria-label="Previous">
-                      <i class="fa-solid fa-backward"></i>
-                    </button>
+            <p class="mt-4 text-sm md:text-base leading-relaxed" style="color: rgba(var(--text), .92)">
+              I design and develop real systems combining <b>embedded engineering</b>, <b>robotics (ROS2)</b>, <b>IoT telemetry</b>, and <b>computer vision</b>.
+              I also create premium <b>UI/UX</b> that looks modern and feels fast.
+            </p>
 
-                    <button id="playBtn" class="btn-primary px-4 py-2 hover:opacity-90 transition hover-pop">
-                      <i id="playIcon" class="fa-solid fa-play"></i>
-                      <i id="pauseIcon" class="fa-solid fa-pause hidden"></i>
-                      <span class="ml-2">Play</span>
-                    </button>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="#portfolio" class="btn btn-primary">
+                View Portfolio <i class="fa-solid fa-arrow-right"></i>
+              </a>
+              <a href="#contact" class="btn">
+                Contact Me <i class="fa-solid fa-paper-plane"></i>
+              </a>
+              <a id="cvBtnTop" class="btn" download>
+                Download CV <i class="fa-solid fa-download"></i>
+              </a>
+            </div>
 
-                    <button id="nextBtn" class="btn-glass px-3 py-2 hover-pop transition" aria-label="Next">
-                      <i class="fa-solid fa-forward"></i>
-                    </button>
+            <div class="mt-6 flex flex-wrap gap-2" id="heroChips"></div>
+          </div>
 
-                    <div class="ml-auto text-right">
-                      <p class="text-xs muted">Now Playing</p>
-                      <p class="text-sm font-bold truncate max-w-[170px]" id="trackName">Track</p>
+          <div class="lg:col-span-5">
+            <div class="avatarRing p-5 md:p-6">
+              <div class="relative">
+                <div class="relative rounded-[24px] overflow-hidden">
+                  <div id="heroBg" class="absolute inset-0 bg-cover bg-center opacity-[.16]"></div>
+                  <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.22));"></div>
+
+                  <div class="relative p-5">
+                    <div class="flex items-center gap-4">
+                      <img id="avatar" class="h-16 w-16 rounded-2xl object-cover" alt="Avatar" />
+                      <div class="flex-1">
+                        <p class="font-black text-lg" id="cardName"></p>
+                        <p class="text-sm muted" id="cardTagline"></p>
+                      </div>
+                      <div class="h-11 w-11 rounded-2xl grid place-items-center" style="background: rgba(var(--text), .08)">
+                        <i class="fa-solid fa-bolt" style="color: rgba(var(--text), .92)"></i>
+                      </div>
                     </div>
-                  </div>
-                  <audio id="player" preload="auto"></audio>
-                </div>
 
+                    <div class="mt-5 grid grid-cols-2 gap-3" id="heroStats"></div>
+
+                    <!-- Music Player -->
+                    <div class="mt-5 card p-4">
+                      <p class="text-xs muted mb-2">Music Player</p>
+                      <div class="flex items-center gap-3">
+                        <button id="prevBtn" class="btn px-3 py-2" aria-label="Previous track">
+                          <i class="fa-solid fa-backward"></i>
+                        </button>
+
+                        <button id="playBtn" class="btn btn-primary px-4 py-2" aria-label="Play or pause">
+                          <i id="playIcon" class="fa-solid fa-play"></i>
+                          <i id="pauseIcon" class="fa-solid fa-pause hidden"></i>
+                          <span class="ml-1">Play</span>
+                        </button>
+
+                        <button id="nextBtn" class="btn px-3 py-2" aria-label="Next track">
+                          <i class="fa-solid fa-forward"></i>
+                        </button>
+
+                        <div class="ml-auto text-right">
+                          <p class="text-xs muted">Now Playing</p>
+                          <p class="text-sm font-black truncate max-w-[170px]" id="trackName">Track</p>
+                        </div>
+                      </div>
+                      <audio id="player" preload="auto"></audio>
+                    </div>
+
+                  </div>
+                </div>
               </div>
             </div>
+
+            <div class="mt-4 grid gap-3 sm:grid-cols-2">
+              <a id="emailLink" class="btn w-full" href="#"><i class="fa-solid fa-envelope"></i><span id="emailText"></span></a>
+              <a id="phoneLink" class="btn w-full" href="#"><i class="fa-solid fa-phone"></i><span id="phoneText"></span></a>
+            </div>
+
+            <div class="mt-4 flex flex-wrap gap-2" id="socialLinks"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ================= ABOUT ================= -->
+    <!-- ABOUT -->
     <section id="about" class="mt-10 reveal">
-      <div class="surface p-7 md:p-10">
+      <div class="panel p-6 md:p-10">
         <div class="flex items-end justify-between flex-wrap gap-3">
           <div>
-            <h2 class="text-2xl md:text-4xl font-black" id="aboutTitle"></h2>
-            <p class="mt-2 text-sm md:text-base muted">
-              A clear and professional overview — easy to expand.
+            <div class="kicker"><span class="dot"></span> profile</div>
+            <h2 class="h2 mt-3" id="aboutTitle"></h2>
+            <p class="mt-3 text-sm md:text-base muted">
+              Clean, detailed, and easy to expand with new projects and achievements.
             </p>
           </div>
+
           <div class="flex gap-2 flex-wrap">
-            <button class="tabBtn btn-glass px-4 py-2 text-sm font-black hover-pop transition" data-tab="skillsTab">Skills</button>
-            <button class="tabBtn btn-glass px-4 py-2 text-sm font-black hover-pop transition" data-tab="experienceTab">Experience</button>
-            <button class="tabBtn btn-glass px-4 py-2 text-sm font-black hover-pop transition" data-tab="educationTab">Education</button>
-            <button class="tabBtn btn-glass px-4 py-2 text-sm font-black hover-pop transition" data-tab="certTab">Certifications</button>
+            <button class="tabBtn btn px-4 py-2 text-sm" data-tab="skillsTab"><i class="fa-solid fa-layer-group"></i>Skills</button>
+            <button class="tabBtn btn px-4 py-2 text-sm" data-tab="timelineTab"><i class="fa-solid fa-timeline"></i>Timeline</button>
+            <button class="tabBtn btn px-4 py-2 text-sm" data-tab="educationTab"><i class="fa-solid fa-graduation-cap"></i>Education</button>
+            <button class="tabBtn btn px-4 py-2 text-sm" data-tab="certTab"><i class="fa-solid fa-award"></i>Certificates</button>
           </div>
         </div>
 
-        <div class="mt-7 grid gap-7 md:grid-cols-3 md:items-start">
-          <div class="md:col-span-1">
-            <div class="surface-strong p-5">
+        <div class="mt-7 grid gap-7 lg:grid-cols-12 lg:items-start">
+          <div class="lg:col-span-4">
+            <div class="card p-5">
               <img id="aboutImg" class="w-full rounded-2xl object-cover" alt="About photo">
               <div class="mt-4 grid grid-cols-2 gap-3" id="quickStats"></div>
             </div>
+
+            <div class="mt-4 card p-5">
+              <p class="text-xs muted">Core strengths</p>
+              <div class="mt-3 grid gap-3" id="highlights"></div>
+            </div>
           </div>
 
-          <div class="md:col-span-2">
-            <div class="surface-strong p-6 md:p-7">
+          <div class="lg:col-span-8">
+            <div class="card p-6 md:p-7">
               <div class="space-y-4 text-sm md:text-base leading-relaxed" id="aboutParagraphs"></div>
             </div>
 
             <div class="mt-5">
               <div id="skillsTab" class="tabPanel">
-                <div class="surface-strong p-6 md:p-7">
-                  <p class="text-sm mb-4 muted">
-                    Skill icons in a clean pro grid.
-                  </p>
-                  <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3" id="skillsGrid"></div>
-
-                  <div class="mt-6 grid gap-3 md:grid-cols-2">
-                    <div class="btn-glass p-5">
-                      <p class="text-xs muted">Robotics</p>
-                      <p class="mt-2 font-bold">ROS2 • Sensor fusion • Kinematics • Telemetry</p>
+                <div class="card p-6 md:p-7">
+                  <div class="grid gap-4 md:grid-cols-2">
+                    <div>
+                      <p class="text-sm muted">Skill icons</p>
+                      <div class="mt-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3" id="skillsGrid"></div>
                     </div>
-                    <div class="btn-glass p-5">
-                      <p class="text-xs muted">Embedded</p>
-                      <p class="mt-2 font-bold">I2C/SPI/UART • PWM • Drivers • Debugging</p>
+                    <div>
+                      <p class="text-sm muted">Skill groups</p>
+                      <div class="mt-4 grid gap-3" id="skillsGroups"></div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div id="experienceTab" class="tabPanel hidden">
-                <div class="surface-strong p-6 md:p-7">
-                  <div class="space-y-3" id="experienceList"></div>
+              <div id="timelineTab" class="tabPanel hidden">
+                <div class="card p-6 md:p-7">
+                  <div class="space-y-3" id="timelineList"></div>
                 </div>
               </div>
 
               <div id="educationTab" class="tabPanel hidden">
-                <div class="surface-strong p-6 md:p-7">
+                <div class="card p-6 md:p-7">
                   <div class="space-y-3" id="educationList"></div>
                 </div>
               </div>
 
               <div id="certTab" class="tabPanel hidden">
-                <div class="surface-strong p-6 md:p-7">
-                  <p class="text-sm mb-4 muted">Click to preview certificates.</p>
+                <div class="card p-6 md:p-7">
+                  <p class="text-sm muted mb-4">Click to preview certificates.</p>
                   <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id="certGrid"></div>
                 </div>
               </div>
@@ -800,38 +960,38 @@
       </div>
     </section>
 
-    <!-- ================= SERVICES ================= -->
+    <!-- SERVICES -->
     <section id="services" class="mt-10 reveal">
-      <div class="surface p-7 md:p-10">
+      <div class="panel p-6 md:p-10">
         <div class="flex items-end justify-between flex-wrap gap-3">
           <div>
-            <h2 class="text-2xl md:text-4xl font-black">My Services</h2>
-            <p class="mt-2 text-sm md:text-base muted">
-              Premium service cards with micro-interactions.
-            </p>
+            <div class="kicker"><span class="dot"></span> services</div>
+            <h2 class="h2 mt-3">What I Can Do</h2>
+            <p class="mt-3 text-sm md:text-base muted">High quality, production-ready outcomes with strong communication.</p>
           </div>
-          <span class="chip px-4 py-2 text-xs">Hover cards for interaction</span>
+          <span class="chip"><i class="fa-solid fa-wand-magic-sparkles"></i>Hover for details</span>
         </div>
 
         <div class="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" id="servicesGrid"></div>
       </div>
     </section>
 
-    <!-- ================= PORTFOLIO ================= -->
+    <!-- PORTFOLIO -->
     <section id="portfolio" class="mt-10 reveal">
-      <div class="surface p-7 md:p-10">
+      <div class="panel p-6 md:p-10">
         <div class="flex items-end justify-between flex-wrap gap-3">
           <div>
-            <h2 class="text-2xl md:text-4xl font-black">My Work</h2>
-            <p class="mt-2 text-sm md:text-base muted">
-              Works + search + modal details.
-            </p>
+            <div class="kicker"><span class="dot"></span> portfolio</div>
+            <h2 class="h2 mt-3">Selected Work</h2>
+            <p class="mt-3 text-sm md:text-base muted">Search + filters + detailed modals.</p>
           </div>
 
-          <div class="flex flex-wrap gap-2">
-            <input id="searchProjects" class="px-4 py-3 text-sm w-[220px] md:w-[280px]"
-              placeholder="Search projects…"/>
-            <button id="loadMoreBtn" class="btn-glass px-5 py-3 font-black hover-pop transition">
+          <div class="flex flex-wrap gap-2 items-center">
+            <input id="searchProjects" class="text-sm w-[220px] md:w-[280px]" placeholder="Search projects…" aria-label="Search projects"/>
+            <select id="filterTag" class="text-sm font-black" aria-label="Filter projects">
+              <option value="all">Filter: All</option>
+            </select>
+            <button id="loadMoreBtn" class="btn px-5 py-3" aria-label="Load more projects">
               See more
             </button>
           </div>
@@ -841,57 +1001,64 @@
       </div>
     </section>
 
-    <!-- ================= CONTACT ================= -->
+    <!-- CONTACT -->
     <section id="contact" class="mt-10 pb-16 reveal">
-      <div class="surface p-7 md:p-10">
-        <div class="grid gap-6 md:grid-cols-2">
-          <div>
-            <h2 class="text-2xl md:text-4xl font-black">Contact Me</h2>
-            <p class="mt-2 text-sm md:text-base muted">
-              Let’s collaborate — I respond fast with clear communication.
+      <div class="panel p-6 md:p-10">
+        <div class="grid gap-6 lg:grid-cols-12">
+          <div class="lg:col-span-5">
+            <div class="kicker"><span class="dot"></span> contact</div>
+            <h2 class="h2 mt-3">Let’s Build Something</h2>
+            <p class="mt-3 text-sm md:text-base muted">
+              Send a short message. I reply with clear steps and realistic timelines.
             </p>
 
             <div class="mt-6 space-y-3">
-              <a id="emailLink" class="btn-glass px-4 py-3 flex items-center gap-3 hover-pop transition" href="#">
-                <i class="fa-solid fa-paper-plane"></i>
-                <span id="emailText"></span>
-              </a>
-              <a id="phoneLink" class="btn-glass px-4 py-3 flex items-center gap-3 hover-pop transition" href="#">
-                <i class="fa-solid fa-phone"></i>
-                <span id="phoneText"></span>
-              </a>
+              <a id="emailLink2" class="btn w-full" href="#"><i class="fa-solid fa-paper-plane"></i><span id="emailText2"></span></a>
+              <a id="phoneLink2" class="btn w-full" href="#"><i class="fa-solid fa-phone"></i><span id="phoneText2"></span></a>
 
-              <div class="mt-4 flex flex-wrap gap-2" id="socialLinks"></div>
-
-              <a id="cvBtn" class="btn-primary inline-flex items-center gap-2 px-5 py-3 hover:opacity-90 transition hover-pop" download>
+              <a id="cvBtn" class="btn btn-primary w-full" style="justify-content:center" download>
                 <i class="fa-solid fa-download"></i> Download CV
               </a>
+
+              <p class="text-xs muted mt-2">Tip: Add your project idea + deadline + budget (if any) for a faster response.</p>
             </div>
           </div>
 
-          <div>
-            <div class="surface-strong p-6 md:p-7">
-              <h3 class="text-xl font-black">Send a Message</h3>
-              <p class="mt-2 text-sm muted">Connected to your Google Script.</p>
+          <div class="lg:col-span-7">
+            <div class="card p-6 md:p-7">
+              <div class="flex items-start justify-between gap-4 flex-wrap">
+                <div>
+                  <h3 class="h3">Send a Message</h3>
+                  <p class="mt-2 text-sm muted">Connected to your Google Script.</p>
+                </div>
+                <span class="chip"><i class="fa-solid fa-shield"></i>Sanitized input</span>
+              </div>
 
-              <form id="contactForm" class="mt-5 space-y-4">
-                <input class="px-4 py-3 text-sm w-full" type="text" name="Name" placeholder="Your Name" required>
-                <input class="px-4 py-3 text-sm w-full" type="email" name="Email" placeholder="Your Email" required>
-                <textarea class="px-4 py-3 text-sm w-full" name="Message" rows="6" placeholder="Your Message" required></textarea>
+              <form id="contactForm" class="mt-5 space-y-4" autocomplete="on" novalidate>
+                <div style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
+                  <label>Website</label>
+                  <input type="text" name="Website" tabindex="-1" autocomplete="off">
+                </div>
 
-                <button id="submitBtn" class="btn-primary w-full px-5 py-3 hover:opacity-90 transition hover-pop">
-                  Submit <i class="fa-solid fa-paper-plane ml-2"></i>
+                <div class="grid gap-4 md:grid-cols-2">
+                  <input class="text-sm w-full" type="text" name="Name" placeholder="Your Name" required>
+                  <input class="text-sm w-full" type="email" name="Email" placeholder="Your Email" required>
+                </div>
+
+                <textarea class="text-sm w-full" name="Message" rows="6" placeholder="Your Message" required></textarea>
+
+                <button id="submitBtn" class="btn btn-primary w-full" style="justify-content:center" type="submit">
+                  Submit <i class="fa-solid fa-paper-plane"></i>
                 </button>
 
-                <p id="formMsg" class="text-sm muted"></p>
+                <p id="formMsg" class="text-sm muted" role="status" aria-live="polite"></p>
               </form>
             </div>
           </div>
         </div>
 
-        <div class="mt-10 border-t pt-6 text-center text-sm line muted">
-          Copyright © <span id="year"></span>
-          <span class="font-bold" style="color: rgb(var(--text));"><span id="copyrightName"></span></span>.
+        <div class="mt-10 border-t pt-6 text-center text-sm muted" style="border-color: rgba(var(--border-strong), .12);">
+          © <span id="year"></span> <span class="font-black" style="color: rgb(var(--text));" id="copyrightName"></span>.
           All rights reserved.
         </div>
       </div>
@@ -899,32 +1066,30 @@
   </main>
 
   <!-- Back to top -->
-  <button id="backTop"
-    class="fixed bottom-5 right-5 hidden btn-glass px-4 py-3 hover-pop transition"
-    aria-label="Back to top">
+  <button id="backTop" class="fixed bottom-5 right-5 hidden btn px-4 py-3" aria-label="Back to top">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
-  <!-- ================= PROJECT MODAL ================= -->
-  <div id="projectModal" class="fixed inset-0 hidden z-[999]">
-    <div id="modalOverlay" class="absolute inset-0" style="background: rgba(0,0,0,.65);"></div>
+  <!-- PROJECT MODAL -->
+  <div id="projectModal" class="fixed inset-0 hidden z-[999]" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalIntro">
+    <div id="modalOverlay" class="absolute inset-0 overlay" tabindex="-1" aria-hidden="true"></div>
     <div class="relative mx-auto mt-6 max-w-4xl px-4">
-      <div class="surface overflow-hidden">
-        <div class="flex items-center justify-between p-5 border-b line">
+      <div class="panel overflow-hidden">
+        <div class="flex items-center justify-between p-5 border-b" style="border-color: rgba(var(--border-strong), .12);">
           <div>
             <p class="text-xs muted">Project Details</p>
             <h3 id="modalTitle" class="text-lg md:text-xl font-black"></h3>
           </div>
-          <button id="modalClose" class="btn-glass px-3 py-2 hover-pop transition" aria-label="Close">
+          <button id="modalClose" class="btn px-3 py-2" aria-label="Close project dialog">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
 
         <div class="p-6 md:p-7 space-y-6 max-h-[80vh] overflow-y-auto">
-          <p id="modalIntro" class="text-sm md:text-base leading-relaxed" style="color: rgba(var(--text),.92)"></p>
+          <p id="modalIntro" class="text-sm md:text-base leading-relaxed" style="color: rgba(var(--text), .92)"></p>
 
           <div id="modalVideoWrap" class="hidden">
-            <div class="surface-strong overflow-hidden">
+            <div class="card overflow-hidden">
               <div class="aspect-video">
                 <iframe id="modalVideo" class="w-full h-full"
                   src="" title="YouTube video player" frameborder="0"
@@ -935,21 +1100,20 @@
           </div>
 
           <div id="modalSections" class="space-y-5"></div>
-
           <img id="modalImage" class="w-full rounded-2xl object-cover hidden" alt="Project image">
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ================= CERT PREVIEW MODAL ================= -->
-  <div id="certModal" class="fixed inset-0 hidden z-[999]">
-    <div id="certOverlay" class="absolute inset-0" style="background: rgba(0,0,0,.65);"></div>
+  <!-- CERT MODAL -->
+  <div id="certModal" class="fixed inset-0 hidden z-[999]" role="dialog" aria-modal="true" aria-labelledby="certTitle">
+    <div id="certOverlay" class="absolute inset-0 overlay" tabindex="-1" aria-hidden="true"></div>
     <div class="relative mx-auto mt-6 max-w-5xl px-4">
-      <div class="surface overflow-hidden">
-        <div class="flex items-center justify-between p-4 border-b line">
+      <div class="panel overflow-hidden">
+        <div class="flex items-center justify-between p-4 border-b" style="border-color: rgba(var(--border-strong), .12);">
           <p id="certTitle" class="font-black"></p>
-          <button id="certClose" class="btn-glass px-3 py-2 hover-pop transition">
+          <button id="certClose" class="btn px-3 py-2" aria-label="Close certificate dialog">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
@@ -959,102 +1123,164 @@
   </div>
 
   <script>
-    /* ==============================
-       THEME: true light/dark
-       ============================== */
+    /* ==========================================================
+       THEME (button shows NEXT mode)
+    ========================================================== */
     const htmlEl = document.documentElement;
+    const themeIcon = document.getElementById("themeIcon");
+    const themeLabel = document.getElementById("themeLabel");
 
     function applyTheme(mode){
       document.body.classList.add("theme-transition");
-      if(mode === "dark"){
-        htmlEl.classList.add("dark");
-        document.getElementById("themeIcon").textContent = "🌙";
-      }else{
-        htmlEl.classList.remove("dark");
-        document.getElementById("themeIcon").textContent = "☀️";
-      }
+      const isDark = mode === "dark";
+      htmlEl.classList.toggle("dark", isDark);
+
+      themeIcon.textContent = isDark ? "☀️" : "🌙";
+      themeLabel.textContent = isDark ? "Light" : "Dark";
+
       localStorage.setItem("theme", mode);
-      setTimeout(() => document.body.classList.remove("theme-transition"), 420);
+      setTimeout(() => document.body.classList.remove("theme-transition"), 280);
     }
 
+    const mql = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
+    const prefersDark = !!(mql && mql.matches);
     const storedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
     applyTheme(storedTheme || (prefersDark ? "dark" : "light"));
 
     document.getElementById("themeBtn").addEventListener("click", () => {
-      const current = localStorage.getItem("theme") || (prefersDark ? "dark" : "light");
+      const current = (localStorage.getItem("theme") || (prefersDark ? "dark" : "light"));
       applyTheme(current === "dark" ? "light" : "dark");
     });
 
-    /* ==============================
+    if(mql && mql.addEventListener){
+      mql.addEventListener("change", (e) => {
+        if(!localStorage.getItem("theme")) applyTheme(e.matches ? "dark" : "light");
+      });
+    }
+
+    /* ==========================================================
        Preloader
-       ============================== */
+    ========================================================== */
     window.addEventListener("load", () => {
-      setTimeout(() => document.getElementById("preloader").classList.add("hidden"), 650);
+      setTimeout(() => document.getElementById("preloader").classList.add("hidden"), 450);
     });
 
-    /* ==============================
-       Mobile Menu
-       ============================== */
+    /* ==========================================================
+       Mobile Menu (click-away close + aria-expanded)
+    ========================================================== */
     const menuBtn = document.getElementById("menuBtn");
     const mobileMenu = document.getElementById("mobileMenu");
-    menuBtn.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
-    mobileMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => mobileMenu.classList.add("hidden")));
 
-    /* ==============================
-       Hover Sounds
-       ============================== */
+    function setMenu(open){
+      mobileMenu.classList.toggle("hidden", !open);
+      menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+
+    menuBtn.addEventListener("click", () => setMenu(mobileMenu.classList.contains("hidden")));
+    mobileMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+
+    document.addEventListener("click", (e) => {
+      if(mobileMenu.classList.contains("hidden")) return;
+      if(!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)){
+        setMenu(false);
+      }
+    });
+
+    /* ==========================================================
+       Sounds (safer)
+    ========================================================== */
     const navSound = document.getElementById("nav-hover-sound");
-    navSound.volume = 0.08;
     const srvSound = document.getElementById("service-hover-sound");
-    srvSound.volume = 0.35;
+    navSound.volume = 0.07;
+    srvSound.volume = 0.30;
 
     function playSafe(audio){
       try { audio.currentTime = 0; audio.play(); } catch(e){}
     }
-    document.querySelectorAll(".nav-link").forEach(link => link.addEventListener("mouseover", () => playSafe(navSound)));
 
-    /* ==============================
+    /* ==========================================================
        Render Identity
-       ============================== */
+    ========================================================== */
     const id = DATA.identity;
+
     document.getElementById("logo").src = id.logo;
     document.getElementById("navName").textContent = id.name;
+    document.getElementById("navTagline").textContent = id.tagline;
+
     document.getElementById("heroName").textContent = id.name;
     document.getElementById("heroLocation").textContent = id.location;
+    document.getElementById("availability").textContent = id.availability;
+
     document.getElementById("avatar").src = id.avatar;
     document.getElementById("cardName").textContent = id.name;
+    document.getElementById("cardTagline").textContent = id.tagline;
 
     const heroBg = document.getElementById("heroBg");
-    const isMobile = window.matchMedia("(max-width: 600px)").matches;
+    const isMobile = window.matchMedia("(max-width: 700px)").matches;
     heroBg.style.backgroundImage = `url('${isMobile ? id.heroBgMobile : id.heroBg}')`;
 
     document.getElementById("cvBtn").href = id.cv;
     document.getElementById("cvBtnTop").href = id.cv;
 
-    document.getElementById("emailText").textContent = id.email;
-    document.getElementById("emailLink").href = `mailto:${id.email}`;
-    document.getElementById("phoneText").textContent = id.phone;
-    document.getElementById("phoneLink").href = `tel:${id.phone.replaceAll(" ", "")}`;
+    const setContactLinks = () => {
+      const email = id.email;
+      const phone = id.phone;
+
+      document.getElementById("emailText").textContent = email;
+      document.getElementById("emailLink").href = `mailto:${email}`;
+
+      document.getElementById("phoneText").textContent = phone;
+      document.getElementById("phoneLink").href = `tel:${phone.replaceAll(" ", "")}`;
+
+      document.getElementById("emailText2").textContent = email;
+      document.getElementById("emailLink2").href = `mailto:${email}`;
+
+      document.getElementById("phoneText2").textContent = phone;
+      document.getElementById("phoneLink2").href = `tel:${phone.replaceAll(" ", "")}`;
+    };
+    setContactLinks();
 
     document.getElementById("year").textContent = new Date().getFullYear();
     document.getElementById("copyrightName").textContent = id.name;
 
-    // Socials
     const socialWrap = document.getElementById("socialLinks");
     DATA.socials.forEach(s => {
       const a = document.createElement("a");
       a.href = s.href;
       a.target = "_blank";
       a.rel = "noreferrer";
-      a.className = "btn-glass px-4 py-3 hover-pop transition";
+      a.className = "btn px-4 py-3";
+      a.setAttribute("aria-label", s.label);
       a.innerHTML = `<i class="${s.icon}"></i>`;
       socialWrap.appendChild(a);
     });
 
-    /* ==============================
+    const heroChips = document.getElementById("heroChips");
+    const chipList = ["ROS2 • Robotics", "Embedded • IoT", "OpenCV • MediaPipe", "UI/UX • Adobe Suite"];
+    chipList.forEach(t => {
+      const span = document.createElement("span");
+      span.className = "chip";
+      span.innerHTML = `<i class="fa-solid fa-check" style="color: rgba(var(--text), .92)"></i><span>${t}</span>`;
+      heroChips.appendChild(span);
+    });
+
+    const heroStats = document.getElementById("heroStats");
+    const stats = [
+      { k: "Main Stack", v: "C/C++ • Python" },
+      { k: "Robotics", v: "ROS2 • Sensors" },
+      { k: "Design", v: "UI/UX • Branding" },
+      { k: "IoT", v: "Wi-Fi • Dashboards" },
+    ];
+    stats.forEach(s => {
+      const div = document.createElement("div");
+      div.className = "card p-4";
+      div.innerHTML = `<p class="text-xs muted">${s.k}</p><p class="mt-1 font-black">${s.v}</p>`;
+      heroStats.appendChild(div);
+    });
+
+    /* ==========================================================
        About
-       ============================== */
+    ========================================================== */
     document.getElementById("aboutTitle").textContent = DATA.about.title;
     document.getElementById("aboutImg").src = id.avatar;
 
@@ -1068,14 +1294,30 @@
     const statsWrap = document.getElementById("quickStats");
     DATA.about.quickStats.forEach(s => {
       const card = document.createElement("div");
-      card.className = "btn-glass p-4";
-      card.innerHTML = `<p class="text-xs muted">${s.k}</p><p class="mt-1 font-bold">${s.v}</p>`;
+      card.className = "card p-4";
+      card.innerHTML = `<p class="text-xs muted">${s.k}</p><p class="mt-1 font-black">${s.v}</p>`;
       statsWrap.appendChild(card);
     });
 
-    /* ==============================
+    const highlights = document.getElementById("highlights");
+    DATA.highlights.forEach(h => {
+      const row = document.createElement("div");
+      row.className = "card p-4 flex gap-3 items-start";
+      row.innerHTML = `
+        <div class="h-10 w-10 rounded-2xl grid place-items-center" style="background: rgba(var(--text), .08)">
+          <i class="${h.icon}" style="color: rgba(var(--text), .92)"></i>
+        </div>
+        <div>
+          <p class="font-black">${h.title}</p>
+          <p class="text-sm muted mt-1">${h.desc}</p>
+        </div>
+      `;
+      highlights.appendChild(row);
+    });
+
+    /* ==========================================================
        Tabs
-       ============================== */
+    ========================================================== */
     const tabBtns = document.querySelectorAll(".tabBtn");
     const tabPanels = document.querySelectorAll(".tabPanel");
     function openTab(tabId){
@@ -1083,56 +1325,68 @@
       document.getElementById(tabId).classList.remove("hidden");
       tabBtns.forEach(b => b.style.boxShadow = "none");
       const activeBtn = [...tabBtns].find(x => x.dataset.tab === tabId);
-      if(activeBtn) activeBtn.style.boxShadow = "0 0 0 6px rgba(99,102,241,.14)";
+      if(activeBtn) activeBtn.style.boxShadow = "0 0 0 6px rgba(var(--text), .10)";
     }
     tabBtns.forEach(btn => btn.addEventListener("click", () => openTab(btn.dataset.tab)));
     openTab("skillsTab");
 
-    /* ==============================
+    /* ==========================================================
        Skills
-       ============================== */
+    ========================================================== */
     const skillsGrid = document.getElementById("skillsGrid");
     DATA.skillsIcons.forEach(s => {
       const item = document.createElement("div");
-      item.className = "btn-glass p-3 grid place-items-center hover-pop transition";
+      item.className = "card p-3 grid place-items-center";
       item.title = s.title;
       item.innerHTML = `
         <img src="${s.img}" alt="${s.title}" class="h-10 w-10 object-contain">
-        <p class="mt-2 text-[11px] font-bold text-center muted">${s.title}</p>
+        <p class="mt-2 text-[11px] font-black text-center muted">${s.title}</p>
       `;
       skillsGrid.appendChild(item);
     });
 
-    /* ==============================
-       Experience + Education
-       ============================== */
-    const expWrap = document.getElementById("experienceList");
-    DATA.experience.forEach(e => {
-      const card = document.createElement("div");
-      card.className = "btn-glass p-5 hover-pop transition";
-      card.innerHTML = `
-        <p class="text-xs muted">${e.when}</p>
-        <p class="mt-1 font-black">${e.what}</p>
-        <p class="mt-2 text-sm" style="color: rgba(var(--text),.90)">${e.details}</p>
+    const skillsGroups = document.getElementById("skillsGroups");
+    DATA.skillsGroups.forEach(g => {
+      const block = document.createElement("div");
+      block.className = "card p-5";
+      block.innerHTML = `
+        <p class="font-black">${g.title}</p>
+        <p class="text-sm muted mt-2">${g.items.join(" • ")}</p>
       `;
-      expWrap.appendChild(card);
+      skillsGroups.appendChild(block);
+    });
+
+    /* ==========================================================
+       Timeline + Education
+    ========================================================== */
+    const timelineWrap = document.getElementById("timelineList");
+    DATA.timeline.forEach(t => {
+      const card = document.createElement("div");
+      card.className = "card p-5";
+      card.innerHTML = `
+        <p class="text-xs muted">${t.when}</p>
+        <p class="mt-1 font-black">${t.title}</p>
+        <p class="mt-1 text-sm" style="color: rgba(var(--text), .92)">${t.org}</p>
+        <p class="mt-2 text-sm muted">${t.desc}</p>
+      `;
+      timelineWrap.appendChild(card);
     });
 
     const eduWrap = document.getElementById("educationList");
     DATA.education.forEach(e => {
       const card = document.createElement("div");
-      card.className = "btn-glass p-5 hover-pop transition";
+      card.className = "card p-5";
       card.innerHTML = `
         <p class="text-xs muted">${e.when}</p>
         <p class="mt-1 font-black">${e.what}</p>
-        <p class="mt-2 text-sm" style="color: rgba(var(--text),.90)">${e.where}</p>
+        <p class="mt-2 text-sm" style="color: rgba(var(--text), .92)">${e.where}</p>
       `;
       eduWrap.appendChild(card);
     });
 
-    /* ==============================
-       Certificates
-       ============================== */
+    /* ==========================================================
+       Certificates + modal
+    ========================================================== */
     const certGrid = document.getElementById("certGrid");
     const certModal = document.getElementById("certModal");
     const certOverlay = document.getElementById("certOverlay");
@@ -1140,24 +1394,34 @@
     const certImg = document.getElementById("certImg");
     const certTitle = document.getElementById("certTitle");
 
-    function openCert(c){
+    let lastFocusEl = null;
+
+    function lockScroll(lock){
+      document.body.classList.toggle("no-scroll", lock);
+    }
+
+    function openCert(c, opener){
+      lastFocusEl = opener || document.activeElement;
       certTitle.textContent = `${c.year} — ${c.title}`;
       certImg.src = c.img;
       certModal.classList.remove("hidden");
-      document.body.classList.add("no-scroll");
+      lockScroll(true);
+      setTimeout(() => certClose.focus(), 0);
     }
     function closeCert(){
       certModal.classList.add("hidden");
       certImg.src = "";
-      document.body.classList.remove("no-scroll");
+      lockScroll(false);
+      if(lastFocusEl && typeof lastFocusEl.focus === "function") lastFocusEl.focus();
+      lastFocusEl = null;
     }
     certOverlay.addEventListener("click", closeCert);
     certClose.addEventListener("click", closeCert);
 
     DATA.certifications.forEach(c => {
       const card = document.createElement("button");
-      card.className = "text-left btn-glass overflow-hidden hover-pop transition";
-      card.style.borderRadius = "22px";
+      card.type = "button";
+      card.className = "text-left card hover:scale-[1.01] transition";
       card.innerHTML = `
         <div class="aspect-[16/10] overflow-hidden">
           <img src="${c.img}" alt="${c.title}" class="w-full h-full object-cover">
@@ -1167,94 +1431,112 @@
           <p class="mt-1 font-black">${c.title}</p>
         </div>
       `;
-      card.addEventListener("click", () => openCert(c));
+      card.addEventListener("click", (e) => openCert(c, e.currentTarget));
       certGrid.appendChild(card);
     });
 
-    /* ==============================
+    /* ==========================================================
        Services
-       ============================== */
+    ========================================================== */
     const servicesGrid = document.getElementById("servicesGrid");
+    document.querySelectorAll(".navLink").forEach(link => link.addEventListener("pointerenter", () => playSafe(navSound)));
+
     DATA.services.forEach(s => {
       const card = document.createElement("div");
-      card.className = "btn-glass p-6 hover-pop transition cursor-pointer";
-      card.style.borderRadius = "22px";
+      card.className = "card p-6 hover:scale-[1.01] transition cursor-pointer";
       card.innerHTML = `
-        <div class="h-12 w-12 rounded-2xl grid place-items-center mb-4" style="background: rgba(var(--brand), .14)">
-          <i class="${s.icon}" style="color: rgb(var(--brand))"></i>
+        <div class="h-12 w-12 rounded-2xl grid place-items-center mb-4" style="background: rgba(var(--text), .08)">
+          <i class="${s.icon}" style="color: rgba(var(--text), .92)"></i>
         </div>
         <h3 class="font-black text-lg">${s.title}</h3>
-        <p class="mt-2 text-sm leading-relaxed" style="color: rgba(var(--text),.88)">${s.desc}</p>
-        <a class="mt-4 inline-flex items-center gap-2 text-sm font-bold hover:opacity-80"
-          href="#contact" style="color: rgb(var(--brand))">
+        <p class="mt-2 text-sm leading-relaxed muted">${s.desc}</p>
+        <a class="mt-4 inline-flex items-center gap-2 text-sm font-black hover:opacity-80"
+          href="#contact" style="color: rgba(var(--text), .92)">
           Learn more <i class="fa-solid fa-arrow-right"></i>
         </a>
       `;
-      card.addEventListener("mouseover", () => playSafe(srvSound));
+      card.addEventListener("pointerenter", () => playSafe(srvSound));
       servicesGrid.appendChild(card);
     });
 
-    /* ==============================
-       Projects + search + load more + modal
-       ============================== */
+    /* ==========================================================
+       Projects: search + filter + modal
+    ========================================================== */
     const projectsGrid = document.getElementById("projectsGrid");
     const searchProjects = document.getElementById("searchProjects");
     const loadMoreBtn = document.getElementById("loadMoreBtn");
+    const filterTag = document.getElementById("filterTag");
 
     let loadedMore = false;
     function currentProjects(){
       return loadedMore ? [...DATA.projects, ...DATA.loadMoreProjects] : [...DATA.projects];
     }
 
+    function buildTagOptions(){
+      const set = new Set();
+      [...DATA.projects, ...DATA.loadMoreProjects].forEach(p => (p.tags || []).forEach(t => set.add(t)));
+      [...set].sort().forEach(t => {
+        const opt = document.createElement("option");
+        opt.value = t;
+        opt.textContent = `Filter: ${t}`;
+        filterTag.appendChild(opt);
+      });
+    }
+    buildTagOptions();
+
     function renderProjects(){
       const q = (searchProjects.value || "").trim().toLowerCase();
+      const tag = filterTag.value;
+
       projectsGrid.innerHTML = "";
 
       const list = currentProjects().filter(p => {
-        const text = (p.title + " " + p.subtitle).toLowerCase();
-        return !q || text.includes(q);
+        const text = (p.title + " " + p.subtitle + " " + (p.tags || []).join(" ")).toLowerCase();
+        const matchesQ = !q || text.includes(q);
+        const matchesTag = (tag === "all") || (p.tags || []).includes(tag);
+        return matchesQ && matchesTag;
       });
 
       list.forEach(p => {
         const card = document.createElement("button");
-        card.className = "text-left btn-glass overflow-hidden hover-pop transition";
-        card.style.borderRadius = "22px";
+        card.type = "button";
+        card.className = "text-left card hover:scale-[1.01] transition";
+        const tagsHtml = (p.tags || []).slice(0,3).map(t => `<span class="chip" style="padding:6px 10px; font-size:11px;">${t}</span>`).join("");
         card.innerHTML = `
           <div class="aspect-[16/10] overflow-hidden">
             <img src="${p.cover}" alt="${p.title}" class="w-full h-full object-cover">
           </div>
           <div class="p-5">
+            <div class="flex flex-wrap gap-2 mb-3">${tagsHtml}</div>
             <h3 class="font-black text-lg">${p.title}</h3>
-            <p class="mt-2 text-sm" style="color: rgba(var(--text),.88)">${p.subtitle}</p>
-            <div class="mt-4 inline-flex items-center gap-2 text-sm font-bold" style="color: rgb(var(--brand))">
+            <p class="mt-2 text-sm muted">${p.subtitle}</p>
+            <div class="mt-4 inline-flex items-center gap-2 text-sm font-black" style="color: rgba(var(--text), .92)">
               View Details <i class="fa-solid fa-up-right-from-square"></i>
             </div>
           </div>
         `;
-        card.addEventListener("click", () => openProject(p));
+        card.addEventListener("click", (e) => openProject(p, e.currentTarget));
         projectsGrid.appendChild(card);
       });
 
       if(!list.length){
         const empty = document.createElement("div");
-        empty.className = "btn-glass p-7 text-sm";
-        empty.style.borderRadius = "22px";
+        empty.className = "card p-7 text-sm";
         empty.style.color = "rgba(var(--muted),1)";
-        empty.textContent = "No projects found. Try another keyword.";
+        empty.textContent = "No projects found. Try another keyword or filter.";
         projectsGrid.appendChild(empty);
       }
     }
 
     searchProjects.addEventListener("input", renderProjects);
+    filterTag.addEventListener("change", renderProjects);
 
     loadMoreBtn.addEventListener("click", () => {
-      loadedMore = true;
-      loadMoreBtn.disabled = true;
-      loadMoreBtn.textContent = "Loaded";
+      loadedMore = !loadedMore;
+      loadMoreBtn.textContent = loadedMore ? "Show less" : "See more";
       renderProjects();
     });
 
-    // Modal
     const projectModal = document.getElementById("projectModal");
     const modalOverlay = document.getElementById("modalOverlay");
     const modalClose = document.getElementById("modalClose");
@@ -1265,7 +1547,27 @@
     const modalVideo = document.getElementById("modalVideo");
     const modalImage = document.getElementById("modalImage");
 
-    function openProject(p){
+    function getFocusable(container){
+      return [...container.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])')]
+        .filter(el => el.offsetParent !== null);
+    }
+
+    function trapFocus(e, container){
+      if(e.key !== "Tab") return;
+      const focusables = getFocusable(container);
+      if(!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if(e.shiftKey && document.activeElement === first){
+        e.preventDefault(); last.focus();
+      }else if(!e.shiftKey && document.activeElement === last){
+        e.preventDefault(); first.focus();
+      }
+    }
+
+    function openProject(p, opener){
+      lastFocusEl = opener || document.activeElement;
+
       modalTitle.textContent = p.title;
       modalIntro.textContent = p.modal?.intro || p.subtitle || "";
 
@@ -1279,13 +1581,13 @@
         modalVideo.src = p.modal.youtube;
       }
 
-      if(p.modal?.features?.length) modalSections.appendChild(sectionList("Features", p.modal.features));
+      if(p.modal?.features?.length) modalSections.appendChild(sectionList("Key Features", p.modal.features));
       if(p.modal?.tech?.length) modalSections.appendChild(sectionList("Technologies Used", p.modal.tech));
-      if(p.modal?.challenges) modalSections.appendChild(sectionText("Challenges Faced", p.modal.challenges));
+      if(p.modal?.challenges) modalSections.appendChild(sectionText("Challenges", p.modal.challenges));
       if(p.modal?.providesTitle || p.modal?.providesText){
         modalSections.appendChild(sectionText(p.modal.providesTitle || "What It Provides", p.modal.providesText || ""));
       }
-      if(p.modal?.providesList?.length) modalSections.appendChild(sectionList("Key Benefits", p.modal.providesList));
+      if(p.modal?.providesList?.length) modalSections.appendChild(sectionList("Benefits", p.modal.providesList));
       if(p.modal?.extra?.length) modalSections.appendChild(sectionList("Highlights", p.modal.extra));
 
       if(p.modal?.image){
@@ -1294,27 +1596,29 @@
       }
 
       projectModal.classList.remove("hidden");
-      document.body.classList.add("no-scroll");
+      lockScroll(true);
+      setTimeout(() => modalClose.focus(), 0);
     }
 
     function closeProject(){
       projectModal.classList.add("hidden");
       modalVideo.src = "";
-      document.body.classList.remove("no-scroll");
+      lockScroll(false);
+      if(lastFocusEl && typeof lastFocusEl.focus === "function") lastFocusEl.focus();
+      lastFocusEl = null;
     }
 
     function sectionList(title, items){
       const wrap = document.createElement("div");
-      wrap.className = "btn-glass p-5";
-      wrap.style.borderRadius = "22px";
+      wrap.className = "card p-5";
       wrap.innerHTML = `<h4 class="font-black text-base mb-3">${title}</h4>`;
       const ul = document.createElement("ul");
       ul.className = "grid gap-2 md:grid-cols-2 text-sm";
       items.forEach(it => {
         const li = document.createElement("li");
-        li.className = "btn-glass px-4 py-3";
+        li.className = "card px-4 py-3";
         li.style.borderRadius = "18px";
-        li.innerHTML = `<i class="fa-solid fa-check mr-2" style="color: rgb(var(--brand))"></i>${it}`;
+        li.innerHTML = `<i class="fa-solid fa-check mr-2" style="color: rgba(var(--text), .92)"></i>${it}`;
         ul.appendChild(li);
       });
       wrap.appendChild(ul);
@@ -1323,35 +1627,49 @@
 
     function sectionText(title, text){
       const wrap = document.createElement("div");
-      wrap.className = "btn-glass p-5";
-      wrap.style.borderRadius = "22px";
-      wrap.innerHTML = `<h4 class="font-black text-base">${title}</h4><p class="mt-2 text-sm leading-relaxed" style="color: rgba(var(--text),.90)">${text}</p>`;
+      wrap.className = "card p-5";
+      wrap.innerHTML = `<h4 class="font-black text-base">${title}</h4>
+                        <p class="mt-2 text-sm leading-relaxed muted">${text}</p>`;
       return wrap;
     }
 
     modalOverlay.addEventListener("click", closeProject);
     modalClose.addEventListener("click", closeProject);
 
-    // escape close
-    window.addEventListener("keydown", (e) => { if(e.key === "Escape") { closeProject(); closeCert(); mobileMenu.classList.add("hidden"); } });
+    projectModal.addEventListener("keydown", (e) => trapFocus(e, projectModal));
+    certModal.addEventListener("keydown", (e) => trapFocus(e, certModal));
+
+    window.addEventListener("keydown", (e) => {
+      if(e.key === "Escape") {
+        closeProject();
+        closeCert();
+        setMenu(false);
+      }
+    });
 
     renderProjects();
 
-    /* ==============================
-       Typed roles (with sound)
-       ============================== */
+    /* ==========================================================
+       Typed roles
+    ========================================================== */
     const typedEl = document.getElementById("typedText");
     const typingSound = document.getElementById("typing-sound");
-    typingSound.volume = 0.10;
+    typingSound.volume = 0.08;
 
     let roleIndex = 0, charIndex = 0, deleting = false;
-    const typeSpeed = 55, deleteSpeed = 30, pause = 900;
+    const typeSpeed = 46, deleteSpeed = 24, pause = 900;
+    let soundCounter = 0;
+
+    function maybeTypeSound(){
+      soundCounter = (soundCounter + 1) % 3;
+      if(soundCounter === 0) playSafe(typingSound);
+    }
 
     function tick(){
       const role = DATA.typedRoles[roleIndex];
       if(!deleting){
         typedEl.textContent = role.slice(0, charIndex++);
-        playSafe(typingSound);
+        maybeTypeSound();
         if(charIndex > role.length){
           deleting = true;
           setTimeout(tick, pause);
@@ -1370,9 +1688,9 @@
     }
     tick();
 
-    /* ==============================
+    /* ==========================================================
        Music Player
-       ============================== */
+    ========================================================== */
     const player = document.getElementById("player");
     const trackName = document.getElementById("trackName");
     const prevBtn = document.getElementById("prevBtn");
@@ -1399,26 +1717,27 @@
       }
     }
 
-    function togglePlay(){
-      if(player.paused){
-        player.play();
-        setPlayUI(true);
-      }else{
-        player.pause();
-        setPlayUI(false);
-      }
+    async function togglePlay(){
+      try{
+        if(player.paused){
+          await player.play();
+          setPlayUI(true);
+        }else{
+          player.pause();
+          setPlayUI(false);
+        }
+      }catch(e){}
     }
-    function prevTrack(){
+
+    async function prevTrack(){
       tIndex = (tIndex - 1 + DATA.tracks.length) % DATA.tracks.length;
       loadTrack(tIndex);
-      player.play();
-      setPlayUI(true);
+      try{ await player.play(); setPlayUI(true); }catch(e){}
     }
-    function nextTrack(){
+    async function nextTrack(){
       tIndex = (tIndex + 1) % DATA.tracks.length;
       loadTrack(tIndex);
-      player.play();
-      setPlayUI(true);
+      try{ await player.play(); setPlayUI(true); }catch(e){}
     }
 
     playBtn.addEventListener("click", togglePlay);
@@ -1426,9 +1745,9 @@
     nextBtn.addEventListener("click", nextTrack);
     player.addEventListener("ended", nextTrack);
 
-    /* ==============================
-       Contact form (Google Script)
-       ============================== */
+    /* ==========================================================
+       Contact form
+    ========================================================== */
     const form = document.getElementById("contactForm");
     const formMsg = document.getElementById("formMsg");
     const submitBtn = document.getElementById("submitBtn");
@@ -1441,6 +1760,19 @@
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+
+      const honeypot = form.querySelector('input[name="Website"]');
+      if(honeypot && honeypot.value.trim()){
+        formMsg.textContent = "Message sent successfully!";
+        form.reset();
+        setTimeout(() => formMsg.textContent = "", 2500);
+        return;
+      }
+
+      if(!form.Name.value.trim() || !form.Email.value.trim() || !form.Message.value.trim()){
+        formMsg.textContent = "Please fill out all fields.";
+        return;
+      }
 
       form.Name.value = sanitize(form.Name.value);
       form.Email.value = sanitize(form.Email.value);
@@ -1462,66 +1794,56 @@
       }
     });
 
-    /* ==============================
+    /* ==========================================================
        Back to top
-       ============================== */
+    ========================================================== */
     const backTop = document.getElementById("backTop");
-    window.addEventListener("scroll", () => {
-      backTop.classList.toggle("hidden", window.scrollY < 350);
-    });
+    window.addEventListener("scroll", () => backTop.classList.toggle("hidden", window.scrollY < 350));
     backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
-    /* ==============================
-       Scroll Reveal
-       ============================== */
+    /* ==========================================================
+       Scroll reveal
+    ========================================================== */
     const revealEls = document.querySelectorAll(".reveal");
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(ent => {
         if(ent.isIntersecting){
-          ent.target.classList.add("revealed");
+          ent.target.classList.add("in");
           obs.unobserve(ent.target);
         }
       });
     }, { threshold: 0.12 });
     revealEls.forEach(el => obs.observe(el));
 
-    /* ==============================
+    /* ==========================================================
        Active Nav Highlight
-       ============================== */
+    ========================================================== */
     const sections = ["home","about","services","portfolio","contact"]
-      .map(id => document.getElementById(id))
-      .filter(Boolean);
-
-    const navLinks = [...document.querySelectorAll('a.nav-link[href^="#"]')];
+      .map(id => document.getElementById(id)).filter(Boolean);
+    const navLinks = [...document.querySelectorAll('a.navLink[href^="#"]')];
 
     const navObs = new IntersectionObserver((entries) => {
       entries.forEach(ent => {
         if(ent.isIntersecting){
-          const id = ent.target.id;
-          navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === `#${id}`));
+          const sid = ent.target.id;
+          navLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === `#${sid}`));
         }
       });
     }, { threshold: 0.35 });
     sections.forEach(sec => navObs.observe(sec));
 
-    /* ==============================
-       CURSOR: few options only
-       - saved in localStorage
-       ============================== */
+    /* ==========================================================
+       CURSOR
+    ========================================================== */
     const cursorDot = document.getElementById("cursorDot");
     const cursorRing = document.getElementById("cursorRing");
     const cursorSelect = document.getElementById("cursorSelect");
     const cursorSelectMobile = document.getElementById("cursorSelectMobile");
 
+    const cursorClasses = ["cursor-style-neo","cursor-style-dot","cursor-style-ring","cursor-style-glow"];
+
     function setCursorStyle(style){
-      // reset classes
-      document.body.classList.remove(
-        "cursor-on",
-        "cursor-style-neo",
-        "cursor-style-dot",
-        "cursor-style-ring",
-        "cursor-style-glow"
-      );
+      document.body.classList.remove("cursor-on", ...cursorClasses);
 
       if(style === "off"){
         localStorage.setItem("cursorStyle", "off");
@@ -1531,10 +1853,6 @@
       document.body.classList.add("cursor-on");
       document.body.classList.add("cursor-style-" + style);
       localStorage.setItem("cursorStyle", style);
-
-      // ensure correct ring/dot visibility after style change
-      cursorDot.style.display = "";
-      cursorRing.style.display = "";
     }
 
     const storedCursor = localStorage.getItem("cursorStyle") || "neo";
@@ -1551,10 +1869,24 @@
       cursorSelect.value = e.target.value;
     });
 
-    // cursor movement
     let mx = 0, my = 0, dx = 0, dy = 0, rx = 0, ry = 0;
-
     document.addEventListener("mousemove", (e) => { mx = e.clientX; my = e.clientY; });
+
+    const interactiveSelector = 'a, button, input, textarea, select, [role="button"]';
+    document.addEventListener("pointerover", (e) => {
+      if(!document.body.classList.contains("cursor-on")) return;
+      if(e.target.closest(interactiveSelector)){
+        cursorRing.style.width = "74px";
+        cursorRing.style.height = "74px";
+      }
+    });
+    document.addEventListener("pointerout", (e) => {
+      if(!document.body.classList.contains("cursor-on")) return;
+      if(e.target.closest(interactiveSelector)){
+        cursorRing.style.width = "44px";
+        cursorRing.style.height = "44px";
+      }
+    });
 
     function raf(){
       if(document.body.classList.contains("cursor-on")){
@@ -1564,43 +1896,12 @@
         rx += (mx - rx) * 0.18;
         ry += (my - ry) * 0.18;
 
-        cursorDot.style.transform = `translate(${dx}px, ${dy}px)`;
-        cursorRing.style.transform = `translate(${rx}px, ${ry}px)`;
+        cursorDot.style.transform = `translate(-50%, -50%) translate(${dx}px, ${dy}px)`;
+        cursorRing.style.transform = `translate(-50%, -50%) translate(${rx}px, ${ry}px)`;
       }
       requestAnimationFrame(raf);
     }
     requestAnimationFrame(raf);
-
-    // active interaction
-    document.addEventListener("mousedown", () => document.body.classList.add("cursor-active"));
-    document.addEventListener("mouseup", () => document.body.classList.remove("cursor-active"));
-
-    // ring expand on interactive elements
-    const interactiveSelector = 'a, button, input, textarea, select, [role="button"]';
-    document.querySelectorAll(interactiveSelector).forEach(el => {
-      el.addEventListener("mouseenter", () => {
-        if(!document.body.classList.contains("cursor-on")) return;
-        cursorRing.style.width = "72px";
-        cursorRing.style.height = "72px";
-      });
-      el.addEventListener("mouseleave", () => {
-        if(!document.body.classList.contains("cursor-on")) return;
-        // reset based on style
-        if(document.body.classList.contains("cursor-style-ring")) {
-          cursorRing.style.width = "52px";
-          cursorRing.style.height = "52px";
-        } else if(document.body.classList.contains("cursor-style-glow")) {
-          cursorRing.style.width = "56px";
-          cursorRing.style.height = "56px";
-        } else if(document.body.classList.contains("cursor-style-neo")) {
-          cursorRing.style.width = "44px";
-          cursorRing.style.height = "44px";
-        } else {
-          cursorRing.style.width = "40px";
-          cursorRing.style.height = "40px";
-        }
-      });
-    });
   </script>
 </body>
 </html>
