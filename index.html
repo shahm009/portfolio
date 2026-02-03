@@ -24,103 +24,112 @@
     };
   </script>
 
-  <style>
-    /* ==========================================================
-      UI + DARK MODE FIX (monochrome + consistent surfaces)
-      What’s fixed:
-      - True dark mode: surfaces/backgrounds/inputs/cards all swap correctly
-      - Removed “neon accent glow” look → clean monochrome highlights
-      - Primary button now readable in BOTH themes
-      - Cursor colors no longer break in light mode (no mix-blend weirdness)
-      - Preloader respects theme (was hard black)
-      - Better border tokens + contrast tuning
-    ========================================================== */
+  <!-- ✅ Theme bootstrap BEFORE paint -->
+  <script>
+    (function () {
+      const stored = localStorage.getItem("theme");
+      const mql = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
+      const prefersDark = !!(mql && mql.matches);
+      const mode = stored || (prefersDark ? "dark" : "light");
+      document.documentElement.classList.toggle("dark", mode === "dark");
+      document.documentElement.setAttribute("data-theme", mode);
+    })();
+  </script>
 
+  <style>
     :root{
       --radius-1: 16px;
       --radius-2: 22px;
       --radius-3: 30px;
 
-      --shadow-1: 0 12px 40px rgba(2, 6, 23, .08);
-      --shadow-2: 0 22px 70px rgba(2, 6, 23, .12);
-      --shadow-3: 0 30px 90px rgba(2, 6, 23, .18);
+      --shadow-1: 0 12px 40px rgb(2 6 23 / .08);
+      --shadow-2: 0 22px 70px rgb(2 6 23 / .12);
+      --shadow-3: 0 30px 90px rgb(2 6 23 / .18);
 
       --ease: cubic-bezier(.2,.8,.2,1);
 
-      /* Monochrome “brand” (NOT neon accent) */
-      --brand: 15 23 42;        /* slate-900 */
-      --brand2: 71 85 105;      /* slate-600 */
+      --accent: 99 102 241;
+      --accent2: 34 211 238;
 
-      /* Light */
-      --bg: 248 250 252;        /* slate-50 */
-      --bg2: 241 245 249;       /* slate-100 */
-      --surface: 255 255 255;   /* white */
-      --surface2: 248 250 252;  /* slate-50 */
+      --bg: 248 250 252;
+      --bg2: 241 245 249;
+      --surface: 255 255 255;
+      --surface2: 248 250 252;
 
-      --text: 15 23 42;         /* slate-900 */
-      --muted: 71 85 105;       /* slate-600 */
-      --muted2: 100 116 139;    /* slate-500 */
+      --text: 15 23 42;
+      --muted: 71 85 105;
+      --muted2: 100 116 139;
 
       --border-subtle: 15 23 42;
       --border-strong: 15 23 42;
 
-      --ring: 15 23 42;
+      --ring: 99 102 241;
 
       --noise-opacity: .04;
       --grid-opacity: .09;
     }
 
     html.dark{
-      --bg: 2 6 23;            /* slate-950 */
-      --bg2: 7 12 26;          /* deeper */
-      --surface: 15 23 42;     /* slate-900 */
-      --surface2: 2 6 23;      /* slate-950 */
+      --bg: 2 6 23;
+      --bg2: 10 16 35;
+      --surface: 15 23 42;
+      --surface2: 2 6 23;
 
-      --text: 226 232 240;     /* slate-200 */
-      --muted: 178 192 210;    /* readable muted */
-      --muted2: 130 150 175;
+      --text: 226 232 240;
+      --muted: 175 190 210;
+      --muted2: 132 150 175;
 
       --border-subtle: 255 255 255;
       --border-strong: 255 255 255;
 
-      /* Monochrome highlight flips */
-      --brand: 226 232 240;
-      --brand2: 148 163 184;
-
-      --ring: 226 232 240;
+      --ring: 129 140 248;
 
       --noise-opacity: .06;
       --grid-opacity: .08;
 
-      --shadow-1: 0 14px 55px rgba(0,0,0,.38);
-      --shadow-2: 0 24px 80px rgba(0,0,0,.55);
-      --shadow-3: 0 34px 110px rgba(0,0,0,.65);
+      --shadow-1: 0 14px 55px rgb(0 0 0 / .38);
+      --shadow-2: 0 24px 80px rgb(0 0 0 / .55);
+      --shadow-3: 0 34px 110px rgb(0 0 0 / .65);
     }
 
     *{ box-sizing: border-box; }
     html,body{ height: 100%; }
-
     body{
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color: rgb(var(--text));
       background:
-        radial-gradient(1100px circle at 18% -12%, rgba(var(--brand), .10), transparent 58%),
-        radial-gradient(1100px circle at 92% 10%, rgba(var(--brand2), .08), transparent 56%),
+        radial-gradient(1200px circle at 20% -10%, rgb(var(--accent) / .16), transparent 60%),
+        radial-gradient(1200px circle at 90% 10%, rgb(var(--accent2) / .10), transparent 55%),
         linear-gradient(180deg, rgb(var(--bg)), rgb(var(--bg2)));
       overflow-x: hidden;
     }
+    html.dark body{
+      background:
+        radial-gradient(900px circle at 20% -10%, rgb(var(--accent) / .10), transparent 60%),
+        radial-gradient(900px circle at 90% 10%, rgb(var(--accent2) / .06), transparent 55%),
+        linear-gradient(180deg, rgb(var(--bg)), rgb(var(--bg2)));
+    }
 
-    /* Soft background grid + noise */
+    /* ✅ Mobile-first container improvements */
+    .containerX{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 14px;
+    }
+    @media (min-width: 640px){
+      .containerX{ padding: 0 18px; }
+    }
+
     .bg-grid{
       position: fixed; inset: 0;
       pointer-events: none;
       z-index: -1;
       opacity: var(--grid-opacity);
       background-image:
-        linear-gradient(to right, rgba(var(--border-subtle), .08) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(var(--border-subtle), .08) 1px, transparent 1px);
+        linear-gradient(to right, rgb(var(--border-subtle) / .08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgb(var(--border-subtle) / .08) 1px, transparent 1px);
       background-size: 56px 56px;
-      mask-image: radial-gradient(circle at 40% 10%, rgba(0,0,0,1), rgba(0,0,0,.2) 55%, rgba(0,0,0,0) 85%);
+      mask-image: radial-gradient(circle at 40% 10%, rgb(0 0 0 / 1), rgb(0 0 0 / .2) 55%, rgb(0 0 0 / 0) 85%);
     }
     .bg-noise{
       position: fixed; inset: 0;
@@ -131,103 +140,65 @@
       mix-blend-mode: overlay;
     }
 
-    /* Controlled transitions */
     .theme-transition, .theme-transition *{
-      transition:
-        background-color .25s var(--ease),
-        color .25s var(--ease),
-        border-color .25s var(--ease),
-        box-shadow .25s var(--ease);
+      transition: background-color .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease);
     }
 
-    .containerX{ max-width: 1200px; margin: 0 auto; padding: 0 16px; }
-
     .glass{
-      background: rgba(var(--surface), .70);
-      border: 1px solid rgba(var(--border-subtle), .10);
+      background: rgb(var(--surface) / .70);
+      border: 1px solid rgb(var(--border-subtle) / .10);
       border-radius: var(--radius-2);
       box-shadow: var(--shadow-1);
       backdrop-filter: blur(14px);
     }
-    html.dark .glass{
-      background: rgba(255,255,255,.06);
-      border-color: rgba(var(--border-subtle), .12);
-    }
 
     .panel{
-      background: rgba(var(--surface), .92);
-      border: 1px solid rgba(var(--border-subtle), .10);
+      background: rgb(var(--surface) / .92);
+      border: 1px solid rgb(var(--border-subtle) / .10);
       border-radius: var(--radius-2);
       box-shadow: var(--shadow-2);
-    }
-    html.dark .panel{
-      background: rgba(255,255,255,.06);
-      border-color: rgba(var(--border-subtle), .12);
     }
 
     .card{
       border-radius: var(--radius-2);
-      border: 1px solid rgba(var(--border-subtle), .10);
-      background: rgba(var(--surface), .70);
+      border: 1px solid rgb(var(--border-subtle) / .10);
+      background: rgb(var(--surface) / .70);
       box-shadow: var(--shadow-1);
       backdrop-filter: blur(12px);
       overflow: hidden;
-    }
-    html.dark .card{
-      background: rgba(255,255,255,.05);
-      border-color: rgba(var(--border-subtle), .10);
     }
 
     .muted{ color: rgb(var(--muted)); }
     .muted2{ color: rgb(var(--muted2)); }
 
-    /* Gradient text (monochrome) */
-    .grad-text{
-      background: linear-gradient(135deg, rgba(var(--brand),1), rgba(var(--brand2),1));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    /* Buttons */
+    /* ✅ Better tap targets on mobile */
     .btn{
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
       padding: 12px 16px;
+      min-height: 44px;
       border-radius: 16px;
       font-weight: 800;
       letter-spacing: -.01em;
-      border: 1px solid rgba(var(--border-subtle), .12);
-      background: rgba(var(--surface), .70);
+      border: 1px solid rgb(var(--border-subtle) / .12);
+      background: rgb(var(--surface) / .70);
       user-select: none;
       line-height: 1;
-      transform: translateZ(0);
+      transition: transform .18s var(--ease), box-shadow .18s var(--ease), background-color .2s var(--ease);
     }
-    html.dark .btn{ background: rgba(255,255,255,.06); border-color: rgba(var(--border-subtle), .12); }
-
-    .btn:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 0 0 6px rgba(var(--brand), .10);
-    }
+    .btn:hover{ transform: translateY(-2px); box-shadow: 0 0 0 6px rgb(var(--accent) / .12); }
     .btn:active{ transform: translateY(0); }
 
-    /* FIX: primary button now readable in both modes */
     .btn-primary{
-      border: 1px solid rgba(var(--border-subtle), .16);
-      background: rgba(var(--text), .92);
-      color: rgb(var(--bg));
-      box-shadow: 0 18px 60px rgba(2,6,23,.18);
+      font-weight: 900;
+      border: 1px solid rgb(var(--accent) / .30);
+      background: linear-gradient(135deg, rgb(var(--accent) / .95), rgb(var(--accent2) / .65));
+      color: rgb(2 6 23);
+      box-shadow: 0 18px 60px rgb(var(--accent) / .20);
     }
-    html.dark .btn-primary{
-      background: rgba(var(--text), .92);
-      color: rgb(var(--bg));
-      box-shadow: 0 18px 60px rgba(0,0,0,.45);
-    }
-    .btn-primary:hover{
-      box-shadow: 0 0 0 6px rgba(var(--border-subtle), .12), 0 22px 90px rgba(2,6,23,.22);
-    }
+    html.dark .btn-primary{ color: rgb(255 255 255); }
 
     .chip{
       display: inline-flex;
@@ -235,115 +206,104 @@
       gap: 10px;
       padding: 8px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(var(--border-subtle), .10);
-      background: rgba(var(--surface), .65);
+      border: 1px solid rgb(var(--border-subtle) / .10);
+      background: rgb(var(--surface) / .65);
       font-size: 12px;
       font-weight: 900;
+      white-space: nowrap;
     }
-    html.dark .chip{ background: rgba(255,255,255,.05); border-color: rgba(var(--border-subtle), .10); }
 
-    /* Inputs */
     input, textarea, select{
       outline: none;
       border-radius: 16px;
-      border: 1px solid rgba(var(--border-subtle), .12);
-      background: rgba(var(--surface), .75);
+      border: 1px solid rgb(var(--border-subtle) / .12);
+      background: rgb(var(--surface) / .75);
       color: rgb(var(--text));
       padding: 12px 14px;
+      min-height: 44px;
     }
-    html.dark input, html.dark textarea, html.dark select{
-      border-color: rgba(var(--border-subtle), .12);
-      background: rgba(255,255,255,.06);
-      color: rgb(var(--text));
-    }
-    input::placeholder, textarea::placeholder{ color: rgba(var(--muted), .95); }
-
+    input::placeholder, textarea::placeholder{ color: rgb(var(--muted) / .9); }
     :focus-visible{
-      outline: 3px solid rgba(var(--ring), .28);
+      outline: 3px solid rgb(var(--ring) / .32);
       outline-offset: 4px;
       border-radius: 18px;
     }
 
-    /* Section titles */
     .kicker{
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: rgba(var(--muted), 1);
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 12px; font-weight: 900; letter-spacing: .12em;
+      text-transform: uppercase; color: rgb(var(--muted));
     }
     .kicker .dot{
       width: 10px; height: 10px; border-radius: 999px;
-      background: rgb(var(--brand));
-      box-shadow: 0 0 0 6px rgba(var(--brand), .10);
+      background: rgb(var(--accent));
+      box-shadow: 0 0 0 6px rgb(var(--accent) / .12);
     }
-
     .h2{
       font-size: clamp(22px, 2.6vw, 40px);
-      font-weight: 900;
+      font-weight: 950;
       letter-spacing: -.04em;
       line-height: 1.05;
     }
     .h3{
       font-size: 18px;
-      font-weight: 900;
+      font-weight: 950;
       letter-spacing: -.02em;
     }
 
-    /* Animations */
+    /* ✅ Better reveal + mobile pacing */
     .reveal{ opacity: 0; transform: translateY(14px); }
     .reveal.in{ opacity: 1; transform: translateY(0); transition: opacity .8s var(--ease), transform .8s var(--ease); }
 
-    /* Sticky navbar blur */
+    /* ✅ Navbar: compact on scroll, better mobile */
     .navWrap{
       position: sticky; top: 0; z-index: 60;
       backdrop-filter: blur(16px);
     }
+    .navCompact .glass{ padding-top: 10px !important; padding-bottom: 10px !important; }
 
     .navLink{
       padding: 10px 12px;
       border-radius: 14px;
       border: 1px solid transparent;
-      font-weight: 900;
+      font-weight: 950;
       font-size: 14px;
+      transition: box-shadow .2s var(--ease), background-color .2s var(--ease), border-color .2s var(--ease);
     }
-    .navLink:hover{ box-shadow: 0 0 0 6px rgba(var(--brand), .08); }
+    .navLink:hover{ box-shadow: 0 0 0 6px rgb(var(--accent) / .12); }
     .navLink.active{
-      background: rgba(var(--text), .06);
-      border-color: rgba(var(--border-subtle), .14);
+      background: rgb(var(--accent) / .10);
+      border-color: rgb(var(--accent) / .22);
     }
     html.dark .navLink.active{
-      background: rgba(255,255,255,.06);
-      border-color: rgba(255,255,255,.14);
+      background: rgb(255 255 255 / .06);
+      border-color: rgb(255 255 255 / .14);
     }
 
     .avatarRing{
       position: relative;
       border-radius: 28px;
       overflow: hidden;
-      border: 1px solid rgba(var(--border-subtle), .12);
-      background: rgba(var(--surface), .6);
+      border: 1px solid rgb(var(--border-subtle) / .12);
+      background: rgb(var(--surface) / .60);
       box-shadow: var(--shadow-2);
     }
     .avatarRing::before{
       content:"";
       position:absolute; inset:-2px;
       background:
-        radial-gradient(700px circle at 22% 12%, rgba(var(--brand), .18), transparent 62%),
-        radial-gradient(700px circle at 92% 20%, rgba(var(--brand2), .14), transparent 58%);
+        radial-gradient(600px circle at 20% 10%, rgb(var(--accent) / .35), transparent 60%),
+        radial-gradient(600px circle at 90% 20%, rgb(var(--accent2) / .25), transparent 55%);
       opacity: .55;
       pointer-events: none;
     }
     html.dark .avatarRing::before{ opacity: .40; }
 
-    /* Preloader (FIX: uses theme variables now) */
+    /* Preloader */
     #preloader{
       position: fixed; inset: 0;
       display: grid; place-items: center;
-      background: linear-gradient(180deg, rgb(var(--bg)), rgb(var(--bg2)));
+      background: rgb(0 0 0);
       z-index: 999999;
       transition: opacity .35s var(--ease), visibility .35s var(--ease);
     }
@@ -351,7 +311,7 @@
     .dots{ display:flex; gap:8px; }
     .dots span{
       width: 10px; height: 10px; border-radius: 999px;
-      background: rgba(var(--text), .70);
+      background: rgb(255 255 255 / .75);
       animation: bounce 1s var(--ease) infinite;
     }
     .dots span:nth-child(2){ animation-delay: .12s; }
@@ -361,7 +321,7 @@
       50%{ transform: translateY(-10px); opacity: 1; }
     }
 
-    /* Cursor (FIX: no blend-mode issues) */
+    /* Cursor */
     body.cursor-on{ cursor: none; }
     .cursor-dot, .cursor-ring{
       position: fixed; top:0; left:0;
@@ -374,75 +334,107 @@
     .cursor-dot{
       width: 10px; height: 10px;
       border-radius: 999px;
-      background: rgba(var(--text), .95);
-      opacity: .95;
-      box-shadow: 0 0 0 6px rgba(var(--text), .06);
+      background: rgb(255 255 255);
+      mix-blend-mode: difference;
     }
     .cursor-ring{
       width: 44px; height: 44px;
       border-radius: 999px;
-      border: 2px solid rgba(var(--text), .26);
-      background: radial-gradient(circle, rgba(var(--text), .08), transparent 60%);
+      border: 2px solid rgb(255 255 255 / .4);
+      background: radial-gradient(circle, rgb(255 255 255 / .12), transparent 60%);
+      mix-blend-mode: difference;
       transition: width .14s var(--ease), height .14s var(--ease), opacity .14s var(--ease);
-      opacity: .90;
+      opacity: .85;
     }
-
     body.cursor-style-dot .cursor-ring{ display: none !important; }
-    body.cursor-style-ring .cursor-dot{ width: 6px; height: 6px; opacity: .90; }
-
-    body.cursor-style-neo .cursor-dot{
-      background: rgba(var(--text), .95);
-      box-shadow: 0 0 0 8px rgba(var(--text), .05);
-    }
+    body.cursor-style-ring .cursor-dot{ width: 6px; height: 6px; opacity: .85; }
     body.cursor-style-neo .cursor-ring{
-      border-color: rgba(var(--text), .32);
-      background: radial-gradient(circle, rgba(var(--text), .10), transparent 62%);
+      border-color: rgb(255 255 255 / .55);
+      background: radial-gradient(circle, rgb(255 255 255 / .10), transparent 62%);
       opacity: .95;
+      mix-blend-mode: difference;
     }
-
     body.cursor-style-glow .cursor-dot{
-      background: rgba(var(--text), 1);
-      box-shadow: 0 0 24px rgba(var(--text), .18), 0 0 70px rgba(var(--text), .10);
+      background: rgb(var(--accent));
+      mix-blend-mode: normal;
+      box-shadow: 0 0 24px rgb(var(--accent) / .45), 0 0 60px rgb(var(--accent) / .18);
     }
     body.cursor-style-glow .cursor-ring{
-      border-color: rgba(var(--text), .34);
-      background: radial-gradient(circle, rgba(var(--text), .12), transparent 62%);
-      box-shadow: 0 0 70px rgba(var(--text), .10);
+      border-color: rgb(var(--accent) / .45);
+      background: radial-gradient(circle, rgb(var(--accent) / .14), transparent 62%);
+      mix-blend-mode: normal;
+      box-shadow: 0 0 55px rgb(var(--accent) / .20);
     }
-
-    body.cursor-on .cursor-dot,
-    body.cursor-on .cursor-ring{ display: block; }
+    body.cursor-on .cursor-dot, body.cursor-on .cursor-ring{ display: block; }
 
     .no-scroll{ overflow: hidden; }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar{ width: 10px; }
-    ::-webkit-scrollbar-thumb{ background: rgba(148,163,184,.28); border-radius: 999px; }
-    ::-webkit-scrollbar-thumb:hover{ background: rgba(148,163,184,.42); }
-
     .overlay{
-      background: rgba(0,0,0,.66);
+      background: rgb(0 0 0 / .66);
       backdrop-filter: blur(6px);
     }
 
-    /* Skip link */
     .skip-link{
       position: absolute;
-      left: 12px;
-      top: 12px;
+      left: 12px; top: 12px;
       transform: translateY(-160%);
-      background: rgba(var(--surface), .95);
-      border: 1px solid rgba(var(--border-subtle), .16);
+      background: rgb(var(--surface) / .95);
+      border: 1px solid rgb(var(--border-subtle) / .16);
       padding: 10px 12px;
       border-radius: 14px;
       z-index: 999999;
       box-shadow: var(--shadow-1);
       font-weight: 900;
     }
-    html.dark .skip-link{ background: rgba(255,255,255,.08); }
     .skip-link:focus{ transform: translateY(0); }
 
-    /* Reduce motion */
+    /* ✅ ABOUT tabs: scrollable on mobile */
+    .tabsRow{
+      display:flex;
+      gap:10px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 640px){
+      .tabsRow{
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 6px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .tabsRow::-webkit-scrollbar{ display:none; }
+      .tabsRow .btn{ white-space: nowrap; }
+    }
+
+    /* ✅ Make About image sane on mobile */
+    #aboutImg{
+      max-height: 280px;
+      object-fit: cover;
+    }
+    @media (max-width: 640px){
+      #aboutImg{ max-height: 220px; }
+    }
+
+    /* ✅ Better section spacing on mobile */
+    main{ padding-bottom: 64px; }
+    section{ scroll-margin-top: 96px; }
+
+    /* ✅ Project cards & cert cards keep ratio clean */
+    .ratio-16-10{ aspect-ratio: 16 / 10; }
+    .ratio-16-9{ aspect-ratio: 16 / 9; }
+
+    /* ✅ Modal: mobile sheet behavior */
+    .modalShell{
+      margin-top: 18px;
+    }
+    @media (max-width: 640px){
+      .modalShell{
+        margin-top: 10px;
+      }
+      .modalBody{
+        max-height: 78vh !important;
+        padding: 16px !important;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce){
       *{ animation: none !important; transition: none !important; scroll-behavior: auto !important; }
       body.cursor-on{ cursor: auto !important; }
@@ -463,7 +455,7 @@
       <div class="dots justify-center mx-auto" aria-hidden="true">
         <span></span><span></span><span></span>
       </div>
-      <p class="mt-5 text-[rgba(var(--muted),.92)] text-xs tracking-[.28em] uppercase">Preparing experience</p>
+      <p class="mt-5 text-white/80 text-xs tracking-[.28em] uppercase">Preparing experience</p>
     </div>
   </div>
 
@@ -484,7 +476,7 @@
       identity: {
         name: "Shah Mehrab Hossain",
         location: "Bangladesh",
-        tagline: "Embedded Systems • Robotics",
+        tagline: "Embedded Systems • Robotics (ROS2) • IoT • Computer Vision • UI/UX",
         logo: "images/logo.png",
         heroBg: "images/background.jpg",
         heroBgMobile: "images/background1.jpg",
@@ -704,10 +696,9 @@
       ],
     };
   </script>
-  <!-- ======================= END DATA ======================= -->
 
   <!-- NAV -->
-  <header class="navWrap">
+  <header class="navWrap" id="navWrap">
     <div class="containerX py-3">
       <div class="glass px-4 py-3">
         <div class="flex items-center justify-between gap-3">
@@ -780,25 +771,26 @@
   <main id="content" class="containerX pt-6 pb-16">
     <!-- HOME -->
     <section id="home" class="reveal">
-      <div class="panel p-6 md:p-10">
-        <div class="grid gap-10 lg:grid-cols-12 lg:items-center">
+      <div class="panel p-5 sm:p-6 md:p-10">
+        <div class="grid gap-8 lg:grid-cols-12 lg:items-center">
           <div class="lg:col-span-7">
             <div class="flex flex-wrap items-center gap-2">
               <span class="chip"><span class="dot"></span><span id="availability"></span></span>
               <span class="chip"><i class="fa-solid fa-location-dot"></i><span id="heroLocation"></span></span>
             </div>
 
-            <h1 class="mt-5 text-3xl md:text-5xl font-black tracking-[-0.05em] leading-[1.05]">
-              Hi, I'm <span id="heroName" class="grad-text"></span>.
+            <h1 class="mt-5 text-[30px] sm:text-4xl md:text-5xl font-black tracking-[-0.05em] leading-[1.08]">
+              Hi, I'm
+              <span id="heroName" style="background: linear-gradient(135deg, rgb(var(--accent)), rgb(var(--accent2))); -webkit-background-clip: text; background-clip: text; color: transparent;"></span>.
             </h1>
 
-            <p class="mt-4 text-lg md:text-xl font-extrabold">
+            <p class="mt-4 text-base sm:text-lg md:text-xl font-extrabold leading-snug">
               <span class="muted">I build</span>
               <span id="typedText" class="ml-2"></span>
               <span class="ml-1 opacity-60" id="typingCursor" aria-hidden="true">|</span>
             </p>
 
-            <p class="mt-4 text-sm md:text-base leading-relaxed" style="color: rgba(var(--text), .92)">
+            <p class="mt-4 text-sm sm:text-base md:text-base leading-relaxed" style="color: rgb(var(--text) / .92)">
               I design and develop real systems combining <b>embedded engineering</b>, <b>robotics (ROS2)</b>, <b>IoT telemetry</b>, and <b>computer vision</b>.
               I also create premium <b>UI/UX</b> that looks modern and feels fast.
             </p>
@@ -819,21 +811,21 @@
           </div>
 
           <div class="lg:col-span-5">
-            <div class="avatarRing p-5 md:p-6">
+            <div class="avatarRing p-4 sm:p-5 md:p-6">
               <div class="relative">
                 <div class="relative rounded-[24px] overflow-hidden">
-                  <div id="heroBg" class="absolute inset-0 bg-cover bg-center opacity-[.16]"></div>
-                  <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.22));"></div>
+                  <div id="heroBg" class="absolute inset-0 bg-cover bg-center opacity-[.20]"></div>
+                  <div class="absolute inset-0" style="background: linear-gradient(180deg, rgb(0 0 0 / .10), rgb(0 0 0 / .20));"></div>
 
-                  <div class="relative p-5">
+                  <div class="relative p-4 sm:p-5">
                     <div class="flex items-center gap-4">
-                      <img id="avatar" class="h-16 w-16 rounded-2xl object-cover" alt="Avatar" />
-                      <div class="flex-1">
-                        <p class="font-black text-lg" id="cardName"></p>
-                        <p class="text-sm muted" id="cardTagline"></p>
+                      <img id="avatar" class="h-14 w-14 sm:h-16 sm:w-16 rounded-2xl object-cover" alt="Avatar" />
+                      <div class="flex-1 min-w-0">
+                        <p class="font-black text-base sm:text-lg truncate" id="cardName"></p>
+                        <p class="text-sm muted truncate" id="cardTagline"></p>
                       </div>
-                      <div class="h-11 w-11 rounded-2xl grid place-items-center" style="background: rgba(var(--text), .08)">
-                        <i class="fa-solid fa-bolt" style="color: rgba(var(--text), .92)"></i>
+                      <div class="h-11 w-11 rounded-2xl grid place-items-center" style="background: rgb(var(--accent) / .14)">
+                        <i class="fa-solid fa-bolt" style="color: rgb(var(--accent))"></i>
                       </div>
                     </div>
 
@@ -842,7 +834,7 @@
                     <!-- Music Player -->
                     <div class="mt-5 card p-4">
                       <p class="text-xs muted mb-2">Music Player</p>
-                      <div class="flex items-center gap-3">
+                      <div class="flex items-center gap-3 flex-wrap">
                         <button id="prevBtn" class="btn px-3 py-2" aria-label="Previous track">
                           <i class="fa-solid fa-backward"></i>
                         </button>
@@ -857,7 +849,7 @@
                           <i class="fa-solid fa-forward"></i>
                         </button>
 
-                        <div class="ml-auto text-right">
+                        <div class="ml-auto text-right min-w-0">
                           <p class="text-xs muted">Now Playing</p>
                           <p class="text-sm font-black truncate max-w-[170px]" id="trackName">Track</p>
                         </div>
@@ -871,8 +863,8 @@
             </div>
 
             <div class="mt-4 grid gap-3 sm:grid-cols-2">
-              <a id="emailLink" class="btn w-full" href="#"><i class="fa-solid fa-envelope"></i><span id="emailText"></span></a>
-              <a id="phoneLink" class="btn w-full" href="#"><i class="fa-solid fa-phone"></i><span id="phoneText"></span></a>
+              <a id="emailLink" class="btn w-full" href="#"><i class="fa-solid fa-envelope"></i><span id="emailText" class="truncate"></span></a>
+              <a id="phoneLink" class="btn w-full" href="#"><i class="fa-solid fa-phone"></i><span id="phoneText" class="truncate"></span></a>
             </div>
 
             <div class="mt-4 flex flex-wrap gap-2" id="socialLinks"></div>
@@ -883,9 +875,9 @@
 
     <!-- ABOUT -->
     <section id="about" class="mt-10 reveal">
-      <div class="panel p-6 md:p-10">
+      <div class="panel p-5 sm:p-6 md:p-10">
         <div class="flex items-end justify-between flex-wrap gap-3">
-          <div>
+          <div class="min-w-0">
             <div class="kicker"><span class="dot"></span> profile</div>
             <h2 class="h2 mt-3" id="aboutTitle"></h2>
             <p class="mt-3 text-sm md:text-base muted">
@@ -893,7 +885,8 @@
             </p>
           </div>
 
-          <div class="flex gap-2 flex-wrap">
+          <!-- ✅ Tabs improved -->
+          <div class="tabsRow">
             <button class="tabBtn btn px-4 py-2 text-sm" data-tab="skillsTab"><i class="fa-solid fa-layer-group"></i>Skills</button>
             <button class="tabBtn btn px-4 py-2 text-sm" data-tab="timelineTab"><i class="fa-solid fa-timeline"></i>Timeline</button>
             <button class="tabBtn btn px-4 py-2 text-sm" data-tab="educationTab"><i class="fa-solid fa-graduation-cap"></i>Education</button>
@@ -901,7 +894,9 @@
           </div>
         </div>
 
-        <div class="mt-7 grid gap-7 lg:grid-cols-12 lg:items-start">
+        <!-- ✅ About layout improved: better hierarchy & mobile flow -->
+        <div class="mt-7 grid gap-6 lg:grid-cols-12 lg:items-start">
+          <!-- Left column -->
           <div class="lg:col-span-4">
             <div class="card p-5">
               <img id="aboutImg" class="w-full rounded-2xl object-cover" alt="About photo">
@@ -914,18 +909,19 @@
             </div>
           </div>
 
+          <!-- Right column -->
           <div class="lg:col-span-8">
-            <div class="card p-6 md:p-7">
-              <div class="space-y-4 text-sm md:text-base leading-relaxed" id="aboutParagraphs"></div>
+            <div class="card p-5 sm:p-6 md:p-7">
+              <div class="space-y-4 text-sm sm:text-base leading-relaxed" id="aboutParagraphs"></div>
             </div>
 
             <div class="mt-5">
               <div id="skillsTab" class="tabPanel">
-                <div class="card p-6 md:p-7">
-                  <div class="grid gap-4 md:grid-cols-2">
+                <div class="card p-5 sm:p-6 md:p-7">
+                  <div class="grid gap-5 md:grid-cols-2">
                     <div>
                       <p class="text-sm muted">Skill icons</p>
-                      <div class="mt-4 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3" id="skillsGrid"></div>
+                      <div class="mt-3 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 gap-1" id="skillsGrid"></div>
                     </div>
                     <div>
                       <p class="text-sm muted">Skill groups</p>
@@ -936,19 +932,19 @@
               </div>
 
               <div id="timelineTab" class="tabPanel hidden">
-                <div class="card p-6 md:p-7">
+                <div class="card p-5 sm:p-6 md:p-7">
                   <div class="space-y-3" id="timelineList"></div>
                 </div>
               </div>
 
               <div id="educationTab" class="tabPanel hidden">
-                <div class="card p-6 md:p-7">
+                <div class="card p-5 sm:p-6 md:p-7">
                   <div class="space-y-3" id="educationList"></div>
                 </div>
               </div>
 
               <div id="certTab" class="tabPanel hidden">
-                <div class="card p-6 md:p-7">
+                <div class="card p-5 sm:p-6 md:p-7">
                   <p class="text-sm muted mb-4">Click to preview certificates.</p>
                   <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id="certGrid"></div>
                 </div>
@@ -962,9 +958,9 @@
 
     <!-- SERVICES -->
     <section id="services" class="mt-10 reveal">
-      <div class="panel p-6 md:p-10">
+      <div class="panel p-5 sm:p-6 md:p-10">
         <div class="flex items-end justify-between flex-wrap gap-3">
-          <div>
+          <div class="min-w-0">
             <div class="kicker"><span class="dot"></span> services</div>
             <h2 class="h2 mt-3">What I Can Do</h2>
             <p class="mt-3 text-sm md:text-base muted">High quality, production-ready outcomes with strong communication.</p>
@@ -978,20 +974,20 @@
 
     <!-- PORTFOLIO -->
     <section id="portfolio" class="mt-10 reveal">
-      <div class="panel p-6 md:p-10">
+      <div class="panel p-5 sm:p-6 md:p-10">
         <div class="flex items-end justify-between flex-wrap gap-3">
-          <div>
+          <div class="min-w-0">
             <div class="kicker"><span class="dot"></span> portfolio</div>
             <h2 class="h2 mt-3">Selected Work</h2>
             <p class="mt-3 text-sm md:text-base muted">Search + filters + detailed modals.</p>
           </div>
 
-          <div class="flex flex-wrap gap-2 items-center">
-            <input id="searchProjects" class="text-sm w-[220px] md:w-[280px]" placeholder="Search projects…" aria-label="Search projects"/>
-            <select id="filterTag" class="text-sm font-black" aria-label="Filter projects">
+          <div class="flex flex-wrap gap-2 items-center w-full sm:w-auto">
+            <input id="searchProjects" class="text-sm w-full sm:w-[220px] md:w-[280px]" placeholder="Search projects…" aria-label="Search projects"/>
+            <select id="filterTag" class="text-sm font-black w-full sm:w-auto" aria-label="Filter projects">
               <option value="all">Filter: All</option>
             </select>
-            <button id="loadMoreBtn" class="btn px-5 py-3" aria-label="Load more projects">
+            <button id="loadMoreBtn" class="btn px-5 py-3 w-full sm:w-auto" aria-label="Load more projects">
               See more
             </button>
           </div>
@@ -1003,7 +999,7 @@
 
     <!-- CONTACT -->
     <section id="contact" class="mt-10 pb-16 reveal">
-      <div class="panel p-6 md:p-10">
+      <div class="panel p-5 sm:p-6 md:p-10">
         <div class="grid gap-6 lg:grid-cols-12">
           <div class="lg:col-span-5">
             <div class="kicker"><span class="dot"></span> contact</div>
@@ -1013,8 +1009,8 @@
             </p>
 
             <div class="mt-6 space-y-3">
-              <a id="emailLink2" class="btn w-full" href="#"><i class="fa-solid fa-paper-plane"></i><span id="emailText2"></span></a>
-              <a id="phoneLink2" class="btn w-full" href="#"><i class="fa-solid fa-phone"></i><span id="phoneText2"></span></a>
+              <a id="emailLink2" class="btn w-full" href="#"><i class="fa-solid fa-paper-plane"></i><span id="emailText2" class="truncate"></span></a>
+              <a id="phoneLink2" class="btn w-full" href="#"><i class="fa-solid fa-phone"></i><span id="phoneText2" class="truncate"></span></a>
 
               <a id="cvBtn" class="btn btn-primary w-full" style="justify-content:center" download>
                 <i class="fa-solid fa-download"></i> Download CV
@@ -1025,7 +1021,7 @@
           </div>
 
           <div class="lg:col-span-7">
-            <div class="card p-6 md:p-7">
+            <div class="card p-5 sm:p-6 md:p-7">
               <div class="flex items-start justify-between gap-4 flex-wrap">
                 <div>
                   <h3 class="h3">Send a Message</h3>
@@ -1057,7 +1053,7 @@
           </div>
         </div>
 
-        <div class="mt-10 border-t pt-6 text-center text-sm muted" style="border-color: rgba(var(--border-strong), .12);">
+        <div class="mt-10 border-t pt-6 text-center text-sm muted" style="border-color: rgb(var(--border-strong) / .12);">
           © <span id="year"></span> <span class="font-black" style="color: rgb(var(--text));" id="copyrightName"></span>.
           All rights reserved.
         </div>
@@ -1073,24 +1069,24 @@
   <!-- PROJECT MODAL -->
   <div id="projectModal" class="fixed inset-0 hidden z-[999]" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalIntro">
     <div id="modalOverlay" class="absolute inset-0 overlay" tabindex="-1" aria-hidden="true"></div>
-    <div class="relative mx-auto mt-6 max-w-4xl px-4">
+    <div class="relative mx-auto max-w-4xl px-4 modalShell">
       <div class="panel overflow-hidden">
-        <div class="flex items-center justify-between p-5 border-b" style="border-color: rgba(var(--border-strong), .12);">
-          <div>
+        <div class="flex items-center justify-between p-4 sm:p-5 border-b" style="border-color: rgb(var(--border-strong) / .12);">
+          <div class="min-w-0">
             <p class="text-xs muted">Project Details</p>
-            <h3 id="modalTitle" class="text-lg md:text-xl font-black"></h3>
+            <h3 id="modalTitle" class="text-lg md:text-xl font-black truncate"></h3>
           </div>
           <button id="modalClose" class="btn px-3 py-2" aria-label="Close project dialog">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
 
-        <div class="p-6 md:p-7 space-y-6 max-h-[80vh] overflow-y-auto">
-          <p id="modalIntro" class="text-sm md:text-base leading-relaxed" style="color: rgba(var(--text), .92)"></p>
+        <div class="p-6 md:p-7 space-y-6 max-h-[80vh] overflow-y-auto modalBody">
+          <p id="modalIntro" class="text-sm md:text-base leading-relaxed" style="color: rgb(var(--text) / .92)"></p>
 
           <div id="modalVideoWrap" class="hidden">
             <div class="card overflow-hidden">
-              <div class="aspect-video">
+              <div class="ratio-16-9">
                 <iframe id="modalVideo" class="w-full h-full"
                   src="" title="YouTube video player" frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -1109,10 +1105,10 @@
   <!-- CERT MODAL -->
   <div id="certModal" class="fixed inset-0 hidden z-[999]" role="dialog" aria-modal="true" aria-labelledby="certTitle">
     <div id="certOverlay" class="absolute inset-0 overlay" tabindex="-1" aria-hidden="true"></div>
-    <div class="relative mx-auto mt-6 max-w-5xl px-4">
+    <div class="relative mx-auto max-w-5xl px-4 modalShell">
       <div class="panel overflow-hidden">
-        <div class="flex items-center justify-between p-4 border-b" style="border-color: rgba(var(--border-strong), .12);">
-          <p id="certTitle" class="font-black"></p>
+        <div class="flex items-center justify-between p-4 border-b" style="border-color: rgb(var(--border-strong) / .12);">
+          <p id="certTitle" class="font-black truncate"></p>
           <button id="certClose" class="btn px-3 py-2" aria-label="Close certificate dialog">
             <i class="fa-solid fa-xmark"></i>
           </button>
@@ -1123,9 +1119,7 @@
   </div>
 
   <script>
-    /* ==========================================================
-       THEME (button shows NEXT mode)
-    ========================================================== */
+    /* THEME */
     const htmlEl = document.documentElement;
     const themeIcon = document.getElementById("themeIcon");
     const themeLabel = document.getElementById("themeLabel");
@@ -1134,6 +1128,7 @@
       document.body.classList.add("theme-transition");
       const isDark = mode === "dark";
       htmlEl.classList.toggle("dark", isDark);
+      htmlEl.setAttribute("data-theme", mode);
 
       themeIcon.textContent = isDark ? "☀️" : "🌙";
       themeLabel.textContent = isDark ? "Light" : "Dark";
@@ -1148,7 +1143,7 @@
     applyTheme(storedTheme || (prefersDark ? "dark" : "light"));
 
     document.getElementById("themeBtn").addEventListener("click", () => {
-      const current = (localStorage.getItem("theme") || (prefersDark ? "dark" : "light"));
+      const current = localStorage.getItem("theme") || (prefersDark ? "dark" : "light");
       applyTheme(current === "dark" ? "light" : "dark");
     });
 
@@ -1158,51 +1153,40 @@
       });
     }
 
-    /* ==========================================================
-       Preloader
-    ========================================================== */
+    /* Preloader */
     window.addEventListener("load", () => {
       setTimeout(() => document.getElementById("preloader").classList.add("hidden"), 450);
     });
 
-    /* ==========================================================
-       Mobile Menu (click-away close + aria-expanded)
-    ========================================================== */
+    /* ✅ Navbar compact on scroll */
+    const navWrap = document.getElementById("navWrap");
+    window.addEventListener("scroll", () => {
+      navWrap.classList.toggle("navCompact", window.scrollY > 40);
+    });
+
+    /* Mobile Menu */
     const menuBtn = document.getElementById("menuBtn");
     const mobileMenu = document.getElementById("mobileMenu");
-
     function setMenu(open){
       mobileMenu.classList.toggle("hidden", !open);
       menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
     }
-
     menuBtn.addEventListener("click", () => setMenu(mobileMenu.classList.contains("hidden")));
     mobileMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setMenu(false)));
-
     document.addEventListener("click", (e) => {
       if(mobileMenu.classList.contains("hidden")) return;
-      if(!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)){
-        setMenu(false);
-      }
+      if(!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) setMenu(false);
     });
 
-    /* ==========================================================
-       Sounds (safer)
-    ========================================================== */
+    /* Sounds */
     const navSound = document.getElementById("nav-hover-sound");
     const srvSound = document.getElementById("service-hover-sound");
     navSound.volume = 0.07;
     srvSound.volume = 0.30;
+    function playSafe(audio){ try { audio.currentTime = 0; audio.play(); } catch(e){} }
 
-    function playSafe(audio){
-      try { audio.currentTime = 0; audio.play(); } catch(e){}
-    }
-
-    /* ==========================================================
-       Render Identity
-    ========================================================== */
+    /* Render Identity */
     const id = DATA.identity;
-
     document.getElementById("logo").src = id.logo;
     document.getElementById("navName").textContent = id.name;
     document.getElementById("navTagline").textContent = id.tagline;
@@ -1243,6 +1227,7 @@
     document.getElementById("year").textContent = new Date().getFullYear();
     document.getElementById("copyrightName").textContent = id.name;
 
+    /* Socials */
     const socialWrap = document.getElementById("socialLinks");
     DATA.socials.forEach(s => {
       const a = document.createElement("a");
@@ -1255,15 +1240,17 @@
       socialWrap.appendChild(a);
     });
 
+    /* Hero chips */
     const heroChips = document.getElementById("heroChips");
     const chipList = ["ROS2 • Robotics", "Embedded • IoT", "OpenCV • MediaPipe", "UI/UX • Adobe Suite"];
     chipList.forEach(t => {
       const span = document.createElement("span");
       span.className = "chip";
-      span.innerHTML = `<i class="fa-solid fa-check" style="color: rgba(var(--text), .92)"></i><span>${t}</span>`;
+      span.innerHTML = `<i class="fa-solid fa-check" style="color: rgb(var(--accent))"></i><span>${t}</span>`;
       heroChips.appendChild(span);
     });
 
+    /* Hero small stats */
     const heroStats = document.getElementById("heroStats");
     const stats = [
       { k: "Main Stack", v: "C/C++ • Python" },
@@ -1278,9 +1265,7 @@
       heroStats.appendChild(div);
     });
 
-    /* ==========================================================
-       About
-    ========================================================== */
+    /* About */
     document.getElementById("aboutTitle").textContent = DATA.about.title;
     document.getElementById("aboutImg").src = id.avatar;
 
@@ -1304,8 +1289,8 @@
       const row = document.createElement("div");
       row.className = "card p-4 flex gap-3 items-start";
       row.innerHTML = `
-        <div class="h-10 w-10 rounded-2xl grid place-items-center" style="background: rgba(var(--text), .08)">
-          <i class="${h.icon}" style="color: rgba(var(--text), .92)"></i>
+        <div class="h-10 w-10 rounded-2xl grid place-items-center" style="background: rgb(var(--accent) / .14)">
+          <i class="${h.icon}" style="color: rgb(var(--accent))"></i>
         </div>
         <div>
           <p class="font-black">${h.title}</p>
@@ -1315,9 +1300,7 @@
       highlights.appendChild(row);
     });
 
-    /* ==========================================================
-       Tabs
-    ========================================================== */
+    /* Tabs */
     const tabBtns = document.querySelectorAll(".tabBtn");
     const tabPanels = document.querySelectorAll(".tabPanel");
     function openTab(tabId){
@@ -1325,14 +1308,12 @@
       document.getElementById(tabId).classList.remove("hidden");
       tabBtns.forEach(b => b.style.boxShadow = "none");
       const activeBtn = [...tabBtns].find(x => x.dataset.tab === tabId);
-      if(activeBtn) activeBtn.style.boxShadow = "0 0 0 6px rgba(var(--text), .10)";
+      if(activeBtn) activeBtn.style.boxShadow = "0 0 0 6px rgb(var(--accent) / .14)";
     }
     tabBtns.forEach(btn => btn.addEventListener("click", () => openTab(btn.dataset.tab)));
     openTab("skillsTab");
 
-    /* ==========================================================
-       Skills
-    ========================================================== */
+    /* Skills */
     const skillsGrid = document.getElementById("skillsGrid");
     DATA.skillsIcons.forEach(s => {
       const item = document.createElement("div");
@@ -1356,9 +1337,7 @@
       skillsGroups.appendChild(block);
     });
 
-    /* ==========================================================
-       Timeline + Education
-    ========================================================== */
+    /* Timeline + Education */
     const timelineWrap = document.getElementById("timelineList");
     DATA.timeline.forEach(t => {
       const card = document.createElement("div");
@@ -1366,7 +1345,7 @@
       card.innerHTML = `
         <p class="text-xs muted">${t.when}</p>
         <p class="mt-1 font-black">${t.title}</p>
-        <p class="mt-1 text-sm" style="color: rgba(var(--text), .92)">${t.org}</p>
+        <p class="mt-1 text-sm" style="color: rgb(var(--text) / .92)">${t.org}</p>
         <p class="mt-2 text-sm muted">${t.desc}</p>
       `;
       timelineWrap.appendChild(card);
@@ -1379,27 +1358,20 @@
       card.innerHTML = `
         <p class="text-xs muted">${e.when}</p>
         <p class="mt-1 font-black">${e.what}</p>
-        <p class="mt-2 text-sm" style="color: rgba(var(--text), .92)">${e.where}</p>
+        <p class="mt-2 text-sm" style="color: rgb(var(--text) / .92)">${e.where}</p>
       `;
       eduWrap.appendChild(card);
     });
 
-    /* ==========================================================
-       Certificates + modal
-    ========================================================== */
+    /* Certificates */
     const certGrid = document.getElementById("certGrid");
     const certModal = document.getElementById("certModal");
     const certOverlay = document.getElementById("certOverlay");
     const certClose = document.getElementById("certClose");
     const certImg = document.getElementById("certImg");
     const certTitle = document.getElementById("certTitle");
-
     let lastFocusEl = null;
-
-    function lockScroll(lock){
-      document.body.classList.toggle("no-scroll", lock);
-    }
-
+    function lockScroll(lock){ document.body.classList.toggle("no-scroll", lock); }
     function openCert(c, opener){
       lastFocusEl = opener || document.activeElement;
       certTitle.textContent = `${c.year} — ${c.title}`;
@@ -1423,7 +1395,7 @@
       card.type = "button";
       card.className = "text-left card hover:scale-[1.01] transition";
       card.innerHTML = `
-        <div class="aspect-[16/10] overflow-hidden">
+        <div class="ratio-16-10 overflow-hidden">
           <img src="${c.img}" alt="${c.title}" class="w-full h-full object-cover">
         </div>
         <div class="p-5">
@@ -1435,23 +1407,20 @@
       certGrid.appendChild(card);
     });
 
-    /* ==========================================================
-       Services
-    ========================================================== */
+    /* Services */
     const servicesGrid = document.getElementById("servicesGrid");
     document.querySelectorAll(".navLink").forEach(link => link.addEventListener("pointerenter", () => playSafe(navSound)));
-
     DATA.services.forEach(s => {
       const card = document.createElement("div");
       card.className = "card p-6 hover:scale-[1.01] transition cursor-pointer";
       card.innerHTML = `
-        <div class="h-12 w-12 rounded-2xl grid place-items-center mb-4" style="background: rgba(var(--text), .08)">
-          <i class="${s.icon}" style="color: rgba(var(--text), .92)"></i>
+        <div class="h-12 w-12 rounded-2xl grid place-items-center mb-4" style="background: rgb(var(--accent) / .14)">
+          <i class="${s.icon}" style="color: rgb(var(--accent))"></i>
         </div>
         <h3 class="font-black text-lg">${s.title}</h3>
         <p class="mt-2 text-sm leading-relaxed muted">${s.desc}</p>
         <a class="mt-4 inline-flex items-center gap-2 text-sm font-black hover:opacity-80"
-          href="#contact" style="color: rgba(var(--text), .92)">
+          href="#contact" style="color: rgb(var(--accent))">
           Learn more <i class="fa-solid fa-arrow-right"></i>
         </a>
       `;
@@ -1459,9 +1428,7 @@
       servicesGrid.appendChild(card);
     });
 
-    /* ==========================================================
-       Projects: search + filter + modal
-    ========================================================== */
+    /* Projects */
     const projectsGrid = document.getElementById("projectsGrid");
     const searchProjects = document.getElementById("searchProjects");
     const loadMoreBtn = document.getElementById("loadMoreBtn");
@@ -1484,59 +1451,7 @@
     }
     buildTagOptions();
 
-    function renderProjects(){
-      const q = (searchProjects.value || "").trim().toLowerCase();
-      const tag = filterTag.value;
-
-      projectsGrid.innerHTML = "";
-
-      const list = currentProjects().filter(p => {
-        const text = (p.title + " " + p.subtitle + " " + (p.tags || []).join(" ")).toLowerCase();
-        const matchesQ = !q || text.includes(q);
-        const matchesTag = (tag === "all") || (p.tags || []).includes(tag);
-        return matchesQ && matchesTag;
-      });
-
-      list.forEach(p => {
-        const card = document.createElement("button");
-        card.type = "button";
-        card.className = "text-left card hover:scale-[1.01] transition";
-        const tagsHtml = (p.tags || []).slice(0,3).map(t => `<span class="chip" style="padding:6px 10px; font-size:11px;">${t}</span>`).join("");
-        card.innerHTML = `
-          <div class="aspect-[16/10] overflow-hidden">
-            <img src="${p.cover}" alt="${p.title}" class="w-full h-full object-cover">
-          </div>
-          <div class="p-5">
-            <div class="flex flex-wrap gap-2 mb-3">${tagsHtml}</div>
-            <h3 class="font-black text-lg">${p.title}</h3>
-            <p class="mt-2 text-sm muted">${p.subtitle}</p>
-            <div class="mt-4 inline-flex items-center gap-2 text-sm font-black" style="color: rgba(var(--text), .92)">
-              View Details <i class="fa-solid fa-up-right-from-square"></i>
-            </div>
-          </div>
-        `;
-        card.addEventListener("click", (e) => openProject(p, e.currentTarget));
-        projectsGrid.appendChild(card);
-      });
-
-      if(!list.length){
-        const empty = document.createElement("div");
-        empty.className = "card p-7 text-sm";
-        empty.style.color = "rgba(var(--muted),1)";
-        empty.textContent = "No projects found. Try another keyword or filter.";
-        projectsGrid.appendChild(empty);
-      }
-    }
-
-    searchProjects.addEventListener("input", renderProjects);
-    filterTag.addEventListener("change", renderProjects);
-
-    loadMoreBtn.addEventListener("click", () => {
-      loadedMore = !loadedMore;
-      loadMoreBtn.textContent = loadedMore ? "Show less" : "See more";
-      renderProjects();
-    });
-
+    /* Project Modal */
     const projectModal = document.getElementById("projectModal");
     const modalOverlay = document.getElementById("modalOverlay");
     const modalClose = document.getElementById("modalClose");
@@ -1563,6 +1478,31 @@
       }else if(!e.shiftKey && document.activeElement === last){
         e.preventDefault(); first.focus();
       }
+    }
+
+    function sectionList(title, items){
+      const wrap = document.createElement("div");
+      wrap.className = "card p-5";
+      wrap.innerHTML = `<h4 class="font-black text-base mb-3">${title}</h4>`;
+      const ul = document.createElement("ul");
+      ul.className = "grid gap-2 md:grid-cols-2 text-sm";
+      items.forEach(it => {
+        const li = document.createElement("li");
+        li.className = "card px-4 py-3";
+        li.style.borderRadius = "18px";
+        li.innerHTML = `<i class="fa-solid fa-check mr-2" style="color: rgb(var(--accent))"></i>${it}`;
+        ul.appendChild(li);
+      });
+      wrap.appendChild(ul);
+      return wrap;
+    }
+
+    function sectionText(title, text){
+      const wrap = document.createElement("div");
+      wrap.className = "card p-5";
+      wrap.innerHTML = `<h4 class="font-black text-base">${title}</h4>
+                        <p class="mt-2 text-sm leading-relaxed muted">${text}</p>`;
+      return wrap;
     }
 
     function openProject(p, opener){
@@ -1608,34 +1548,8 @@
       lastFocusEl = null;
     }
 
-    function sectionList(title, items){
-      const wrap = document.createElement("div");
-      wrap.className = "card p-5";
-      wrap.innerHTML = `<h4 class="font-black text-base mb-3">${title}</h4>`;
-      const ul = document.createElement("ul");
-      ul.className = "grid gap-2 md:grid-cols-2 text-sm";
-      items.forEach(it => {
-        const li = document.createElement("li");
-        li.className = "card px-4 py-3";
-        li.style.borderRadius = "18px";
-        li.innerHTML = `<i class="fa-solid fa-check mr-2" style="color: rgba(var(--text), .92)"></i>${it}`;
-        ul.appendChild(li);
-      });
-      wrap.appendChild(ul);
-      return wrap;
-    }
-
-    function sectionText(title, text){
-      const wrap = document.createElement("div");
-      wrap.className = "card p-5";
-      wrap.innerHTML = `<h4 class="font-black text-base">${title}</h4>
-                        <p class="mt-2 text-sm leading-relaxed muted">${text}</p>`;
-      return wrap;
-    }
-
     modalOverlay.addEventListener("click", closeProject);
     modalClose.addEventListener("click", closeProject);
-
     projectModal.addEventListener("keydown", (e) => trapFocus(e, projectModal));
     certModal.addEventListener("keydown", (e) => trapFocus(e, certModal));
 
@@ -1647,15 +1561,65 @@
       }
     });
 
+    function renderProjects(){
+      const q = (searchProjects.value || "").trim().toLowerCase();
+      const tag = filterTag.value;
+
+      projectsGrid.innerHTML = "";
+
+      const list = currentProjects().filter(p => {
+        const text = (p.title + " " + p.subtitle + " " + (p.tags || []).join(" ")).toLowerCase();
+        const matchesQ = !q || text.includes(q);
+        const matchesTag = (tag === "all") || (p.tags || []).includes(tag);
+        return matchesQ && matchesTag;
+      });
+
+      list.forEach(p => {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "text-left card hover:scale-[1.01] transition";
+        const tagsHtml = (p.tags || []).slice(0,3).map(t => `<span class="chip" style="padding:6px 10px; font-size:11px;">${t}</span>`).join("");
+        card.innerHTML = `
+          <div class="ratio-16-10 overflow-hidden">
+            <img src="${p.cover}" alt="${p.title}" class="w-full h-full object-cover">
+          </div>
+          <div class="p-5">
+            <div class="flex flex-wrap gap-2 mb-3">${tagsHtml}</div>
+            <h3 class="font-black text-lg">${p.title}</h3>
+            <p class="mt-2 text-sm muted">${p.subtitle}</p>
+            <div class="mt-4 inline-flex items-center gap-2 text-sm font-black" style="color: rgb(var(--accent))">
+              View Details <i class="fa-solid fa-up-right-from-square"></i>
+            </div>
+          </div>
+        `;
+        card.addEventListener("click", (e) => openProject(p, e.currentTarget));
+        projectsGrid.appendChild(card);
+      });
+
+      if(!list.length){
+        const empty = document.createElement("div");
+        empty.className = "card p-7 text-sm";
+        empty.style.color = "rgb(var(--muted))";
+        empty.textContent = "No projects found. Try another keyword or filter.";
+        projectsGrid.appendChild(empty);
+      }
+    }
+
+    searchProjects.addEventListener("input", renderProjects);
+    filterTag.addEventListener("change", renderProjects);
+
+    loadMoreBtn.addEventListener("click", () => {
+      loadedMore = !loadedMore;
+      loadMoreBtn.textContent = loadedMore ? "Show less" : "See more";
+      renderProjects();
+    });
+
     renderProjects();
 
-    /* ==========================================================
-       Typed roles
-    ========================================================== */
+    /* Typed roles */
     const typedEl = document.getElementById("typedText");
     const typingSound = document.getElementById("typing-sound");
     typingSound.volume = 0.08;
-
     let roleIndex = 0, charIndex = 0, deleting = false;
     const typeSpeed = 46, deleteSpeed = 24, pause = 900;
     let soundCounter = 0;
@@ -1688,9 +1652,7 @@
     }
     tick();
 
-    /* ==========================================================
-       Music Player
-    ========================================================== */
+    /* Music player */
     const player = document.getElementById("player");
     const trackName = document.getElementById("trackName");
     const prevBtn = document.getElementById("prevBtn");
@@ -1745,9 +1707,7 @@
     nextBtn.addEventListener("click", nextTrack);
     player.addEventListener("ended", nextTrack);
 
-    /* ==========================================================
-       Contact form
-    ========================================================== */
+    /* Contact form */
     const form = document.getElementById("contactForm");
     const formMsg = document.getElementById("formMsg");
     const submitBtn = document.getElementById("submitBtn");
@@ -1760,7 +1720,6 @@
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-
       const honeypot = form.querySelector('input[name="Website"]');
       if(honeypot && honeypot.value.trim()){
         formMsg.textContent = "Message sent successfully!";
@@ -1794,16 +1753,12 @@
       }
     });
 
-    /* ==========================================================
-       Back to top
-    ========================================================== */
+    /* Back to top */
     const backTop = document.getElementById("backTop");
     window.addEventListener("scroll", () => backTop.classList.toggle("hidden", window.scrollY < 350));
     backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
-    /* ==========================================================
-       Scroll reveal
-    ========================================================== */
+    /* Scroll reveal */
     const revealEls = document.querySelectorAll(".reveal");
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(ent => {
@@ -1815,13 +1770,9 @@
     }, { threshold: 0.12 });
     revealEls.forEach(el => obs.observe(el));
 
-    /* ==========================================================
-       Active Nav Highlight
-    ========================================================== */
-    const sections = ["home","about","services","portfolio","contact"]
-      .map(id => document.getElementById(id)).filter(Boolean);
+    /* Active nav */
+    const sections = ["home","about","services","portfolio","contact"].map(id => document.getElementById(id)).filter(Boolean);
     const navLinks = [...document.querySelectorAll('a.navLink[href^="#"]')];
-
     const navObs = new IntersectionObserver((entries) => {
       entries.forEach(ent => {
         if(ent.isIntersecting){
@@ -1832,24 +1783,19 @@
     }, { threshold: 0.35 });
     sections.forEach(sec => navObs.observe(sec));
 
-    /* ==========================================================
-       CURSOR
-    ========================================================== */
+    /* Cursor */
     const cursorDot = document.getElementById("cursorDot");
     const cursorRing = document.getElementById("cursorRing");
     const cursorSelect = document.getElementById("cursorSelect");
     const cursorSelectMobile = document.getElementById("cursorSelectMobile");
-
     const cursorClasses = ["cursor-style-neo","cursor-style-dot","cursor-style-ring","cursor-style-glow"];
 
     function setCursorStyle(style){
       document.body.classList.remove("cursor-on", ...cursorClasses);
-
       if(style === "off"){
         localStorage.setItem("cursorStyle", "off");
         return;
       }
-
       document.body.classList.add("cursor-on");
       document.body.classList.add("cursor-style-" + style);
       localStorage.setItem("cursorStyle", style);
@@ -1892,16 +1838,23 @@
       if(document.body.classList.contains("cursor-on")){
         dx += (mx - dx) * 0.45;
         dy += (my - dy) * 0.45;
-
         rx += (mx - rx) * 0.18;
         ry += (my - ry) * 0.18;
-
         cursorDot.style.transform = `translate(-50%, -50%) translate(${dx}px, ${dy}px)`;
         cursorRing.style.transform = `translate(-50%, -50%) translate(${rx}px, ${ry}px)`;
       }
       requestAnimationFrame(raf);
     }
     requestAnimationFrame(raf);
+
+    /* ESC closes */
+    window.addEventListener("keydown", (e) => {
+      if(e.key === "Escape") {
+        closeProject();
+        closeCert();
+        setMenu(false);
+      }
+    });
   </script>
 </body>
 </html>
