@@ -7,15 +7,29 @@
   <meta name="description" content="Portfolio of Shah Mehrab Hossain — Embedded Systems, Robotics (ROS2), IoT, Computer Vision, and UI/UX." />
   <title>Shah Mehrab Hossain</title>
 
+  <!-- =========================================================
+    ✅ EDIT POINT: Favicon (change path if needed)
+  ========================================================== -->
   <link rel="icon" href="images/S.png" type="image/png" />
+
+  <!-- =========================================================
+    ✅ Fonts (Inter)
+    - If you change font, update CSS body font-family too.
+  ========================================================== -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-  <!-- Icons -->
+  <!-- =========================================================
+    ✅ Icons (FontAwesome kit)
+    - Replace kit if you have your own
+  ========================================================== -->
   <script src="https://kit.fontawesome.com/d36ce842ae.js" crossorigin="anonymous"></script>
 
-  <!-- Tailwind (utilities only) -->
+  <!-- =========================================================
+    ✅ Tailwind (CDN utilities)
+    - You are using Tailwind utilities, and custom CSS variables.
+  ========================================================== -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -24,7 +38,12 @@
     };
   </script>
 
-  <!-- ✅ Theme bootstrap BEFORE paint -->
+  <!-- =========================================================
+    ✅ THEME BOOTSTRAP (runs BEFORE paint)
+    - Reads localStorage theme OR system preference
+    - Adds/removes "dark" class on <html>
+    - DO NOT move below styles or you may see "flash" on load
+  ========================================================== -->
   <script>
     (function () {
       const stored = localStorage.getItem("theme");
@@ -37,6 +56,11 @@
   </script>
 
   <style>
+    /* =========================================================
+      ✅ DESIGN TOKENS (EDIT HERE FIRST)
+      - You can tweak radius/shadow/colors once, whole UI updates
+      - Color values are RGB without commas: "R G B"
+    ========================================================== */
     :root{
       --radius-1: 16px;
       --radius-2: 22px;
@@ -48,27 +72,37 @@
 
       --ease: cubic-bezier(.2,.8,.2,1);
 
+      /* ✅ Accent colors (used by gradients/chips/rings) */
       --accent: 99 102 241;
       --accent2: 34 211 238;
 
+      /* ✅ Light theme surfaces */
       --bg: 248 250 252;
       --bg2: 241 245 249;
       --surface: 255 255 255;
       --surface2: 248 250 252;
 
+      /* ✅ Text colors */
       --text: 15 23 42;
       --muted: 71 85 105;
       --muted2: 100 116 139;
 
+      /* ✅ Border base colors (opacity applied per component) */
       --border-subtle: 15 23 42;
       --border-strong: 15 23 42;
 
+      /* ✅ Focus ring color */
       --ring: 99 102 241;
 
+      /* ✅ Background effects intensity */
       --noise-opacity: .04;
       --grid-opacity: .09;
     }
 
+    /* =========================================================
+      ✅ DARK THEME OVERRIDES
+      - Only overrides tokens; components stay the same
+    ========================================================== */
     html.dark{
       --bg: 2 6 23;
       --bg2: 10 16 35;
@@ -92,17 +126,25 @@
       --shadow-3: 0 34px 110px rgb(0 0 0 / .65);
     }
 
+    /* =========================================================
+      ✅ GLOBAL BASE
+    ========================================================== */
     *{ box-sizing: border-box; }
     html,body{ height: 100%; }
     body{
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color: rgb(var(--text));
+
+      /* ✅ Background layers */
       background:
         radial-gradient(1200px circle at 20% -10%, rgb(var(--accent) / .16), transparent 60%),
         radial-gradient(1200px circle at 90% 10%, rgb(var(--accent2) / .10), transparent 55%),
         linear-gradient(180deg, rgb(var(--bg)), rgb(var(--bg2)));
+
       overflow-x: hidden;
     }
+
+    /* ✅ Dark background layers */
     html.dark body{
       background:
         radial-gradient(900px circle at 20% -10%, rgb(var(--accent) / .10), transparent 60%),
@@ -110,7 +152,11 @@
         linear-gradient(180deg, rgb(var(--bg)), rgb(var(--bg2)));
     }
 
-    /* ✅ Mobile-first container improvements */
+    /* =========================================================
+      ✅ LAYOUT UTILS
+      - containerX controls horizontal padding & max width
+      - Edit padding here if you want more/less side spacing
+    ========================================================== */
     .containerX{
       max-width: 1200px;
       margin: 0 auto;
@@ -120,6 +166,10 @@
       .containerX{ padding: 0 18px; }
     }
 
+    /* =========================================================
+      ✅ BACKGROUND DECORATION LAYERS (grid + noise)
+      - Purely visual; safe to disable if you want a cleaner look
+    ========================================================== */
     .bg-grid{
       position: fixed; inset: 0;
       pointer-events: none;
@@ -140,10 +190,20 @@
       mix-blend-mode: overlay;
     }
 
+    /* =========================================================
+      ✅ THEME TRANSITION (added temporarily when toggling theme)
+      - Prevents harsh color switch
+    ========================================================== */
     .theme-transition, .theme-transition *{
       transition: background-color .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease);
     }
 
+    /* =========================================================
+      ✅ COMMON SURFACES
+      - glass: translucent, blurred surface (navbar)
+      - panel: main section wrapper
+      - card: reusable content card
+    ========================================================== */
     .glass{
       background: rgb(var(--surface) / .70);
       border: 1px solid rgb(var(--border-subtle) / .10);
@@ -151,14 +211,12 @@
       box-shadow: var(--shadow-1);
       backdrop-filter: blur(14px);
     }
-
     .panel{
       background: rgb(var(--surface) / .92);
       border: 1px solid rgb(var(--border-subtle) / .10);
       border-radius: var(--radius-2);
       box-shadow: var(--shadow-2);
     }
-
     .card{
       border-radius: var(--radius-2);
       border: 1px solid rgb(var(--border-subtle) / .10);
@@ -168,10 +226,16 @@
       overflow: hidden;
     }
 
+    /* =========================================================
+      ✅ TEXT HELPERS
+    ========================================================== */
     .muted{ color: rgb(var(--muted)); }
     .muted2{ color: rgb(var(--muted2)); }
 
-    /* ✅ Better tap targets on mobile */
+    /* =========================================================
+      ✅ BUTTONS (EDIT: default sizing + hover feel)
+      - btn-primary is the main CTA style
+    ========================================================== */
     .btn{
       display: inline-flex;
       align-items: center;
@@ -200,6 +264,9 @@
     }
     html.dark .btn-primary{ color: rgb(255 255 255); }
 
+    /* =========================================================
+      ✅ CHIPS (small pills used for highlights/tags)
+    ========================================================== */
     .chip{
       display: inline-flex;
       align-items: center;
@@ -213,6 +280,10 @@
       white-space: nowrap;
     }
 
+    /* =========================================================
+      ✅ FORM INPUTS
+      - Shared styles for input/textarea/select
+    ========================================================== */
     input, textarea, select{
       outline: none;
       border-radius: 16px;
@@ -229,6 +300,9 @@
       border-radius: 18px;
     }
 
+    /* =========================================================
+      ✅ SECTION HEADERS
+    ========================================================== */
     .kicker{
       display: inline-flex; align-items: center; gap: 10px;
       font-size: 12px; font-weight: 900; letter-spacing: .12em;
@@ -251,11 +325,18 @@
       letter-spacing: -.02em;
     }
 
-    /* ✅ Better reveal + mobile pacing */
+    /* =========================================================
+      ✅ REVEAL ANIMATION (sections fade up)
+      - If you want always-visible, remove reveal classes in HTML
+    ========================================================== */
     .reveal{ opacity: 0; transform: translateY(14px); }
     .reveal.in{ opacity: 1; transform: translateY(0); transition: opacity .8s var(--ease), transform .8s var(--ease); }
 
-    /* ✅ Navbar: compact on scroll, better mobile */
+    /* =========================================================
+      ✅ NAVBAR
+      - navWrap: sticky container
+      - navCompact: applied when scrolling
+    ========================================================== */
     .navWrap{
       position: sticky; top: 0; z-index: 60;
       backdrop-filter: blur(16px);
@@ -280,6 +361,9 @@
       border-color: rgb(255 255 255 / .14);
     }
 
+    /* =========================================================
+      ✅ HERO AVATAR CARD (right column)
+    ========================================================== */
     .avatarRing{
       position: relative;
       border-radius: 28px;
@@ -299,7 +383,10 @@
     }
     html.dark .avatarRing::before{ opacity: .40; }
 
-    /* Preloader */
+    /* =========================================================
+      ✅ PRELOADER (shown until window load)
+      - Edit text "Preparing experience" in HTML if needed
+    ========================================================== */
     #preloader{
       position: fixed; inset: 0;
       display: grid; place-items: center;
@@ -321,7 +408,12 @@
       50%{ transform: translateY(-10px); opacity: 1; }
     }
 
-    /* Cursor */
+    /* =========================================================
+      ✅ CUSTOM CURSOR (optional)
+      - Works only when body has class "cursor-on"
+      - Styles:
+        off / neo / dot / ring / glow
+    ========================================================== */
     body.cursor-on{ cursor: none; }
     .cursor-dot, .cursor-ring{
       position: fixed; top:0; left:0;
@@ -367,12 +459,19 @@
     }
     body.cursor-on .cursor-dot, body.cursor-on .cursor-ring{ display: block; }
 
+    /* =========================================================
+      ✅ MODALS / OVERLAY
+      - no-scroll prevents background scrolling while modal open
+    ========================================================== */
     .no-scroll{ overflow: hidden; }
     .overlay{
       background: rgb(0 0 0 / .66);
       backdrop-filter: blur(6px);
     }
 
+    /* =========================================================
+      ✅ ACCESSIBILITY: Skip link for keyboard users
+    ========================================================== */
     .skip-link{
       position: absolute;
       left: 12px; top: 12px;
@@ -387,7 +486,9 @@
     }
     .skip-link:focus{ transform: translateY(0); }
 
-    /* ✅ ABOUT tabs: scrollable on mobile */
+    /* =========================================================
+      ✅ ABOUT TABS ROW (mobile horizontal scroll)
+    ========================================================== */
     .tabsRow{
       display:flex;
       gap:10px;
@@ -404,7 +505,9 @@
       .tabsRow .btn{ white-space: nowrap; }
     }
 
-    /* ✅ Make About image sane on mobile */
+    /* =========================================================
+      ✅ ABOUT IMAGE SIZING (safe on mobile)
+    ========================================================== */
     #aboutImg{
       max-height: 280px;
       object-fit: cover;
@@ -413,15 +516,22 @@
       #aboutImg{ max-height: 220px; }
     }
 
-    /* ✅ Better section spacing on mobile */
+    /* =========================================================
+      ✅ SECTION SPACING + SCROLL OFFSET
+      - scroll-margin-top prevents navbar covering anchors
+    ========================================================== */
     main{ padding-bottom: 64px; }
     section{ scroll-margin-top: 96px; }
 
-    /* ✅ Project cards & cert cards keep ratio clean */
+    /* =========================================================
+      ✅ IMAGE ASPECT HELPERS
+    ========================================================== */
     .ratio-16-10{ aspect-ratio: 16 / 10; }
     .ratio-16-9{ aspect-ratio: 16 / 9; }
 
-    /* ✅ Modal: mobile sheet behavior */
+    /* =========================================================
+      ✅ MODAL MOBILE SHEET BEHAVIOR
+    ========================================================== */
     .modalShell{
       margin-top: 18px;
     }
@@ -435,6 +545,9 @@
       }
     }
 
+    /* =========================================================
+      ✅ REDUCED MOTION (respects OS setting)
+    ========================================================== */
     @media (prefers-reduced-motion: reduce){
       *{ animation: none !important; transition: none !important; scroll-behavior: auto !important; }
       body.cursor-on{ cursor: auto !important; }
@@ -444,12 +557,19 @@
 </head>
 
 <body class="min-h-screen font-sans">
+  <!-- =========================================================
+    ✅ ACCESSIBILITY: Skip to content
+  ========================================================== -->
   <a class="skip-link" href="#content">Skip to content</a>
 
+  <!-- Background decoration (optional) -->
   <div class="bg-grid"></div>
   <div class="bg-noise"></div>
 
-  <!-- PRELOADER -->
+  <!-- =========================================================
+    ✅ PRELOADER
+    - Hides automatically after window load
+  ========================================================== -->
   <div id="preloader" aria-hidden="true">
     <div class="text-center">
       <div class="dots justify-center mx-auto" aria-hidden="true">
@@ -459,42 +579,72 @@
     </div>
   </div>
 
-  <!-- Cursor -->
+  <!-- =========================================================
+    ✅ CUSTOM CURSOR LAYERS (optional)
+    - Controlled by dropdown + localStorage
+  ========================================================== -->
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
   <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
-  <!-- Sounds -->
+  <!-- =========================================================
+    ✅ AUDIO FILES
+    - Replace mp3 paths if you change folder structure
+    - If you don't want sounds, you can keep tags but set volume 0
+  ========================================================== -->
   <audio id="typing-sound" src="src/typesound.mp3" preload="auto"></audio>
   <audio id="nav-hover-sound" src="src/watersplash.mp3" preload="auto"></audio>
   <audio id="service-hover-sound" src="src/Click.mp3" preload="auto"></audio>
 
-  <!-- =======================
-      DATA (EDIT HERE ONLY)
-  ======================== -->
+  <!-- =========================================================
+      ✅ SINGLE SOURCE OF TRUTH: DATA OBJECT
+      IMPORTANT:
+      - Edit content ONLY inside DATA (name, links, projects, etc.)
+      - UI renders automatically from DATA into the HTML placeholders
+      - To add a project/service/cert, add item in DATA arrays
+  ========================================================== -->
   <script>
     const DATA = {
+      /* =======================================================
+        ✅ IDENTITY / HERO
+        - Update these first when reusing the template
+      ======================================================== */
       identity: {
         name: "Shah Mehrab Hossain",
         location: "Bangladesh",
         tagline: "Embedded Systems • Robotics",
+
+        /* ✅ Images (update paths to your assets) */
         logo: "images/logo.png",
         heroBg: "images/background.jpg",
         heroBgMobile: "images/background1.jpg",
         avatar: "images/one.jpg",
+
+        /* ✅ Downloadable file */
         cv: "file/shahmehrab.pdf",
+
+        /* ✅ Contact */
         email: "admin@shahmehrab.xyz",
         phone: "+8801777961826",
+
+        /* ✅ Small banner chip in hero */
         availability: "Available for collaborations • Remote / On-site",
       },
 
+      /* =======================================================
+        ✅ TYPING ROLES (hero typing effect)
+        - Add/remove roles freely
+      ======================================================== */
       typedRoles: [
         "Embedded Systems Engineer",
         "Robotics (ROS2) Developer",
         "IoT & Sensor Systems Builder",
         "Computer Vision Enthusiast",
-        "UI/UX & Brand Designer"
+        "UI/UX & 3D Designer"
       ],
 
+      /* =======================================================
+        ✅ HIGHLIGHTS (About → Core strengths cards)
+      ======================================================== */
       highlights: [
         { icon: "fa-solid fa-microchip", title: "Embedded + IoT", desc: "I2C/SPI/UART, PWM, drivers, telemetry, Wi-Fi dashboards." },
         { icon: "fa-solid fa-robot", title: "Robotics (ROS2)", desc: "Gaits, sensor fusion, kinematics, planning, visualization (RViz)." },
@@ -502,6 +652,11 @@
         { icon: "fa-solid fa-pen-ruler", title: "UI/UX & Design", desc: "Clean hierarchy, modern UI systems, Adobe Suite workflows." }
       ],
 
+      /* =======================================================
+        ✅ ABOUT SECTION
+        - paragraphs = main text
+        - quickStats = small cards under about image
+      ======================================================== */
       about: {
         title: "About Me",
         paragraphs: [
@@ -517,11 +672,16 @@
         ]
       },
 
+      /* =======================================================
+        ✅ SKILLS (two views)
+        - skillsGroups: text groups
+        - skillsIcons: icon tiles (needs image files)
+      ======================================================== */
       skillsGroups: [
         { title: "Programming", items: ["C", "C++", "Python", "Java", "JavaScript", "PHP", "Dart"] },
         { title: "Robotics & Embedded", items: ["ROS2", "Sensor Fusion", "Motor Control", "I2C/SPI/UART", "PWM/Drivers", "Debugging"] },
         { title: "Tools & Platforms", items: ["Arduino", "ESP32", "Raspberry Pi", "MySQL", "Git/GitHub", "VS Code"] },
-        { title: "Design", items: ["UI/UX", "Adobe Illustrator", "Photoshop", "Premiere Pro", "3D Design (Blender/Fusion/SolidWorks)"] }
+        { title: "Design", items: ["UI/UX", "Adobe Illustrator", "Photoshop", "Premiere Pro", "3D Design (Blender/Fusion360/)"] }
       ],
 
       skillsIcons: [
@@ -550,18 +710,28 @@
         { title: "Premiere", img: "images/skills/premiere-logo.png" },
       ],
 
+      /* =======================================================
+        ✅ TIMELINE (About → Timeline tab)
+      ======================================================== */
       timeline: [
         { when: "2023 — Current", title: "Electrical & Software Team Lead", org: "UIU Mars Rover Team", desc: "Guiding team projects, system integration, and mentoring." },
         { when: "2022 — 2023", title: "Mechanical & Fabrication Team Member", org: "UIU Mars Rover Team", desc: "Design + assembly support for rover components and field testing." },
         { when: "2021 — Current", title: "UI/UX & Interface Design", org: "XTZ", desc: "Designing web/app interfaces and supporting implementation." }
       ],
 
+      /* =======================================================
+        ✅ EDUCATION (About → Education tab)
+      ======================================================== */
       education: [
         { when: "2022 — Current", what: "BSc in CSE", where: "United International University (UIU)" },
         { when: "2020", what: "HSC", where: "Brindaban Govt. College" },
         { when: "2018", what: "SSC", where: "Habiganj Govt. High School" },
       ],
 
+      /* =======================================================
+        ✅ CERTIFICATIONS (About → Certificates tab)
+        - img must be a valid image path
+      ======================================================== */
       certifications: [
         { year: "2024", title: "URC 2024 — University Rover Challenge", img: "images/Cerificates/urc24.jpg" },
         { year: "2023", title: "URC 2023 — University Rover Challenge", img: "images/Cerificates/urc23.jpg" },
@@ -570,6 +740,10 @@
         { year: "2022", title: "aRC 2022 — Anatolian Rover Challenge", img: "images/Cerificates/arc23.jpg" },
       ],
 
+      /* =======================================================
+        ✅ SERVICES GRID
+        - icon = FontAwesome class
+      ======================================================== */
       services: [
         { icon: "fa-solid fa-microchip", title: "Embedded Systems", desc: "Sensors, motor control, protocols, firmware logic, and reliability-first design." },
         { icon: "fa-solid fa-wifi", title: "IoT Solutions", desc: "Telemetry, dashboards, automation, device health, and remote control workflows." },
@@ -581,6 +755,13 @@
         { icon: "fa-solid fa-cube", title: "3D Design", desc: "3D modeling for robotics parts, prototypes, and product visualization." },
       ],
 
+      /* =======================================================
+        ✅ PROJECTS (Portfolio grid)
+        - Add new projects by copying a block and changing fields
+        - cover = card image
+        - tags = used for filter dropdown
+        - modal = optional extra sections in modal
+      ======================================================== */
       projects: [
         {
           id: "autax",
@@ -672,12 +853,19 @@
         }
       ],
 
+      /* =======================================================
+        ✅ "LOAD MORE" PROJECTS
+        - Shown when user clicks "See more"
+      ======================================================== */
       loadMoreProjects: [
         { id: "gaming", title: "Online Gaming App UI", cover: "images/work/work-3.png", subtitle: "Matchmaking UI concept with ranking & profiles.", tags:["UI/UX"], modal: { intro: "A UI/UX concept focusing on matchmaking, ranking, and profiles." } },
         { id: "multiplayer", title: "Multiplayer Game (Placeholder)", cover: "images/work/work-4.png", subtitle: "Replace with your real project.", tags:["Placeholder"], modal: { intro: "Project card placeholder (replace with real content)." } },
         { id: "snake", title: "Snake Game (Placeholder)", cover: "images/work/work-5.png", subtitle: "Replace with your real project.", tags:["Placeholder"], modal: { intro: "Project card placeholder (replace with real content)." } },
       ],
 
+      /* =======================================================
+        ✅ SOCIAL LINKS (icon button row)
+      ======================================================== */
       socials: [
         { icon: "fab fa-facebook", href: "https://www.facebook.com/shah.mehrab.hossain/", label:"Facebook" },
         { icon: "fa-brands fa-x-twitter", href: "https://twitter.com/", label:"X" },
@@ -687,8 +875,17 @@
         { icon: "fab fa-stack-overflow", href: "https://stackoverflow.com/users/20249958/shah009", label:"Stack Overflow" }
       ],
 
+      /* =======================================================
+        ✅ CONTACT FORM ENDPOINT
+        - Google Apps Script Web App URL
+        - Must accept POST with FormData
+      ======================================================== */
       googleScriptURL: "https://script.google.com/macros/s/AKfycbwjMYFVTmh0NAP6JTMf_kPawXRtiZHOcBLp0OOZKQmJgBES_S7jx5rhoA5bzvUu3kRP/exec",
 
+      /* =======================================================
+        ✅ MUSIC TRACKS (hero player)
+        - url must exist; name is displayed
+      ======================================================== */
       tracks: [
         { name: "Track 1", url: "src/music/Track1.mp3" },
         { name: "Track 2", url: "src/music/Track2.mp3" },
@@ -697,11 +894,18 @@
     };
   </script>
 
-  <!-- NAV -->
+  <!-- =========================================================
+    ✅ NAVBAR (top)
+    - Desktop links
+    - Theme button
+    - Cursor style dropdown
+    - Mobile menu button
+  ========================================================== -->
   <header class="navWrap" id="navWrap">
     <div class="containerX py-3">
       <div class="glass px-4 py-3">
         <div class="flex items-center justify-between gap-3">
+          <!-- ✅ Logo + Name (auto-filled from DATA.identity) -->
           <a href="#home" class="flex items-center gap-3 hover:opacity-90 transition">
             <img id="logo" class="h-11 w-11 rounded-2xl object-cover" alt="Logo" />
             <div class="leading-tight">
@@ -710,6 +914,7 @@
             </div>
           </a>
 
+          <!-- ✅ Desktop nav -->
           <nav class="hidden lg:flex items-center gap-1" aria-label="Primary">
             <a class="navLink" href="#home">Home</a>
             <a class="navLink" href="#about">About</a>
@@ -719,7 +924,7 @@
           </nav>
 
           <div class="flex items-center gap-2">
-            <!-- Cursor style -->
+            <!-- ✅ Cursor style (desktop) -->
             <div class="hidden md:flex items-center gap-2 btn px-3 py-2">
               <i class="fa-solid fa-mouse-pointer muted"></i>
               <select id="cursorSelect" class="bg-transparent text-sm font-black outline-none" style="color: rgb(var(--text)); padding: 0;">
@@ -731,18 +936,20 @@
               </select>
             </div>
 
+            <!-- ✅ Theme toggle -->
             <button id="themeBtn" class="btn px-3 py-2 text-sm font-black" aria-label="Toggle theme">
               <span id="themeIcon">🌙</span>
               <span class="hidden sm:inline" id="themeLabel">Theme</span>
             </button>
 
+            <!-- ✅ Mobile menu toggle -->
             <button id="menuBtn" class="lg:hidden btn px-3 py-2" aria-label="Open menu" aria-expanded="false">
               <i class="fa-solid fa-bars"></i>
             </button>
           </div>
         </div>
 
-        <!-- Mobile menu -->
+        <!-- ✅ Mobile menu (hidden by default) -->
         <div id="mobileMenu" class="hidden lg:hidden mt-3" aria-label="Mobile menu">
           <div class="grid gap-2">
             <a class="btn px-4 py-3" href="#home">Home</a>
@@ -751,6 +958,7 @@
             <a class="btn px-4 py-3" href="#portfolio">Portfolio</a>
             <a class="btn px-4 py-3" href="#contact">Contact</a>
 
+            <!-- ✅ Cursor style (mobile) -->
             <div class="btn px-4 py-3 flex items-center gap-3">
               <i class="fa-solid fa-mouse-pointer muted"></i>
               <select id="cursorSelectMobile" class="bg-transparent text-sm font-black outline-none" style="color: rgb(var(--text)); width: 100%; padding:0;">
@@ -768,33 +976,43 @@
     </div>
   </header>
 
+  <!-- =========================================================
+    ✅ MAIN CONTENT
+    - Each section is editable via DATA
+    - IDs match nav anchors
+  ========================================================== -->
   <main id="content" class="containerX pt-6 pb-16">
     <!-- HOME -->
     <section id="home" class="reveal">
       <div class="panel p-5 sm:p-6 md:p-10">
         <div class="grid gap-8 lg:grid-cols-12 lg:items-center">
           <div class="lg:col-span-7">
+            <!-- ✅ Hero chips (availability + location) -->
             <div class="flex flex-wrap items-center gap-2">
               <span class="chip"><span class="dot"></span><span id="availability"></span></span>
               <span class="chip"><i class="fa-solid fa-location-dot"></i><span id="heroLocation"></span></span>
             </div>
 
+            <!-- ✅ Hero title -->
             <h1 class="mt-5 text-[30px] sm:text-4xl md:text-5xl font-black tracking-[-0.05em] leading-[1.08]">
               Hi, I'm
               <span id="heroName" style="background: linear-gradient(135deg, rgb(var(--accent)), rgb(var(--accent2))); -webkit-background-clip: text; background-clip: text; color: transparent;"></span>.
             </h1>
 
+            <!-- ✅ Typed role line (DATA.typedRoles controls text) -->
             <p class="mt-4 text-base sm:text-lg md:text-xl font-extrabold leading-snug">
               <span class="muted">I build</span>
               <span id="typedText" class="ml-2"></span>
               <span class="ml-1 opacity-60" id="typingCursor" aria-hidden="true">|</span>
             </p>
 
+            <!-- ✅ Hero description (static text; edit freely) -->
             <p class="mt-4 text-sm sm:text-base md:text-base leading-relaxed" style="color: rgb(var(--text) / .92)">
               I design and develop real systems combining <b>embedded engineering</b>, <b>robotics (ROS2)</b>, <b>IoT telemetry</b>, and <b>computer vision</b>.
               I also create premium <b>UI/UX</b> that looks modern and feels fast.
             </p>
 
+            <!-- ✅ Hero CTAs -->
             <div class="mt-6 flex flex-wrap gap-3">
               <a href="#portfolio" class="btn btn-primary">
                 View Portfolio <i class="fa-solid fa-arrow-right"></i>
@@ -807,6 +1025,7 @@
               </a>
             </div>
 
+            <!-- ✅ Hero skill chips -->
             <div class="mt-6 flex flex-wrap gap-2" id="heroChips"></div>
           </div>
 
@@ -814,10 +1033,12 @@
             <div class="avatarRing p-4 sm:p-5 md:p-6">
               <div class="relative">
                 <div class="relative rounded-[24px] overflow-hidden">
+                  <!-- ✅ Background image set via JS (mobile/desktop swap) -->
                   <div id="heroBg" class="absolute inset-0 bg-cover bg-center opacity-[.20]"></div>
                   <div class="absolute inset-0" style="background: linear-gradient(180deg, rgb(0 0 0 / .10), rgb(0 0 0 / .20));"></div>
 
                   <div class="relative p-4 sm:p-5">
+                    <!-- ✅ Mini profile card -->
                     <div class="flex items-center gap-4">
                       <img id="avatar" class="h-14 w-14 sm:h-16 sm:w-16 rounded-2xl object-cover" alt="Avatar" />
                       <div class="flex-1 min-w-0">
@@ -829,9 +1050,10 @@
                       </div>
                     </div>
 
+                    <!-- ✅ 4 small stat cards -->
                     <div class="mt-5 grid grid-cols-2 gap-3" id="heroStats"></div>
 
-                    <!-- Music Player -->
+                    <!-- ✅ Music Player -->
                     <div class="mt-5 card p-4">
                       <p class="text-xs muted mb-2">Music Player</p>
                       <div class="flex items-center gap-3 flex-wrap">
@@ -862,11 +1084,13 @@
               </div>
             </div>
 
+            <!-- ✅ Contact quick buttons -->
             <div class="mt-4 grid gap-3 sm:grid-cols-2">
               <a id="emailLink" class="btn w-full" href="#"><i class="fa-solid fa-envelope"></i><span id="emailText" class="truncate"></span></a>
               <a id="phoneLink" class="btn w-full" href="#"><i class="fa-solid fa-phone"></i><span id="phoneText" class="truncate"></span></a>
             </div>
 
+            <!-- ✅ Social buttons -->
             <div class="mt-4 flex flex-wrap gap-2" id="socialLinks"></div>
           </div>
         </div>
@@ -885,7 +1109,7 @@
             </p>
           </div>
 
-          <!-- ✅ Tabs improved -->
+          <!-- ✅ About tabs (switch panels below) -->
           <div class="tabsRow">
             <button class="tabBtn btn px-4 py-2 text-sm" data-tab="skillsTab"><i class="fa-solid fa-layer-group"></i>Skills</button>
             <button class="tabBtn btn px-4 py-2 text-sm" data-tab="timelineTab"><i class="fa-solid fa-timeline"></i>Timeline</button>
@@ -894,7 +1118,6 @@
           </div>
         </div>
 
-        <!-- ✅ About layout improved: better hierarchy & mobile flow -->
         <div class="mt-7 grid gap-6 lg:grid-cols-12 lg:items-start">
           <!-- Left column -->
           <div class="lg:col-span-4">
@@ -911,11 +1134,13 @@
 
           <!-- Right column -->
           <div class="lg:col-span-8">
+            <!-- ✅ About paragraphs injected here -->
             <div class="card p-5 sm:p-6 md:p-7">
               <div class="space-y-4 text-sm sm:text-base leading-relaxed" id="aboutParagraphs"></div>
             </div>
 
             <div class="mt-5">
+              <!-- ✅ SKILLS TAB -->
               <div id="skillsTab" class="tabPanel">
                 <div class="card p-5 sm:p-6 md:p-7">
                   <div class="grid gap-5 md:grid-cols-2">
@@ -931,18 +1156,21 @@
                 </div>
               </div>
 
+              <!-- ✅ TIMELINE TAB -->
               <div id="timelineTab" class="tabPanel hidden">
                 <div class="card p-5 sm:p-6 md:p-7">
                   <div class="space-y-3" id="timelineList"></div>
                 </div>
               </div>
 
+              <!-- ✅ EDUCATION TAB -->
               <div id="educationTab" class="tabPanel hidden">
                 <div class="card p-5 sm:p-6 md:p-7">
                   <div class="space-y-3" id="educationList"></div>
                 </div>
               </div>
 
+              <!-- ✅ CERT TAB -->
               <div id="certTab" class="tabPanel hidden">
                 <div class="card p-5 sm:p-6 md:p-7">
                   <p class="text-sm muted mb-4">Click to preview certificates.</p>
@@ -968,6 +1196,7 @@
           <span class="chip"><i class="fa-solid fa-wand-magic-sparkles"></i>Hover for details</span>
         </div>
 
+        <!-- ✅ Services render here -->
         <div class="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" id="servicesGrid"></div>
       </div>
     </section>
@@ -982,6 +1211,7 @@
             <p class="mt-3 text-sm md:text-base muted">Search + filters + detailed modals.</p>
           </div>
 
+          <!-- ✅ Project search + filter + load more -->
           <div class="flex flex-wrap gap-2 items-center w-full sm:w-auto">
             <input id="searchProjects" class="text-sm w-full sm:w-[220px] md:w-[280px]" placeholder="Search projects…" aria-label="Search projects"/>
             <select id="filterTag" class="text-sm font-black w-full sm:w-auto" aria-label="Filter projects">
@@ -993,6 +1223,7 @@
           </div>
         </div>
 
+        <!-- ✅ Project cards render here -->
         <div class="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id="projectsGrid"></div>
       </div>
     </section>
@@ -1030,7 +1261,9 @@
                 <span class="chip"><i class="fa-solid fa-shield"></i>Sanitized input</span>
               </div>
 
+              <!-- ✅ Contact form posts to DATA.googleScriptURL -->
               <form id="contactForm" class="mt-5 space-y-4" autocomplete="on" novalidate>
+                <!-- ✅ Honeypot anti-spam (keep hidden) -->
                 <div style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
                   <label>Website</label>
                   <input type="text" name="Website" tabindex="-1" autocomplete="off">
@@ -1053,6 +1286,7 @@
           </div>
         </div>
 
+        <!-- ✅ Footer -->
         <div class="mt-10 border-t pt-6 text-center text-sm muted" style="border-color: rgb(var(--border-strong) / .12);">
           © <span id="year"></span> <span class="font-black" style="color: rgb(var(--text));" id="copyrightName"></span>.
           All rights reserved.
@@ -1061,12 +1295,14 @@
     </section>
   </main>
 
-  <!-- Back to top -->
+  <!-- ✅ Back to top button (appears on scroll) -->
   <button id="backTop" class="fixed bottom-5 right-5 hidden btn px-4 py-3" aria-label="Back to top">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
-  <!-- PROJECT MODAL -->
+  <!-- =========================================================
+    ✅ PROJECT MODAL (opens when clicking a project card)
+  ========================================================== -->
   <div id="projectModal" class="fixed inset-0 hidden z-[999]" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalIntro">
     <div id="modalOverlay" class="absolute inset-0 overlay" tabindex="-1" aria-hidden="true"></div>
     <div class="relative mx-auto max-w-4xl px-4 modalShell">
@@ -1084,6 +1320,7 @@
         <div class="p-6 md:p-7 space-y-6 max-h-[80vh] overflow-y-auto modalBody">
           <p id="modalIntro" class="text-sm md:text-base leading-relaxed" style="color: rgb(var(--text) / .92)"></p>
 
+          <!-- ✅ YouTube embed (optional per project) -->
           <div id="modalVideoWrap" class="hidden">
             <div class="card overflow-hidden">
               <div class="ratio-16-9">
@@ -1095,14 +1332,19 @@
             </div>
           </div>
 
+          <!-- ✅ Sections generated from p.modal fields -->
           <div id="modalSections" class="space-y-5"></div>
+
+          <!-- ✅ Optional image -->
           <img id="modalImage" class="w-full rounded-2xl object-cover hidden" alt="Project image">
         </div>
       </div>
     </div>
   </div>
 
-  <!-- CERT MODAL -->
+  <!-- =========================================================
+    ✅ CERT MODAL (opens when clicking a certificate)
+  ========================================================== -->
   <div id="certModal" class="fixed inset-0 hidden z-[999]" role="dialog" aria-modal="true" aria-labelledby="certTitle">
     <div id="certOverlay" class="absolute inset-0 overlay" tabindex="-1" aria-hidden="true"></div>
     <div class="relative mx-auto max-w-5xl px-4 modalShell">
@@ -1119,7 +1361,11 @@
   </div>
 
   <script>
-    /* THEME */
+    /* =========================================================
+      ✅ THEME LOGIC
+      - applyTheme updates <html> class + icon + label
+      - stored theme in localStorage("theme")
+    ========================================================== */
     const htmlEl = document.documentElement;
     const themeIcon = document.getElementById("themeIcon");
     const themeLabel = document.getElementById("themeLabel");
@@ -1147,24 +1393,32 @@
       applyTheme(current === "dark" ? "light" : "dark");
     });
 
+    /* ✅ Auto-update if system theme changes (only if user never chose manually) */
     if(mql && mql.addEventListener){
       mql.addEventListener("change", (e) => {
         if(!localStorage.getItem("theme")) applyTheme(e.matches ? "dark" : "light");
       });
     }
 
-    /* Preloader */
+    /* =========================================================
+      ✅ PRELOADER HIDE
+    ========================================================== */
     window.addEventListener("load", () => {
       setTimeout(() => document.getElementById("preloader").classList.add("hidden"), 450);
     });
 
-    /* ✅ Navbar compact on scroll */
+    /* =========================================================
+      ✅ NAVBAR COMPACT MODE (scroll)
+    ========================================================== */
     const navWrap = document.getElementById("navWrap");
     window.addEventListener("scroll", () => {
       navWrap.classList.toggle("navCompact", window.scrollY > 40);
     });
 
-    /* Mobile Menu */
+    /* =========================================================
+      ✅ MOBILE MENU
+      - setMenu(true/false) controls visibility
+    ========================================================== */
     const menuBtn = document.getElementById("menuBtn");
     const mobileMenu = document.getElementById("mobileMenu");
     function setMenu(open){
@@ -1178,14 +1432,20 @@
       if(!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) setMenu(false);
     });
 
-    /* Sounds */
+    /* =========================================================
+      ✅ SOUNDS (safe play)
+      - If browser blocks autoplay, playSafe fails silently
+    ========================================================== */
     const navSound = document.getElementById("nav-hover-sound");
     const srvSound = document.getElementById("service-hover-sound");
     navSound.volume = 0.07;
     srvSound.volume = 0.30;
     function playSafe(audio){ try { audio.currentTime = 0; audio.play(); } catch(e){} }
 
-    /* Render Identity */
+    /* =========================================================
+      ✅ RENDER IDENTITY (DATA.identity -> DOM)
+      - Update DATA and UI updates automatically
+    ========================================================== */
     const id = DATA.identity;
     document.getElementById("logo").src = id.logo;
     document.getElementById("navName").textContent = id.name;
@@ -1199,13 +1459,16 @@
     document.getElementById("cardName").textContent = id.name;
     document.getElementById("cardTagline").textContent = id.tagline;
 
+    /* ✅ Responsive hero background selection */
     const heroBg = document.getElementById("heroBg");
     const isMobile = window.matchMedia("(max-width: 700px)").matches;
     heroBg.style.backgroundImage = `url('${isMobile ? id.heroBgMobile : id.heroBg}')`;
 
+    /* ✅ CV links */
     document.getElementById("cvBtn").href = id.cv;
     document.getElementById("cvBtnTop").href = id.cv;
 
+    /* ✅ Contact links */
     const setContactLinks = () => {
       const email = id.email;
       const phone = id.phone;
@@ -1224,10 +1487,14 @@
     };
     setContactLinks();
 
+    /* ✅ Footer year + name */
     document.getElementById("year").textContent = new Date().getFullYear();
     document.getElementById("copyrightName").textContent = id.name;
 
-    /* Socials */
+    /* =========================================================
+      ✅ SOCIAL BUTTONS
+      - Add/remove from DATA.socials
+    ========================================================== */
     const socialWrap = document.getElementById("socialLinks");
     DATA.socials.forEach(s => {
       const a = document.createElement("a");
@@ -1240,7 +1507,10 @@
       socialWrap.appendChild(a);
     });
 
-    /* Hero chips */
+    /* =========================================================
+      ✅ HERO CHIPS (static list)
+      - Edit chipList here if you want different highlights
+    ========================================================== */
     const heroChips = document.getElementById("heroChips");
     const chipList = ["ROS2 • Robotics", "Embedded • IoT", "OpenCV • MediaPipe", "UI/UX • Adobe Suite"];
     chipList.forEach(t => {
@@ -1250,7 +1520,10 @@
       heroChips.appendChild(span);
     });
 
-    /* Hero small stats */
+    /* =========================================================
+      ✅ HERO SMALL STATS (static list)
+      - Edit 'stats' here if you want different 4 cards
+    ========================================================== */
     const heroStats = document.getElementById("heroStats");
     const stats = [
       { k: "Main Stack", v: "C/C++ • Python" },
@@ -1265,7 +1538,10 @@
       heroStats.appendChild(div);
     });
 
-    /* About */
+    /* =========================================================
+      ✅ ABOUT RENDER
+      - Title, image, paragraphs, quick stats, highlights
+    ========================================================== */
     document.getElementById("aboutTitle").textContent = DATA.about.title;
     document.getElementById("aboutImg").src = id.avatar;
 
@@ -1300,7 +1576,10 @@
       highlights.appendChild(row);
     });
 
-    /* Tabs */
+    /* =========================================================
+      ✅ TABS (About)
+      - openTab(tabId) shows a panel and highlights button
+    ========================================================== */
     const tabBtns = document.querySelectorAll(".tabBtn");
     const tabPanels = document.querySelectorAll(".tabPanel");
     function openTab(tabId){
@@ -1313,7 +1592,10 @@
     tabBtns.forEach(btn => btn.addEventListener("click", () => openTab(btn.dataset.tab)));
     openTab("skillsTab");
 
-    /* Skills */
+    /* =========================================================
+      ✅ SKILLS RENDER
+      - Icons grid + grouped text blocks
+    ========================================================== */
     const skillsGrid = document.getElementById("skillsGrid");
     DATA.skillsIcons.forEach(s => {
       const item = document.createElement("div");
@@ -1337,7 +1619,9 @@
       skillsGroups.appendChild(block);
     });
 
-    /* Timeline + Education */
+    /* =========================================================
+      ✅ TIMELINE + EDUCATION RENDER
+    ========================================================== */
     const timelineWrap = document.getElementById("timelineList");
     DATA.timeline.forEach(t => {
       const card = document.createElement("div");
@@ -1363,7 +1647,10 @@
       eduWrap.appendChild(card);
     });
 
-    /* Certificates */
+    /* =========================================================
+      ✅ CERTIFICATES (grid + modal)
+      - openCert shows cert image
+    ========================================================== */
     const certGrid = document.getElementById("certGrid");
     const certModal = document.getElementById("certModal");
     const certOverlay = document.getElementById("certOverlay");
@@ -1371,7 +1658,9 @@
     const certImg = document.getElementById("certImg");
     const certTitle = document.getElementById("certTitle");
     let lastFocusEl = null;
+
     function lockScroll(lock){ document.body.classList.toggle("no-scroll", lock); }
+
     function openCert(c, opener){
       lastFocusEl = opener || document.activeElement;
       certTitle.textContent = `${c.year} — ${c.title}`;
@@ -1407,9 +1696,12 @@
       certGrid.appendChild(card);
     });
 
-    /* Services */
+    /* =========================================================
+      ✅ SERVICES RENDER (cards)
+    ========================================================== */
     const servicesGrid = document.getElementById("servicesGrid");
     document.querySelectorAll(".navLink").forEach(link => link.addEventListener("pointerenter", () => playSafe(navSound)));
+
     DATA.services.forEach(s => {
       const card = document.createElement("div");
       card.className = "card p-6 hover:scale-[1.01] transition cursor-pointer";
@@ -1428,7 +1720,9 @@
       servicesGrid.appendChild(card);
     });
 
-    /* Projects */
+    /* =========================================================
+      ✅ PROJECTS (Search + Filter + Load more + Modal)
+    ========================================================== */
     const projectsGrid = document.getElementById("projectsGrid");
     const searchProjects = document.getElementById("searchProjects");
     const loadMoreBtn = document.getElementById("loadMoreBtn");
@@ -1439,6 +1733,7 @@
       return loadedMore ? [...DATA.projects, ...DATA.loadMoreProjects] : [...DATA.projects];
     }
 
+    /* ✅ Build filter dropdown options from tags */
     function buildTagOptions(){
       const set = new Set();
       [...DATA.projects, ...DATA.loadMoreProjects].forEach(p => (p.tags || []).forEach(t => set.add(t)));
@@ -1451,7 +1746,9 @@
     }
     buildTagOptions();
 
-    /* Project Modal */
+    /* =========================================================
+      ✅ PROJECT MODAL REFERENCES
+    ========================================================== */
     const projectModal = document.getElementById("projectModal");
     const modalOverlay = document.getElementById("modalOverlay");
     const modalClose = document.getElementById("modalClose");
@@ -1462,11 +1759,11 @@
     const modalVideo = document.getElementById("modalVideo");
     const modalImage = document.getElementById("modalImage");
 
+    /* ✅ Focus trap helpers */
     function getFocusable(container){
       return [...container.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])')]
         .filter(el => el.offsetParent !== null);
     }
-
     function trapFocus(e, container){
       if(e.key !== "Tab") return;
       const focusables = getFocusable(container);
@@ -1480,6 +1777,7 @@
       }
     }
 
+    /* ✅ Modal section builders */
     function sectionList(title, items){
       const wrap = document.createElement("div");
       wrap.className = "card p-5";
@@ -1496,7 +1794,6 @@
       wrap.appendChild(ul);
       return wrap;
     }
-
     function sectionText(title, text){
       const wrap = document.createElement("div");
       wrap.className = "card p-5";
@@ -1505,22 +1802,26 @@
       return wrap;
     }
 
+    /* ✅ Open a project modal */
     function openProject(p, opener){
       lastFocusEl = opener || document.activeElement;
 
       modalTitle.textContent = p.title;
       modalIntro.textContent = p.modal?.intro || p.subtitle || "";
 
+      /* Reset modal content */
       modalSections.innerHTML = "";
       modalImage.classList.add("hidden");
       modalVideoWrap.classList.add("hidden");
       modalVideo.src = "";
 
+      /* Optional video */
       if(p.modal?.youtube){
         modalVideoWrap.classList.remove("hidden");
         modalVideo.src = p.modal.youtube;
       }
 
+      /* Optional sections */
       if(p.modal?.features?.length) modalSections.appendChild(sectionList("Key Features", p.modal.features));
       if(p.modal?.tech?.length) modalSections.appendChild(sectionList("Technologies Used", p.modal.tech));
       if(p.modal?.challenges) modalSections.appendChild(sectionText("Challenges", p.modal.challenges));
@@ -1530,6 +1831,7 @@
       if(p.modal?.providesList?.length) modalSections.appendChild(sectionList("Benefits", p.modal.providesList));
       if(p.modal?.extra?.length) modalSections.appendChild(sectionList("Highlights", p.modal.extra));
 
+      /* Optional image */
       if(p.modal?.image){
         modalImage.src = p.modal.image;
         modalImage.classList.remove("hidden");
@@ -1540,6 +1842,7 @@
       setTimeout(() => modalClose.focus(), 0);
     }
 
+    /* ✅ Close project modal */
     function closeProject(){
       projectModal.classList.add("hidden");
       modalVideo.src = "";
@@ -1553,6 +1856,9 @@
     projectModal.addEventListener("keydown", (e) => trapFocus(e, projectModal));
     certModal.addEventListener("keydown", (e) => trapFocus(e, certModal));
 
+    /* =========================================================
+      ✅ ESC KEY CLOSES EVERYTHING
+    ========================================================== */
     window.addEventListener("keydown", (e) => {
       if(e.key === "Escape") {
         closeProject();
@@ -1561,6 +1867,7 @@
       }
     });
 
+    /* ✅ Render project cards based on search/filter */
     function renderProjects(){
       const q = (searchProjects.value || "").trim().toLowerCase();
       const tag = filterTag.value;
@@ -1578,7 +1885,10 @@
         const card = document.createElement("button");
         card.type = "button";
         card.className = "text-left card hover:scale-[1.01] transition";
+
+        /* ✅ Tag chips (first 3) */
         const tagsHtml = (p.tags || []).slice(0,3).map(t => `<span class="chip" style="padding:6px 10px; font-size:11px;">${t}</span>`).join("");
+
         card.innerHTML = `
           <div class="ratio-16-10 overflow-hidden">
             <img src="${p.cover}" alt="${p.title}" class="w-full h-full object-cover">
@@ -1596,6 +1906,7 @@
         projectsGrid.appendChild(card);
       });
 
+      /* ✅ Empty state */
       if(!list.length){
         const empty = document.createElement("div");
         empty.className = "card p-7 text-sm";
@@ -1616,10 +1927,15 @@
 
     renderProjects();
 
-    /* Typed roles */
+    /* =========================================================
+      ✅ TYPED ROLES (hero typing animation)
+      - Uses DATA.typedRoles
+      - typing sound plays lightly during typing
+    ========================================================== */
     const typedEl = document.getElementById("typedText");
     const typingSound = document.getElementById("typing-sound");
     typingSound.volume = 0.08;
+
     let roleIndex = 0, charIndex = 0, deleting = false;
     const typeSpeed = 46, deleteSpeed = 24, pause = 900;
     let soundCounter = 0;
@@ -1652,7 +1968,11 @@
     }
     tick();
 
-    /* Music player */
+    /* =========================================================
+      ✅ MUSIC PLAYER
+      - Tracks in DATA.tracks
+      - Buttons: prev/play/next
+    ========================================================== */
     const player = document.getElementById("player");
     const trackName = document.getElementById("trackName");
     const prevBtn = document.getElementById("prevBtn");
@@ -1707,7 +2027,11 @@
     nextBtn.addEventListener("click", nextTrack);
     player.addEventListener("ended", nextTrack);
 
-    /* Contact form */
+    /* =========================================================
+      ✅ CONTACT FORM (POST to Google Script)
+      - Sanitizes text
+      - Uses honeypot field
+    ========================================================== */
     const form = document.getElementById("contactForm");
     const formMsg = document.getElementById("formMsg");
     const submitBtn = document.getElementById("submitBtn");
@@ -1720,6 +2044,8 @@
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+
+      /* ✅ Honeypot anti-bot check */
       const honeypot = form.querySelector('input[name="Website"]');
       if(honeypot && honeypot.value.trim()){
         formMsg.textContent = "Message sent successfully!";
@@ -1728,11 +2054,13 @@
         return;
       }
 
+      /* ✅ Basic required validation */
       if(!form.Name.value.trim() || !form.Email.value.trim() || !form.Message.value.trim()){
         formMsg.textContent = "Please fill out all fields.";
         return;
       }
 
+      /* ✅ Sanitize input */
       form.Name.value = sanitize(form.Name.value);
       form.Email.value = sanitize(form.Email.value);
       form.Message.value = sanitize(form.Message.value);
@@ -1753,12 +2081,16 @@
       }
     });
 
-    /* Back to top */
+    /* =========================================================
+      ✅ BACK TO TOP BUTTON
+    ========================================================== */
     const backTop = document.getElementById("backTop");
     window.addEventListener("scroll", () => backTop.classList.toggle("hidden", window.scrollY < 350));
     backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
-    /* Scroll reveal */
+    /* =========================================================
+      ✅ SCROLL REVEAL (IntersectionObserver)
+    ========================================================== */
     const revealEls = document.querySelectorAll(".reveal");
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(ent => {
@@ -1770,7 +2102,10 @@
     }, { threshold: 0.12 });
     revealEls.forEach(el => obs.observe(el));
 
-    /* Active nav */
+    /* =========================================================
+      ✅ ACTIVE NAV HIGHLIGHT
+      - Adds 'active' class to link of current section
+    ========================================================== */
     const sections = ["home","about","services","portfolio","contact"].map(id => document.getElementById(id)).filter(Boolean);
     const navLinks = [...document.querySelectorAll('a.navLink[href^="#"]')];
     const navObs = new IntersectionObserver((entries) => {
@@ -1783,7 +2118,10 @@
     }, { threshold: 0.35 });
     sections.forEach(sec => navObs.observe(sec));
 
-    /* Cursor */
+    /* =========================================================
+      ✅ CUSTOM CURSOR LOGIC
+      - Dropdown sets style and saves localStorage("cursorStyle")
+    ========================================================== */
     const cursorDot = document.getElementById("cursorDot");
     const cursorRing = document.getElementById("cursorRing");
     const cursorSelect = document.getElementById("cursorSelect");
@@ -1815,9 +2153,11 @@
       cursorSelect.value = e.target.value;
     });
 
+    /* ✅ Cursor motion smoothing */
     let mx = 0, my = 0, dx = 0, dy = 0, rx = 0, ry = 0;
     document.addEventListener("mousemove", (e) => { mx = e.clientX; my = e.clientY; });
 
+    /* ✅ Cursor enlarges on interactive elements */
     const interactiveSelector = 'a, button, input, textarea, select, [role="button"]';
     document.addEventListener("pointerover", (e) => {
       if(!document.body.classList.contains("cursor-on")) return;
@@ -1834,6 +2174,7 @@
       }
     });
 
+    /* ✅ Animation loop */
     function raf(){
       if(document.body.classList.contains("cursor-on")){
         dx += (mx - dx) * 0.45;
@@ -1847,7 +2188,9 @@
     }
     requestAnimationFrame(raf);
 
-    /* ESC closes */
+    /* =========================================================
+      ✅ ESC CLOSES (duplicate listener kept as in original)
+    ========================================================== */
     window.addEventListener("keydown", (e) => {
       if(e.key === "Escape") {
         closeProject();
